@@ -1,17 +1,17 @@
 Front-end Branch.
 
-# Asset  | Permet de centraliser et d'ordoner tout nos fichier servant au bon fonctionnement de nos page web .html
+# Asset  | Permet de centraliser et d'ordonner tous nos fichiers servant aux bon fonctionnement de nos pages web .html
     # image
         On va retrouver toutes nos images
     # js
         On va retrouver tous nos scripts .js
     # style
-        On va retrouver tous nos fichier style .css etc...
+        On va retrouver tous nos fichiers style .css etc...
 
-# Template | Nous allons trouver tout nos pages web .html 
+# Template | Nous allons trouver toutes nos pages web .html 
 
 
-## Font utiliser || ROBOTO ||
+## Font utilisé || ROBOTO ||
     HTML link
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
