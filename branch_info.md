@@ -10,7 +10,6 @@ Front-end Branch.
 
 # Template | Nous allons trouver toutes nos pages web .html 
 
-
 ## Font utilisé || ROBOTO ||
     HTML link
         <link rel="preconnect" href="https://fonts.gstatic.com">
