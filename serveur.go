@@ -4,47 +4,60 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func serveur() {
+var tpl *template.Template
+
+func main() {
+	tpl, _ = tpl.ParseGlob("*.html")
+
 	http.HandleFunc("/", home)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/userprofile", userprofile)
 	http.HandleFunc("/userpost", userpost)
 	http.HandleFunc("/usertheme", usertheme)
-	// http.HandleFunc("/modify", modify)
-	// http.HandleFunc("/manageprofile", manageprofile)
-	// http.HandleFunc("/managepost", managepost)
-	http.ListenAndServe(":80", nil)
+
+	http.ListenAndServe(":8070", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "template/home.html")
+	tpl.ExecuteTemplate(response, "template/home.html", nil)
 }
 
 func register(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "template/register.html")
+	email := request.FormValue("Email__input")
+	username := request.FormValue("Username__input")
+	password := request.FormValue("Password__input")
+	passwordverif := request.FormValue("Password_Verif__input")
+	println("=================")
+	println("EMAIL :", email)
+	println("USERNAME :", username)
+	println("PASSWORD :", password)
+	println("PASSWORDVERIF :", passwordverif)
+	println("=================")
+	tpl.ExecuteTemplate(response, "register.html", nil)
 }
 
 func login(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "template/login.html")
+	tpl.ExecuteTemplate(response, "template/login.html", nil)
 }
 
 func userprofile(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "template/userprofile.html")
+	tpl.ExecuteTemplate(response, "template/userprofile.html", nil)
 }
 
 func userpost(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "template/userpost.html")
+	tpl.ExecuteTemplate(response, "template/userpost.html", nil)
 }
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "template/usertheme.html")
+	tpl.ExecuteTemplate(response, "template/usertheme.html", nil)
 }
 
 // func managepost(response http.ResponseWriter, request *http.Request) {
@@ -174,31 +187,27 @@ func selectUserNameWithPattern(db *sql.DB, pattern string) *sql.Rows {
 	return result
 }
 
-func main() {
+// func main() {
 
-	// Creation de la DB.
+// 	// Creation de la DB.
 
-	db := initDatabase("database.db")
+// 	db := initDatabase("database.db")
 
-	insertIntoUsers(db, "Mathieu", "m.m@gmail.com", "kenshilebouffon")
+// 	insertIntoUsers(db, "Mathieu", "m.m@gmail.com", "kenshilebouffon")
 
-	insertIntoPosts(db, 2, 5, "CONTENT", "Post1", 1)
+// 	insertIntoPosts(db, 2, 5, "CONTENT", "Post1", 1)
 
-	alltable := selectAllFromTable(db, "users")
-	alltable2 := selectAllFromTable(db, "posts")
-	// alltablepost := selectAllFromTable(db, "posts")
-	// usernamepattern := selectUserNameWithPattern(db, "as")
-	fmt.Print("|---------------------------------------| \n")
-	fmt.Print("  USER : ")
-	displayUsersRow(alltable)
-	fmt.Print("|---------------------------------------| \n")
-	fmt.Print("  POST : ")
-	displayPostsRow(alltable2)
-	fmt.Print("|---------------------------------------| \n")
-	// displayUsersRow(usernamepattern)
-	// displayPostsRow(alltablepost)
+// 	alltable := selectAllFromTable(db, "users")
+// 	alltable2 := selectAllFromTable(db, "posts")
 
-	db.Close()
-	//
+// 	fmt.Print("|---------------------------------------| \n")
+// 	fmt.Print("  USER : ")
+// 	displayUsersRow(alltable)
+// 	fmt.Print("|---------------------------------------| \n")
+// 	fmt.Print("  POST : ")
+// 	displayPostsRow(alltable2)
+// 	fmt.Print("|---------------------------------------| \n")
 
-}
+// 	db.Close()
+
+// }
