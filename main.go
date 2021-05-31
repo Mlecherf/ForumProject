@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha256"
 	"database/sql"
 	"fmt"
 	"log"
@@ -62,10 +63,16 @@ func initDatabase(name string) *sql.DB {
 
 func insertIntoUsers(db *sql.DB, name string, email string, password string) (int64, error) {
 
+	hsha2psswd := sha256.Sum256([]byte(password))
+	stringpsswd := ""
+	for i := 0; i < len(hsha2psswd); i++ {
+		stringpsswd += string(hsha2psswd[i])
+	}
+
 	result, _ := db.Exec(`
 				INSERT INTO users (name,email,password) VALUES (?,?,?)
 						`,
-		name, email, password)
+		name, email, stringpsswd)
 
 	return result.LastInsertId()
 }
@@ -123,7 +130,7 @@ func main() {
 
 	db := initDatabase("database.db")
 
-	insertIntoUsers(db, "Mathieu", "m.m@gmail.com", "abcde")
+	insertIntoUsers(db, "Mathieu", "m.m@gmail.com", "kenshilebouffon")
 
 	insertIntoPosts(db, 2, 5, "CONTENT", "Post1", 1)
 
