@@ -42,6 +42,13 @@ func register(response http.ResponseWriter, request *http.Request) {
 	println("PASSWORDVERIF :", passwordverif)
 	println("=================")
 	tpl.ExecuteTemplate(response, "register.html", nil)
+
+	db := initDatabase("database" + username + ".db")
+
+	insertIntoUsers(db, username, email, password)
+
+	alltable := selectAllFromTable(db, "users")
+	displayUsersRow(alltable)
 }
 
 func login(response http.ResponseWriter, request *http.Request) {
@@ -187,13 +194,13 @@ func selectUserNameWithPattern(db *sql.DB, pattern string) *sql.Rows {
 	return result
 }
 
-// func main() {
+// func database() {
 
 // 	// Creation de la DB.
 
 // 	db := initDatabase("database.db")
 
-// 	insertIntoUsers(db, "Mathieu", "m.m@gmail.com", "kenshilebouffon")
+// 	insertIntoUsers(db, Name, mail, m)
 
 // 	insertIntoPosts(db, 2, 5, "CONTENT", "Post1", 1)
 
