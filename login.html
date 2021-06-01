@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../asset/style/login.css">
+
+    <!-- Police ROBOTO -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+ 
+</head>
+<body>
+    <div id="Loginpic">
+        <div id="LoginArea">
+            <form action="/login" method="POST">
+
+                <div id="Pseudo">
+                    <label for="Insert_a_Pseudo" class="Pseudo_Stylé">Username</label>
+                    <input type="text" name="Insert_a_Pseudo" id="Insert_a_Pseudo" class="Pseudo_insert" placeholder="Mamaoskour">
+                </div>
+
+                <div id="Password">
+                    <label for="Password__input" class="Password_Stylé">Password</label>
+                    <input type="password" name="Password__input" id="Password__input" class="Password_insert" placeholder="********" autocomplete="">
+                </div>
+
+                <div id="Login_Btn">
+                    <button type="submit" class="submit" >LOGIN</button>
+                </div>
+
+            </form>
+        </div>
+        <script src="../asset/js/login.js"></script>
+    </div>
+</body>
+</html>
