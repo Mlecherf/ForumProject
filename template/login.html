@@ -8,7 +8,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../asset/style/login.css">
-
+    <link rel="stylesheet" href="../asset/style/header.css">
     <!-- Police ROBOTO -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -16,22 +16,44 @@
 </head>
 <body>
     <div id="Loginpic">
+        <header id="Header">
+            <div id="LOGO">
+                <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
+                <div id="Logo__Write">
+                    <p class="Logo_Write">Angry <strong>Creative</strong></p>
+                </div>
+            </div>
+            
+            <form action="/register" method="POST">
+                <div id="search-box">
+                    <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
+                    <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
+                    <button type="submit" id="Search__BTN" disabled></button>
+                </div>
+            </form>
+            <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
+    
+            <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
+            <script src="../asset/js/header.js"></script>
+        </header>
+
         <div id="LoginArea">
             <form action="/login" method="POST">
 
-                <div id="Pseudo">
-                    <label for="Insert_a_Pseudo" class="Pseudo_Stylé">Username</label>
-                    <input type="text" name="Insert_a_Pseudo" id="Insert_a_Pseudo" class="Pseudo_insert" placeholder="Mamaoskour">
+                <div id="Mail">
+                    <label for="Insert_a_mail" class="mailAddress_Stylé">Mail Address</label>
+                    <input type="text" name="Insert_a_mail" id="Insert_a_mail" class="mail_insert" placeholder="lafont.pedro@gmail.com">
                 </div>
 
                 <div id="Password">
-                    <label for="Password__input" class="Password_Stylé">Password</label>
-                    <input type="password" name="Password__input" id="Password__input" class="Password_insert" placeholder="********" autocomplete="">
+                    <label for="Insert_a_password" class="Password_Stylé">Password</label>
+                    <input type="password" name="Insert_a_password" id="Insert_a_password" class="Password_insert" placeholder="********" >
                 </div>
 
                 <div id="Login_Btn">
                     <button type="submit" class="submit" >LOGIN</button>
                 </div>
+
 
             </form>
         </div>
