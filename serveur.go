@@ -13,6 +13,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+var db = initDatabase("database.db")
+
 type Cookie struct {
 	User       string
 	Mail       string
@@ -31,7 +33,6 @@ var tpl *template.Template
 
 func main() {
 	tpl, _ = tpl.ParseGlob("template/*.html")
-
 	http.HandleFunc("/", home)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/login", login)
@@ -54,33 +55,54 @@ func home(response http.ResponseWriter, request *http.Request) {
 	tpl.ExecuteTemplate(response, "template/home.html", nil)
 }
 
-var db = initDatabase("database.db")
-
 func register(response http.ResponseWriter, request *http.Request) {
 	email := request.FormValue("Email__input")
 	username := request.FormValue("Username__input")
 	password := request.FormValue("Password__input")
 	passwordverif := request.FormValue("Password_Verif__input")
+
 	like := 0
 	post := 0
-	println("=================")
-	println("EMAIL :", email)
-	println("USERNAME :", username)
-	println("PASSWORD :", password)
-	println("PASSWORDVERIF :", passwordverif)
-	println("=================")
 
-	D := "{ 'user': " + username + " 'mail': " + email + " 'nb posts': " + strconv.Itoa(post) + " 'nb likes': " + strconv.Itoa(like) + " }"
+	if len(email) != 0 || len(username) != 0 || len(password) != 0 || len(passwordverif) != 0 {
+		println("=================")
+		println("EMAIL :", email)
+		println("USERNAME :", username)
+		println("PASSWORD :", password)
+		println("PASSWORDVERIF :", passwordverif)
+		println("=================")
+		alltable := selectAllFromTable(db, "users")
+		Arr := VerifRegister(alltable)
+		Wrong := false
 
-	expiration := time.Now().Add(365 * 24 * time.Hour)
-	cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
-	http.SetCookie(response, &cookie)
+		if len(Arr) != 0 {
+			for i := 0; i < len(Arr); i++ {
+				if Arr[i] == username || Arr[i] == email || Arr[i] == password {
+					Wrong = true
+				}
+			}
 
-	insertIntoUsers(db, username, email, password, like, post)
+			if Wrong == false {
+				fmt.Println("Created... new enter in the DB.")
+				D := "{ 'user': " + username + " 'mail': " + email + " 'nb posts': " + strconv.Itoa(post) + " 'nb likes': " + strconv.Itoa(like) + " }"
+				expiration := time.Now().Add(365 * 24 * time.Hour)
+				cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
+				http.SetCookie(response, &cookie)
+				insertIntoUsers(db, username, email, password, like, post)
+			} else {
+				fmt.Println("Cant create... Already exist in the DB.")
+			}
 
-	alltable := selectAllFromTable(db, "users")
-	displayUsersRow(alltable)
-
+		} else {
+			D := "{ 'user': " + username + " 'mail': " + email + " 'nb posts': " + strconv.Itoa(post) + " 'nb likes': " + strconv.Itoa(like) + " }"
+			expiration := time.Now().Add(365 * 24 * time.Hour)
+			cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
+			http.SetCookie(response, &cookie)
+			insertIntoUsers(db, username, email, password, like, post)
+		}
+	}
+	alltable1 := selectAllFromTable(db, "users")
+	displayUsersRow(alltable1)
 	tpl.ExecuteTemplate(response, "register.html", nil)
 }
 
@@ -112,7 +134,7 @@ func login(response http.ResponseWriter, request *http.Request) {
 
 	if emailtrue == true && passwordtrue == true {
 		println("LOGIN AUTORISEE")
-		tpl.ExecuteTemplate(response, "index.html", nil)
+		tpl.ExecuteTemplate(response, "home.html", nil)
 	} else {
 		println("LOGIN REFUSER")
 		tpl.ExecuteTemplate(response, "login.html", nil)
@@ -243,6 +265,23 @@ func displayUsersRow(rows *sql.Rows) {
 		}
 		fmt.Println(p)
 	}
+}
+
+func VerifRegister(rows *sql.Rows) []string {
+	arr := []string{}
+	for rows.Next() {
+		var p User
+		err := rows.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		arr = append(arr, p.Name)
+		arr = append(arr, p.Email)
+		arr = append(arr, p.Password)
+
+	}
+	return (arr)
 }
 
 func VerifLogin(rows *sql.Rows) []string {
