@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -29,7 +30,7 @@ type Cookie struct {
 var tpl *template.Template
 
 func main() {
-	tpl, _ = tpl.ParseGlob("*.html")
+	tpl, _ = tpl.ParseGlob("template/*.html")
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/register", register)
@@ -37,6 +38,14 @@ func main() {
 	http.HandleFunc("/userprofile", userprofile)
 	http.HandleFunc("/userpost", userpost)
 	http.HandleFunc("/usertheme", usertheme)
+
+	style := http.FileServer(http.Dir("asset/style/"))
+	image := http.FileServer(http.Dir("asset/image/"))
+	js := http.FileServer(http.Dir("asset/js/"))
+
+	http.Handle("/static/style/", http.StripPrefix("/static/style/", style))
+	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
+	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
 	http.ListenAndServe(":8070", nil)
 }
@@ -61,10 +70,10 @@ func register(response http.ResponseWriter, request *http.Request) {
 	println("PASSWORDVERIF :", passwordverif)
 	println("=================")
 
-	D := "{'user':" + username + "'mail':" + email + "}"
+	D := "{ 'user': " + username + " 'mail': " + email + " 'nb posts': " + strconv.Itoa(post) + " 'nb likes': " + strconv.Itoa(like) + " }"
 
 	expiration := time.Now().Add(365 * 24 * time.Hour)
-	cookie := http.Cookie{Name: username, Value: D, Expires: expiration}
+	cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
 	http.SetCookie(response, &cookie)
 
 	insertIntoUsers(db, username, email, password, like, post)

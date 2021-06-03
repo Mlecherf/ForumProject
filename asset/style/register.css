@@ -9,7 +9,7 @@ html{
     min-width: 300px;
 }
 body{
-    background: #4D4D4D url("../image/pizza.jpg") no-repeat top/100%;
+    background: #4D4D4D url("/static/image/pizza.jpg") no-repeat top/100%;
 }
 
 
