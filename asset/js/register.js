@@ -27,6 +27,32 @@ Email.addEventListener("input", (event)=>{
 function Email_Verification (email){
     let double_mail = 0
     const input_err = []
+
+    if (email.length < 5){
+        if (input_err.includes("Too short") == false){
+            input_err.push("Too short")
+        }
+    }else{
+        let verif_mail = email.split("@").length
+        if (verif_mail == 2){
+            let verif_point = email.split("@")[1].split(".")
+            if (verif_point.length != 2){
+                if (input_err.includes("End of mail invalide") == false){
+                    input_err.push("End of mail invalide")
+                }
+            }else{
+                if (verif_point[1] == ""){
+                    if (input_err.includes("End of mail invalide") == false){
+                        input_err.push("End of mail invalide")
+                    }
+                }
+            }
+        }else{
+            if (input_err.includes("End of mail invalide") == false){
+                input_err.push("End of mail invalide")
+            }
+        }
+    }
     email.split("").forEach((element, index)=> {
         if (element == " "){
             if (input_err.includes("Space character not allowed") == false){
@@ -55,8 +81,8 @@ function Email_Verification (email){
         }
     })
     if (double_mail > 1 ){
-        if (input_err.includes("To many @") == false){
-            input_err.push("To many @")
+        if (input_err.includes("Too many @") == false){
+            input_err.push("Too many @")
         }
     }else if (double_mail < 1 ){
         if (input_err.includes("Missing @") == false){
