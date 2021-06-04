@@ -52,7 +52,7 @@ func main() {
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "template/home.html", nil)
+	tpl.ExecuteTemplate(response, "/home.html", nil)
 }
 
 func register(response http.ResponseWriter, request *http.Request) {
