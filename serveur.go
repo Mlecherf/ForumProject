@@ -36,9 +36,9 @@ func main() {
 	http.HandleFunc("/", home)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/userprofile", userprofile)
-	http.HandleFunc("/userpost", userpost)
-	http.HandleFunc("/usertheme", usertheme)
+	http.HandleFunc("/profile", userprofile)
+	http.HandleFunc("/post", userpost)
+	http.HandleFunc("/theme", usertheme)
 
 	style := http.FileServer(http.Dir("asset/style/"))
 	image := http.FileServer(http.Dir("asset/image/"))
@@ -94,7 +94,7 @@ func register(response http.ResponseWriter, request *http.Request) {
 			}
 
 		} else {
-			D := "{ 'user': " + username + " 'mail': " + email + " 'nb posts': " + strconv.Itoa(post) + " 'nb likes': " + strconv.Itoa(like) + " }"
+			D := "{ 'user': '" + username + "','mail': '" + email + "','nb_posts': '" + strconv.Itoa(post) + "','nb_likes': '" + strconv.Itoa(like) + "' }"
 			expiration := time.Now().Add(365 * 24 * time.Hour)
 			cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
 			http.SetCookie(response, &cookie)
@@ -143,28 +143,17 @@ func login(response http.ResponseWriter, request *http.Request) {
 }
 
 func userprofile(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "template/userprofile.html", nil)
+	fmt.Println("InUser")
+	tpl.ExecuteTemplate(response, "profile.html", nil) // Nil devient l'ensemble des posts (DB POST.)
 }
 
 func userpost(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "template/userpost.html", nil)
+	tpl.ExecuteTemplate(response, "template/post.html", nil)
 }
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "template/usertheme.html", nil)
+	tpl.ExecuteTemplate(response, "template/theme.html", nil)
 }
-
-// func managepost(response http.ResponseWriter, request *http.Request) {
-// 	http.ServeFile(response, request, "template/managepost.html")
-// }
-
-// func modify(response http.ResponseWriter, request *http.Request) {
-// 	http.ServeFile(response, request, "template/modify.html")
-// }
-
-// func manageprofile(response http.ResponseWriter, request *http.Request) {
-// 	http.ServeFile(response, request, "template/manageprofile.html")
-// }
 
 type User struct {
 	Id       int
@@ -316,28 +305,3 @@ func selectUserNameWithPattern(db *sql.DB, pattern string) *sql.Rows {
 	result, _ := db.Query(query)
 	return result
 }
-
-// func database() {
-
-// 	// Creation de la DB.
-
-// 	db := initDatabase("database.db")
-
-// 	insertIntoUsers(db, Name, mail, m)
-
-// 	insertIntoPosts(db, 2, 5, "CONTENT", "Post1", 1)
-
-// 	alltable := selectAllFromTable(db, "users")
-// 	alltable2 := selectAllFromTable(db, "posts")
-
-// 	fmt.Print("|---------------------------------------| \n")
-// 	fmt.Print("  USER : ")
-// 	displayUsersRow(alltable)
-// 	fmt.Print("|---------------------------------------| \n")
-// 	fmt.Print("  POST : ")
-// 	displayPostsRow(alltable2)
-// 	fmt.Print("|---------------------------------------| \n")
-
-// 	db.Close()
-
-// }

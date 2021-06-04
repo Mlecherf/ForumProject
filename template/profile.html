@@ -8,11 +8,11 @@
 
     <!-- CSS -->
         <!-- page -->
-        <link rel="stylesheet" href="../asset/style/profile.css">
+        <link rel="stylesheet" href="/static/style/profile.css">
         <!-- Header -->
-        <link rel="stylesheet" href="../asset/style/header.css">
+        <link rel="stylesheet" href="/static/style/header.css">
         <!-- Post -->
-        <link rel="stylesheet" href="../asset/style/post.css">
+        <link rel="stylesheet" href="/static/style/post.css">
 
     <!-- Police ROBOTO -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -41,7 +41,7 @@
         <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
 
         <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
-        <script src="../asset/js/header.js"></script>
+        <script src="/static/js/header.js"></script>
     </header>
 
     
@@ -303,7 +303,7 @@
                     <div id="password_mod">
                         <button id="password_btn">Password Modification</button>
                     </div>
-                    <form action="/Home" method="get">
+                    <form action="/Home" method="get">  <!--BALISE DELETE-->
                         <input type="text" name="DeleteAccount" id="DeleteInput">
                         <button id="Delete_account">Delete Account</button>
                     </form>
@@ -315,13 +315,13 @@
 
     <div id="Special_modif">
         <div id="modif">
-            <form action="/" method="get">
+            <form action="/" method="get"> <!--BALISE MODIF.-->
                 <div id="Info__modif">
                     <p id="Name_Modif_1"></p>
                     <p id="Name_Modif_2"></p>
                 </div>
                 <div id="Modif_Info">
-                    <label for="Input__info" id="Label_Input_modif"></label><br>
+                    <label for="Input__info" id="Label_Input_modif" name=""></label><br>
                     <input type="text" name="Input__info" id="Input__info">
                 </div>
                 <div id="Current_password">
@@ -334,6 +334,6 @@
         </div>
     </div>
 
-    <script src="../asset/js/profile.js"></script>
+    <script src="/static/js/profile.js"></script>
 </body>
 </html>
