@@ -5,9 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
-    <link rel="stylesheet" href="/static/style/home.css">
-    <link rel="stylesheet" href="/static/style/header.css">
-    <link rel="stylesheet" href="/static/style/post.css">
+    <link rel="stylesheet" href="../asset/style/home.css">
+    <link rel="stylesheet" href="../asset/style/header.css">
+    <link rel="stylesheet" href="../asset/style/post.css">
+    <link rel="stylesheet" href="../asset/style/theme.css">
+    <!-- Roboto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>Home</title>
     
 </head>
@@ -17,7 +21,7 @@
         <div id="LOGO">
             <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
             <div id="Logo__Write">
-                <p class="Logo_Write">Angry <strong>Creative</strong></p>
+                <a href="/" class="Logo_Write">Angry <strong>Creative</strong></a>
             </div>
         </div>
         
@@ -31,26 +35,35 @@
 
         <div id="Addpost_Login">
             <div id="Post_add">
-                <p>+ Add Post</p>
             </div>
             <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
         </div>
 
-        
+
+        <div id="Pop_up">
+            <div id="Pop_content">
+                <a href="" id="First_pop">Login</a>
+                <hr>
+                <a href="" id="Second_pop">Register</a>
+            </div>
+
+        </div>
 
         <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
-        <script src="/static/js/header.js"></script>
+        <script src="../asset/js/header.js"></script>
     </header>
     
     <div id="home">
-        <p class="titre_home" id="titre_popular_themes">Popular - Themes</p>
-        <div class="menu_theme">
-            <div id="top5">
-                <div class="carre carre_top5">1</div>
-                <div class="carre carre_top5">2</div>
-                <div class="carre carre_top5">3</div>
-                <div class="carre carre_top5">4</div>
-                <div class="carre carre_top5">5</div>
+        <div>
+            <p class="titre_home" id="titre_popular_themes">Popular - Themes</p>
+            <div class="menu_theme">
+                <div id="top5">
+                    <div class="theme Fast_Food"><p>Fast Food</p></div>
+                    <div class="theme Pizza"><p>Pizza</p></div>
+                    <div class="theme Burger"><p>Burger</p></div>
+                    <div class="theme Dessert"><p>Dessert</p></div>
+                    <div class="theme American"><p>American</p></div>
+                </div>
             </div>
         </div>
 
@@ -203,6 +216,7 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
 
@@ -212,50 +226,26 @@
             <div class="arrow arrowLeftTheme"><p><</p></div>
             <div class="arrow arrowRightTheme"><p>></p></div>
             <div>          
-                <div class="carre">1</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">5</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">10</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">15</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">20</div> 
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">25</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">30</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">35</div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre"></div>
-                <div class="carre">40</div> 
+                <div class="theme Fast_Food"><p>Fast Food</p></div>
+                <div class="theme Pizza"><p>Pizza</p></div>
+                <div class="theme Burger"><p>Burger</p></div>
+                <div class="theme Dessert"><p>Dessert</p></div>
+                <div class="theme American"><p>American</p></div>
+                <div class="theme Italia"><p>Italian</p></div>
+                <div class="theme Mexican"><p>Mexican</p></div>
+                <div class="theme India"><p>Indian</p></div>
+                <div class="theme Japan"><p>Japan</p></div>
+                <div class="theme French"><p>French</p></div>
+                <div class="theme Africa"><p>African</p></div>
+                <div class="theme BBQ"><p>BBQ</p></div>
+                <div class="theme Korea"><p>Korean</p></div>
+                <div class="theme Vegan"><p>Vegan</p></div>
+                <div class="theme Latina_America"><p>Latina America</p></div>
+                <div class="theme Bakery"><p>Bakery</p></div>
             </div> 
         </div>
     </div>
-    <script src="/static/js/home.js"></script>
+    <script src="../asset/js/home.js"></script>
 </body>
 </html>
 

@@ -54,6 +54,13 @@ function Email_Verification (email){
         }
     }
     email.split("").forEach((element, index)=> {
+        let ascii = element.charCodeAt(0)
+        if (ascii < 32 || ascii > 126){
+            console.log(element)
+            if (input_err.includes("Invalide character") == false){
+                input_err.push("Invalide character")
+            }
+        }
         if (element == " "){
             if (input_err.includes("Space character not allowed") == false){
                 input_err.push("Space character not allowed")

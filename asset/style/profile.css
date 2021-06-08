@@ -74,10 +74,12 @@ button{
     width: 100%;
     height: 100%;
     /* background: #4d4d4d; */
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
-
+.poste_preview {
+    margin: 20px 15px !important; 
+}
 
 #Manage_Profile{
     display: none;
@@ -177,7 +179,7 @@ button{
     color: #FFCB77;
     font-size: 20px;
 }
-#my_info{
+.my_info{
     margin-top: 20px;
     font-size: 40px;
     color: #fff;
@@ -304,7 +306,7 @@ button{
     #mod_info_lab{
         font-size: 15px;
     }
-    #my_info{
+    .my_info{
         font-size: 30px;
     }
     #password_btn{
@@ -343,7 +345,7 @@ button{
     #mod_info{
         width: 100%;
     }
-    #my_info{
+    .my_info{
         margin-top: 10px;
     }
     #user_btn, #mail_btn{
@@ -383,7 +385,13 @@ button{
     }
 }
 @media screen and (max-width: 500px){
-    
+    #Overview{
+        width: 380px;
+    }
+    #Post_stat, #Liked_stat{
+        width: 100px;
+        font-size: 15px;
+    }
     #modify_setting{
         margin-top: 10px;
     }
@@ -402,7 +410,7 @@ button{
         border-radius: 15px;
         font-size: 15px;
     }
-    #my_info{
+    .my_info{
         font-size: 20px;
     }
 

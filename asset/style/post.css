@@ -1,9 +1,10 @@
 .poste_preview{
-    margin-top: 20px;
+    margin: 20px 5px;
     width: 400px;
     height: 200px;
     background: #000;
     color: #fff;
+    padding: 15px;
 }
 #header_info{
     justify-content: space-between;
@@ -23,12 +24,25 @@
 }
 #brief_content{
     /* background: brown; */
-    text-align: center;
+    text-align: left;
     padding: 5px;
     margin-top: 10px;
     height: 80px;
     font-size: 12px;
+
 }
+#brief_content p{
+    /* white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 80px; */
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+
 #footer_info{
     position: relative;
     height: 75px;
@@ -42,10 +56,12 @@
     justify-content: space-between;
     /* background: cadetblue; */
     width: 200px;
-    height: 75px;
+    /* height: 75px; */
+    /* ALIGN-ITEMS: FLEX-END; */
+    align-items: flex-end;
 }
 .tag{
-    margin: 3px 2px;
+    /* margin: 3px 2px; */
     text-align: center;
     width: 95px;
     height: 30px;
@@ -84,4 +100,84 @@
     height: 75px;
     /* background:cyan; */
     color: #FFCB77;
+}
+
+.Fast_Food_post
+{
+    background-color: #ffe600;
+}
+
+.Pizza_post
+{
+    background-color: #ff0000;
+}
+
+.Burger_post
+{
+    background-color: #ff820f;
+}
+
+.Dessert_post
+{
+    background-color: #e1d4cd;
+}
+
+.American_post
+{
+    background-color: #00d1ff;
+}
+
+.Italia_post
+{
+    background-color: #24ff00;
+}
+
+.Mexican_post
+{
+    background-color: #a16202;
+}
+
+.India_post
+{
+    background-color: #ffeee7;
+}
+
+.Japan_post
+{
+    background-color: #ffe4bd;
+}
+
+.French_post
+{
+    background-color: #ff5c00;
+}
+
+.Africa_post
+{
+    background-color: #25a505;
+}
+
+.BBQ_post
+{
+    background-color: #f9b300;
+}
+
+.Korea_post
+{
+    background-color: #1eeded;
+}
+
+.Vegan_post
+{
+    background-color: #02701a;
+}
+
+.Latina_America_post
+{
+    background-color: #d78383;
+}
+
+.Bakery_post
+{
+    background-color:#ffe5bd;
 }

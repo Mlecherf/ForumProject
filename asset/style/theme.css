@@ -1,0 +1,121 @@
+.theme
+{
+    border: 10px;
+    border-color: #373737;
+    border-style: solid;
+    height: 150px;
+    width: 150px;
+    display: inline-block;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: 3px 0 0 black, 0 3px 0 black, 0 -3px 0 black, -3px 0 0 black, 3px 3px 0 black, 3px -3px 0 black, -3px 3px 0 black, -3px -3px 0 black;
+    user-select: none;
+    white-space:normal;
+    vertical-align: top;
+}
+
+.theme p
+{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.Fast_Food
+{
+    background-image: url(../image/theme_FastFood.jpg);
+    background-size: 100%;
+}
+
+.Pizza
+{
+    background-image: url(../image/theme_Pizza.jpg);
+    background-size: 100%;
+}
+
+.Burger
+{
+    background-image: url(../image/theme_Burger.jpg);
+    background-size: 100%;
+}
+
+.Dessert
+{
+    background-image: url(../image/theme_Dessert.jpg);
+    background-size: 120%;
+}
+
+.American
+{
+    background-image: url(../image/theme_American.jpg);
+    background-size: 100%;
+}
+
+.Italia
+{
+    background-image: url(../image/theme_Italian.jpg);
+    background-size: 100%;
+}
+
+.Mexican
+{
+    background-image: url(../image/theme_Mexican.jpg);
+    background-size: 100%;
+}
+
+.India
+{
+    background-image: url(../image/theme_Indian.jpg);
+    background-size: 100%;
+}
+
+.Japan
+{
+    background-image: url(../image/theme_Japan.jpg);
+    background-size: 100%;
+}
+
+.French
+{
+    background-image: url(../image/theme_French.jpg);
+    background-size: 100%;
+}
+
+.Africa
+{
+    background-image: url(../image/theme_African.jpg);
+    background-size: 100%;
+}
+
+.BBQ
+{
+    background-image: url(../image/theme_BBQ.jpg);
+    background-size: 100%;
+}
+
+.Korea
+{
+    background-image: url(../image/theme_Korean.jpg);
+    background-size: 100%;
+}
+
+.Vegan
+{
+    background-image: url(../image/theme_Vegan.jpg);
+    background-size: 150%;
+}
+
+.Latina_America
+{
+    background-image: url(../image/theme_LatinaAmerican.jpg);
+    background-size: 100%;
+}
+
+.Bakery
+{
+    background-image: url(../image/theme_Bakery.jpg);
+    background-size: 100%;
+}

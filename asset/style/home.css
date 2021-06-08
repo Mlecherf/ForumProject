@@ -2,6 +2,7 @@
 {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 body
@@ -19,23 +20,22 @@ body
 {
     color: #FFCB77;
     font-size: 36px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 10px;
 }
 
 #titre_popular_themes
 {
-    margin-top: 0;
+    margin-top: 0px;
 }
 
 #titre_popular_posts
 {
-    margin-top: 2%;
+    margin-top: 30px;
 }
 
 #titre_all_themes
 {
-    margin-top: 2%;
+    margin-top: 30px;
 }
 
 .menu_theme
@@ -43,14 +43,17 @@ body
     background-color: #373737;
     border-color: #373737;
     border-style: solid;
-    height: 150px;
+    /* height: 180px; */
     width: 100%;
-    display: block;
+    /* display: block; */
+    display: flex;
+    flex-wrap: wrap;
     overflow: hidden;
     overflow-x: scroll;
     box-sizing: border-box;
-    padding-left: 20px;
-    padding-right: 20px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+    justify-content: space-between;
 }
 .menu_theme::-webkit-scrollbar
 {
@@ -60,31 +63,35 @@ body
 .carousel
 {
     white-space: nowrap;
-    
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .popular_posts
 {
-    height: 220px;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #top5
 {
     text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .arrow
 {
-    height: 150px;
+    height: 180px;
     width: 30px;
     background: #FFCB77;
     text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 20px;
     opacity: 0.9;
     user-select: none;
+    z-index: 1;
 }
 
 .arrow:hover
@@ -114,18 +121,6 @@ body
     position: absolute;
 }
 
-.carre
-{
-    margin-left: 20px;
-    margin-right: 20px;
-    background-color: white;
-    border-color: white;
-    border-style: solid;
-    height: 150px;
-    width: 150px;
-    display: inline-block;
-    padding-top: 45px;
-}
 
 .carre_top5
 {
@@ -134,3 +129,15 @@ body
 }
 
 
+@media screen and (max-height: 840px){
+    #top5
+    {
+        text-align: center;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .popular_posts{
+        justify-content: center;
+    }
+}

@@ -7,65 +7,72 @@
     <title>Login</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/static/style/login.css">
-    <link rel="stylesheet" href="/static/style/header.css">
+    <link rel="stylesheet" href="../asset/style/login.css">
+    <link rel="stylesheet" href="../asset/style/header.css">
     <!-- Police ROBOTO -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
  
 </head>
 <body>
-    <div id="Loginpic">
-        <header id="Header">
-            <div id="LOGO">
-                <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
-                <div id="Logo__Write">
-                    <p class="Logo_Write">Angry <strong>Creative</strong></p>
-                </div>
+    <header id="Header">
+        <div id="LOGO">
+            <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
+            <div id="Logo__Write">
+                <a href="/" class="Logo_Write">Angry <strong>Creative</strong></a>
             </div>
-            
-            <form action="/register" method="POST">
-                <div id="search-box">
-                    <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
-                    <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
-                    <button type="submit" id="Search__BTN" disabled></button>
-                </div>
-            </form>
-    
-            <div id="Addpost_Login">
-                <div id="Post_add">
-                    <p>+ Add Post</p>
-                </div>
-                <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
+        </div>
+        
+        <form action="/register" method="POST">
+            <div id="search-box">
+                <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
+                <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
+                <button type="submit" id="Search__BTN" disabled></button>
             </div>
-    
-            
-    
-            <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
-            <script src="/static/js/header.js"></script>
-        </header>
+        </form>
 
+        <div id="Addpost_Login">
+            <div id="Post_add">
+            </div>
+            <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
+        </div>
+
+
+        <div id="Pop_up">
+            <div id="Pop_content">
+                <a href="" id="First_pop">Login</a>
+                <hr>
+                <a href="" id="Second_pop">Register</a>
+            </div>
+
+        </div>
+
+        <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
+        <script src="../asset/js/header.js"></script>
+    </header>
+    <div id="Loginpic">
         <div id="LoginArea">
             <form action="/login" method="POST">
 
                 <div id="Mail">
-                    <label for="Insert_a_mail" class="mailAddress_Stylé">Mail Address</label>
+                    <label for="Insert_a_mail" class="mailAddress_Stylé">Email</label>
                     <input type="text" name="Insert_a_mail" id="Insert_a_mail" class="mail_insert" placeholder="lafont.pedro@gmail.com">
+                    <p class="Print_error"></p>
                 </div>
 
                 <div id="Password">
                     <label for="Insert_a_password" class="Password_Stylé">Password</label>
-                    <input type="password" name="Insert_a_password" id="Insert_a_password" class="Password_insert" placeholder="********" >
+                    <input type="password" name="Insert_a_password" id="Insert_a_password" class="Password_insert" placeholder="***********" autocomplete="">
+                    <p class="Print_error"></p>
                 </div>
 
                 <div id="Login_Btn">
-                    <button type="submit" class="submit" >LOGIN</button>
+                    <button type="submit" class="submit" disabled>LOGIN</button>
                 </div>
-
-
+                
             </form>
         </div>
-        <script src="/static/js/login.js"></script>
+        <script src="../asset/js/login.js"></script>
     </div>
 </body>
 </html>
