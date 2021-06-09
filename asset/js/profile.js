@@ -6,6 +6,8 @@ const Modify_username = document.getElementById("user_btn")
 const Modify_email = document.getElementById("mail_btn")
 const Modify_pwd = document.getElementById("password_btn")
 
+const ToChange = document.getElementById("Tochange")
+
 
 const Profil_Mod = document.getElementById("Special_modif")
 const field_name = document.getElementById("Name_Modif_1")
@@ -33,6 +35,8 @@ Modify_username.addEventListener("click", ()=>{
     filed_describ.innerHTML = "Write your new username and current password"
     first_label.innerHTML = "Username"
     first_label.setAttribute("name", "username")
+    ToChange.setAttribute("value", "Name")
+
     Second_label.innerHTML = "Current Password"
 })
 
@@ -43,6 +47,7 @@ Modify_email.addEventListener("click", ()=>{
     filed_describ.innerHTML = "Write your new email and current password"
     first_label.innerHTML = "Email"
     first_label.setAttribute("name", "email")
+    ToChange.setAttribute("value", "Email")
     Second_label.innerHTML = "Current Password"
 })
 

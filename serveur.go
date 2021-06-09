@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -31,6 +32,12 @@ type Cookie struct {
 
 var tpl *template.Template
 
+var (
+	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	key   = []byte("super-secret-key")
+	store = sessions.NewCookieStore(key)
+)
+
 func main() {
 	tpl, _ = tpl.ParseGlob("template/*.html")
 	http.HandleFunc("/", home)
@@ -39,7 +46,6 @@ func main() {
 	http.HandleFunc("/profile", userprofile)
 	http.HandleFunc("/post", userpost)
 	http.HandleFunc("/theme", usertheme)
-
 	style := http.FileServer(http.Dir("asset/style/"))
 	image := http.FileServer(http.Dir("asset/image/"))
 	js := http.FileServer(http.Dir("asset/js/"))
@@ -48,7 +54,7 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8070", nil)
+	http.ListenAndServe(":8060", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
@@ -84,32 +90,34 @@ func register(response http.ResponseWriter, request *http.Request) {
 
 			if Wrong == false {
 				fmt.Println("Created... new enter in the DB.")
-				D := "{ 'user': " + username + " 'mail': " + email + " 'nb posts': " + strconv.Itoa(post) + " 'nb likes': " + strconv.Itoa(like) + " }"
-				expiration := time.Now().Add(365 * 24 * time.Hour)
-				cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
-				http.SetCookie(response, &cookie)
 				insertIntoUsers(db, username, email, password, like, post)
+				alltable2 := selectAllFromTable(db, "users")
+				displayUsersRow(alltable2)
 			} else {
 				fmt.Println("Cant create... Already exist in the DB.")
 			}
 
 		} else {
-			D := "{ 'user': '" + username + "','mail': '" + email + "','nb_posts': '" + strconv.Itoa(post) + "','nb_likes': '" + strconv.Itoa(like) + "' }"
-			expiration := time.Now().Add(365 * 24 * time.Hour)
-			cookie := http.Cookie{Name: "Login", Value: D, Expires: expiration}
-			http.SetCookie(response, &cookie)
 			insertIntoUsers(db, username, email, password, like, post)
+			alltable1 := selectAllFromTable(db, "users")
+			displayUsersRow(alltable1)
 		}
 	}
-	alltable1 := selectAllFromTable(db, "users")
-	displayUsersRow(alltable1)
+
 	tpl.ExecuteTemplate(response, "register.html", nil)
 }
 
 func login(response http.ResponseWriter, request *http.Request) {
+	connected := false
+	http.SetCookie(response, &http.Cookie{
+		Name:     "Connect",
+		Value:    strconv.FormatBool(connected),
+		HttpOnly: true,
+		Path:     "/",
+	})
 
-	email := request.FormValue("Insert_a_Pseudo")
-	Password := request.FormValue("Password__input")
+	email := request.FormValue("Insert_a_mail")
+	Password := request.FormValue("Insert_a_password")
 	alltable := selectAllFromTable(db, "users")
 
 	hsha2psswd := sha256.Sum256([]byte(Password))
@@ -131,9 +139,22 @@ func login(response http.ResponseWriter, request *http.Request) {
 			emailtrue = true
 		}
 	}
-
+	fmt.Println(emailtrue, passwordtrue)
 	if emailtrue == true && passwordtrue == true {
 		println("LOGIN AUTORISEE")
+		session, _ := store.Get(request, "Logged...")
+		session.Values["Authentificated "] = true
+		session.Values["Email "] = email
+		session.Values["Password "] = Password
+		fmt.Println(session.Values)
+		session.Save(request, response)
+		connected = true
+		http.SetCookie(response, &http.Cookie{
+			Name:     "Connect",
+			Value:    strconv.FormatBool(connected),
+			HttpOnly: true,
+			Path:     "/",
+		})
 		tpl.ExecuteTemplate(response, "home.html", nil)
 	} else {
 		println("LOGIN REFUSER")
@@ -144,6 +165,107 @@ func login(response http.ResponseWriter, request *http.Request) {
 
 func userprofile(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("InUser")
+	Modif := request.FormValue("Input__info")
+	INFO1 := request.FormValue("Tochange")
+
+	ChangeEmail := false
+	ChangeUsername := false
+
+	session, _ := store.Get(request, "Logged...")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Error(response, "Forbidden", http.StatusForbidden)
+		return
+	}
+
+	fmt.Println(INFO1)
+
+	if INFO1 == "Email" {
+		ChangeEmail = true
+	} else if INFO1 == "Name" {
+		ChangeUsername = true
+	}
+
+	Psswd := request.FormValue("Input__curt_pwd")
+	fmt.Println("-------")
+	fmt.Print("Password :  ")
+	fmt.Println(Psswd)
+	fmt.Print("New Value :  ")
+	fmt.Println(Modif)
+	fmt.Println("-------")
+
+	hsha2psswd := sha256.Sum256([]byte(Psswd))
+	stringpsswd := ""
+	for i := 0; i < len(hsha2psswd); i++ {
+		stringpsswd += string(hsha2psswd[i])
+	}
+
+	passwordtrue := false
+
+	alltable := selectAllFromTable(db, "users")
+	Arr := NewUsername(alltable)
+	for i := 0; i < len(Arr); i++ {
+		if Arr[i] == stringpsswd {
+			passwordtrue = true
+		}
+	}
+
+	if passwordtrue == true && ChangeUsername == true {
+		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
+		var p User
+		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		upStmt := "UPDATE `users` SET `name` = ? WHERE ( `password` = ?);"
+		stmt, err := db.Prepare(upStmt)
+
+		if err != nil {
+			panic(err)
+		}
+
+		defer stmt.Close()
+		var res sql.Result
+		res, err = stmt.Exec(Modif, stringpsswd)
+		rowsAff, _ := res.RowsAffected()
+		if err != nil || rowsAff != 1 {
+			panic(err)
+		}
+
+		alltable1 := selectAllFromTable(db, "users")
+		displayUsersRow(alltable1)
+	} else if passwordtrue == true && ChangeEmail == true {
+
+		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
+		var p User
+		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		upStmt := "UPDATE `users` SET `email` = ? WHERE ( `password` = ?);"
+		stmt, err := db.Prepare(upStmt)
+
+		if err != nil {
+			panic(err)
+		}
+
+		defer stmt.Close()
+		var res sql.Result
+		res, err = stmt.Exec(Modif, stringpsswd)
+		rowsAff, _ := res.RowsAffected()
+		if err != nil || rowsAff != 1 {
+			panic(err)
+		}
+
+		alltable1 := selectAllFromTable(db, "users")
+		displayUsersRow(alltable1)
+	}
+
 	tpl.ExecuteTemplate(response, "profile.html", nil) // Nil devient l'ensemble des posts (DB POST.)
 }
 
@@ -284,6 +406,21 @@ func VerifLogin(rows *sql.Rows) []string {
 		}
 		arr = append(arr, p.Password)
 		arr = append(arr, p.Email)
+	}
+	return (arr)
+}
+
+func NewUsername(rows *sql.Rows) []string {
+	arr := []string{}
+	for rows.Next() {
+		var p User
+		err := rows.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		arr = append(arr, p.Password)
+		arr = append(arr, p.Name)
 	}
 	return (arr)
 }
