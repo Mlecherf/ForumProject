@@ -31,7 +31,7 @@ document.addEventListener("click", ()=>{
     document.getElementById("Pop_up").style.display = "none"
 })
 // document.cookie = "Login ='{'user':'Clem','mail':'mail@cookie.com','nb_posts':'10','nb_likes':'15'}'"
-document.cookie = "Connect = true"
+// document.cookie = "Connect = true"
 
 
 let my_cookie_header = Select_Login_cookie()
