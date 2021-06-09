@@ -7,8 +7,8 @@
     <title>Login</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../asset/style/login.css">
-    <link rel="stylesheet" href="../asset/style/header.css">
+    <link rel="stylesheet" href="/static/style/login.css">
+    <link rel="stylesheet" href="/static/style/header.css">
     <!-- Police ROBOTO -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -47,8 +47,105 @@
 
         </div>
 
+        <div id="pop_post_add">
+            <div id="post_add_info">
+                <button id="close_post">+</button>
+                <form action="javascript:void(0);">
+                    <div id="name">
+                        <label for="post_name_add">Name :</label><br>    
+                        <input type="text" name="post_name_add" id="post_name_add">
+                    </div>
+                    
+                    <div id="tag">
+                        <label for="">Tag : 0/4</label>
+                        
+                        <div id="tag_post">
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Fast_Food_post">Fast Food</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Pizza_post">Pizza</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Burger_post">Burger</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Dessert_post">Dessert</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name American_post">American</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Italia_post">Italia</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Mexican_post">Mexican</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name India_post">India</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Japan_post">Japan</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name French_post">French</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Africa_post">Africa</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name BBQ_post">BBQ</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Korea_post">Korea</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Vegan_post">Vegan</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Latina_America_post">America Latina</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="radio" name="" id="">
+                                <p class="tag__name Bakery_post">Bakery</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="reset" name="" id="reset__tag" value="reset tag">
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                    <div id="describ_content">
+                        <label for="post_content_add">Description : <br></label>
+                        <textarea name="post_content_add" id="post_content_add" cols="30" rows="10"></textarea>
+                    </div>
+
+                    <button type="submit" id="post_submit">Add</button>
+                    
+                </form>
+            </div>
+        </div>
+
         <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
-        <script src="../asset/js/header.js"></script>
+        <script src="/static/js/header.js"></script>
+
+
     </header>
     <div id="Loginpic">
         <div id="LoginArea">
@@ -72,7 +169,7 @@
                 
             </form>
         </div>
-        <script src="../asset/js/login.js"></script>
+        <script src="/static/js/login.js"></script>
     </div>
 </body>
 </html>

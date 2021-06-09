@@ -60,3 +60,27 @@ function Select_Login_cookie (){
     })
     return my_cookie_login
 }
+
+const Post_tag = [...document.getElementsByClassName('tag__post')]
+const restes_tag = document.getElementById('reset__tag')
+const nb_tag = document.getElementById('nb_tag')
+let nb_tag_up = 0;
+
+Post_tag.forEach((elem, index)=>{
+    elem.addEventListener('click', ()=>{
+        Up_tag(index)
+    })
+})
+
+restes_tag.addEventListener('click', ()=>{
+    Post_tag.forEach((elem)=>{
+        elem.value = "down"
+    })
+    nb_tag.innerHTML = `Tag : 0/4`
+})
+
+function Up_tag (index_tag){
+    Post_tag[index_tag].value = "up"
+    nb_tag_up ++
+    nb_tag.innerHTML = `Tag : ${nb_tag_up}/4`
+}
