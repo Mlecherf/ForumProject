@@ -161,12 +161,10 @@
         <div id="Profil_Info">
             <div id="stat">
                 <p id="Post_stat">
-                    <!-- Post : <strong>0</strong> -->
-                    {{Info.nb_post}}
+
                 </p>
                 <p id="Liked_stat">
-                    <!-- Liked Post : <strong>0</strong> -->
-                    {{Info.nb_post_liked}}
+
                 </p>
             </div>
             <button id="Edit_profil_btn">
@@ -175,7 +173,7 @@
         </div>
         <div id="Post_Area">
 
-            {{tout la boucle des posts}}
+          
             <!-- <div id="Nom_post" class="poste_preview">
                 <div id="header_info">
                     <p class="title">1234567891234567891234567</p>
@@ -223,21 +221,21 @@
     <div id="Manage_Profile">
         <button id="Close"><p>+</p></button>
         <div id="Profile_Info">
-            <p id="Username">USER</p>
+            <p id="Username">PROFILE</p>
             
             <div id="modify_setting">
                 <div id="modify">
                     <div id="user_mod">
                         <div id="mod_info">
-                            <p id="mod_info_lab">username</p>
-                            <p class="my_info" id="Personal_user">{{Info.User}}</p>
+                            <p id="mod_info_lab">Username</p>
+                            <p class="my_info" id="Personal_user">{{.Username}}</p>
                         </div>
                         <button id="user_btn">Modify</button>
                     </div>
                     <div id="mail_mod">
                         <div id="mod_info">
                             <p id="mod_info_lab">Email address</p>
-                            <p class="my_info" id="Personal_email">{{Info.Mail}}</p>
+                            <p class="my_info" id="Personal_email">{{.Email_Adress}}</p>
                         </div>
                         <button id="mail_btn">Modify</button>
                     </div>
@@ -245,7 +243,7 @@
                         <button id="password_btn">Password Modification</button>
                     </div>
                     <form action="/Home" method="get">
-                        <input type="hidden" name="DeleteAccount" id="DeleteInput" name="{{Info.mail}}"> <!-- changer le name par ladress email du cookie -->
+                        <input type="hidden" name="DeleteAccount" id="DeleteInput"> <!-- changer le name par ladress email du cookie -->
                         <button id="Delete_account">Delete Account</button>
                     </form>
                 </div>
@@ -256,14 +254,15 @@
 
     <div id="Special_modif">
         <div id="modif">
-            <form action="/" method="get">
+            <form action="/profile" method="get">
                 <div id="Info__modif">
                     <p id="Name_Modif_1"></p>
                     <p id="Name_Modif_2"></p>
                 </div>
                 <div id="Modif_Info">
-                    <label for="Input__info" id="Label_Input_modif" name=""></label><br> <!-- changer le name par la modif effectuer-->
+                    <label for="Input__info" id="Label_Input_modif"></label><br> <!-- changer le name par la modif effectuer-->
                     <input type="text" name="Input__info" id="Input__info">
+                    <input type="hidden" name="Info" value="X" id="ToChange">
                 </div>
                 <div id="Current_password">
                     <label for="Input__curt_pwd" id="Label_Input__curt_pwd"></label><br>

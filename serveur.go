@@ -39,7 +39,11 @@ var (
 )
 
 func main() {
-	tpl, _ = tpl.ParseGlob("template/*.html")
+	var err error
+	tpl, err = tpl.ParseGlob("template/*.html")
+	if err != nil {
+		fmt.Println(err)
+	}
 	http.HandleFunc("/", home)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/login", login)
@@ -54,11 +58,11 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8060", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "/home.html", nil)
+	tpl.ExecuteTemplate(response, "home.html", nil)
 }
 
 func register(response http.ResponseWriter, request *http.Request) {
@@ -112,8 +116,9 @@ func login(response http.ResponseWriter, request *http.Request) {
 	http.SetCookie(response, &http.Cookie{
 		Name:     "Connect",
 		Value:    strconv.FormatBool(connected),
-		HttpOnly: true,
+		HttpOnly: false,
 		Path:     "/",
+		MaxAge:   150,
 	})
 
 	email := request.FormValue("Insert_a_mail")
@@ -125,7 +130,7 @@ func login(response http.ResponseWriter, request *http.Request) {
 	for i := 0; i < len(hsha2psswd); i++ {
 		stringpsswd += string(hsha2psswd[i])
 	}
-
+	Name := ""
 	var passwordtrue bool
 	var emailtrue bool
 	passwordtrue = false
@@ -138,7 +143,16 @@ func login(response http.ResponseWriter, request *http.Request) {
 		if Arr[i] == email {
 			emailtrue = true
 		}
+
+		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
+		var p User
+		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+		Name = p.Name
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
+
 	fmt.Println(emailtrue, passwordtrue)
 	if emailtrue == true && passwordtrue == true {
 		println("LOGIN AUTORISEE")
@@ -146,14 +160,16 @@ func login(response http.ResponseWriter, request *http.Request) {
 		session.Values["Authentificated "] = true
 		session.Values["Email "] = email
 		session.Values["Password "] = Password
+		session.Values["Name "] = Name
 		fmt.Println(session.Values)
 		session.Save(request, response)
 		connected = true
 		http.SetCookie(response, &http.Cookie{
 			Name:     "Connect",
 			Value:    strconv.FormatBool(connected),
-			HttpOnly: true,
+			HttpOnly: false,
 			Path:     "/",
+			MaxAge:   150,
 		})
 		tpl.ExecuteTemplate(response, "home.html", nil)
 	} else {
@@ -164,34 +180,43 @@ func login(response http.ResponseWriter, request *http.Request) {
 }
 
 func userprofile(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("InUser")
 	Modif := request.FormValue("Input__info")
-	INFO1 := request.FormValue("Tochange")
+
+	INFO1 := request.FormValue("Info")
 
 	ChangeEmail := false
 	ChangeUsername := false
-
+	ChangePassword := false
 	session, _ := store.Get(request, "Logged...")
 
+	Verif := session.Values["Authentificated "]
 	// Check if user is authenticated
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		http.Error(response, "Forbidden", http.StatusForbidden)
+	if Verif != true {
+		http.Error(response, "Non connecté.", http.StatusForbidden)
 		return
 	}
-
-	fmt.Println(INFO1)
 
 	if INFO1 == "Email" {
 		ChangeEmail = true
 	} else if INFO1 == "Name" {
 		ChangeUsername = true
+	} else if INFO1 == "Password" {
+		ChangePassword = true
 	}
 
+	X := ""
+	if ChangeEmail {
+		X = "Email"
+	} else if ChangeUsername {
+		X = "Username"
+	} else if ChangePassword {
+		X = "Password"
+	}
 	Psswd := request.FormValue("Input__curt_pwd")
 	fmt.Println("-------")
 	fmt.Print("Password :  ")
 	fmt.Println(Psswd)
-	fmt.Print("New Value :  ")
+	fmt.Print(X, " :  ")
 	fmt.Println(Modif)
 	fmt.Println("-------")
 
@@ -234,9 +259,9 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		if err != nil || rowsAff != 1 {
 			panic(err)
 		}
+		session, _ := store.Get(request, "Logged...")
+		session.Values["Name "] = Modif
 
-		alltable1 := selectAllFromTable(db, "users")
-		displayUsersRow(alltable1)
 	} else if passwordtrue == true && ChangeEmail == true {
 
 		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
@@ -262,11 +287,55 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 			panic(err)
 		}
 
+		session, _ := store.Get(request, "Logged...")
+		session.Values["Email "] = Modif
+
+	} else if passwordtrue == true && ChangePassword == true {
+		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
+		var p User
+		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		upStmt := "UPDATE `users` SET `password` = ? WHERE ( `password` = ?);"
+		stmt, err := db.Prepare(upStmt)
+
+		if err != nil {
+			panic(err)
+		}
+		hsha2psswd := sha256.Sum256([]byte(Modif))
+		stringpsswd2 := ""
+		for i := 0; i < len(hsha2psswd); i++ {
+			stringpsswd2 += string(hsha2psswd[i])
+		}
+
+		defer stmt.Close()
+		var res sql.Result
+		res, err = stmt.Exec(stringpsswd2, stringpsswd)
+		rowsAff, _ := res.RowsAffected()
+		if err != nil || rowsAff != 1 {
+			panic(err)
+		}
+
+		session, _ := store.Get(request, "Logged...")
+		session.Values["Password "] = stringpsswd2
+
 		alltable1 := selectAllFromTable(db, "users")
 		displayUsersRow(alltable1)
 	}
+	type Data struct {
+		Username     interface{}
+		Email_Adress interface{}
+	}
+	session2, _ := store.Get(request, "Logged...")
+	Userss := session2.Values["Name "]
+	Emailss := session2.Values["Email "]
 
-	tpl.ExecuteTemplate(response, "profile.html", nil) // Nil devient l'ensemble des posts (DB POST.)
+	SEND := Data{Username: Userss, Email_Adress: Emailss}
+	fmt.Println(SEND)
+	tpl.ExecuteTemplate(response, "profile.html", SEND) // Nil devient l'ensemble des posts (DB POST.)
 }
 
 func userpost(response http.ResponseWriter, request *http.Request) {
@@ -406,6 +475,7 @@ func VerifLogin(rows *sql.Rows) []string {
 		}
 		arr = append(arr, p.Password)
 		arr = append(arr, p.Email)
+		arr = append(arr, p.Name)
 	}
 	return (arr)
 }

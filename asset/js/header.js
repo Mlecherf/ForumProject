@@ -35,6 +35,8 @@ document.addEventListener("click", ()=>{
 
 
 let my_cookie_header = Select_Login_cookie()
+
+    console.log(document.cookie);
 if (my_cookie_header == "true"){
     document.getElementsByClassName("Login")[0].setAttribute("src", "https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png")
     document.getElementById("Post_add").style.display = "flex"

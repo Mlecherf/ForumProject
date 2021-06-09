@@ -6,7 +6,7 @@ const Modify_username = document.getElementById("user_btn")
 const Modify_email = document.getElementById("mail_btn")
 const Modify_pwd = document.getElementById("password_btn")
 
-const ToChange = document.getElementById("Tochange")
+// const ToChange = document.getElementById("Tochange")
 
 
 const Profil_Mod = document.getElementById("Special_modif")
@@ -15,7 +15,7 @@ const filed_describ = document.getElementById("Name_Modif_2")
 const first_label = document.getElementById("Label_Input_modif")
 const Second_label = document.getElementById("Label_Input__curt_pwd")
 const Exit = document.getElementById("Exit")
-
+const ToChange = document.getElementById("ToChange")
 
 
 Btn_Edit.addEventListener("click", ()=>{
@@ -35,8 +35,8 @@ Modify_username.addEventListener("click", ()=>{
     filed_describ.innerHTML = "Write your new username and current password"
     first_label.innerHTML = "Username"
     first_label.setAttribute("name", "username")
+    first_label.setAttribute("value", "Name")
     ToChange.setAttribute("value", "Name")
-
     Second_label.innerHTML = "Current Password"
 })
 
@@ -47,6 +47,7 @@ Modify_email.addEventListener("click", ()=>{
     filed_describ.innerHTML = "Write your new email and current password"
     first_label.innerHTML = "Email"
     first_label.setAttribute("name", "email")
+    first_label.setAttribute("value", "Email")
     ToChange.setAttribute("value", "Email")
     Second_label.innerHTML = "Current Password"
 })
@@ -59,6 +60,7 @@ Modify_pwd.addEventListener("click", ()=>{
     first_label.innerHTML = "New Password"
     first_label.setAttribute("name", "new_password")
     Second_label.innerHTML = "Verification New Password"
+    ToChange.setAttribute("value","Password")
     document.getElementById("Input__info").setAttribute("type","password")
     document.getElementById("Input__curt_pwd").setAttribute("type","password")
 })
