@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profil</title>
+
+    <!-- CSS -->
+        <!-- page -->
+        <link rel="stylesheet" href="/static/style/profile.css">
+        <!-- Header -->
+        <link rel="stylesheet" href="/static/style/header.css">
+        <!-- Post -->
+        <link rel="stylesheet" href="/static/style/post.css">
+
+    <!-- Police ROBOTO -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- iconify -->
+    <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+
+</head>
+<body>
+    <header id="Header">
+        <div id="LOGO">
+            <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
+            <div id="Logo__Write">
+                <a href="/" class="Logo_Write">Angry <strong>Creative</strong></a>
+            </div>
+        </div>
+        
+        <form action="/register" method="POST">
+            <div id="search-box">
+                <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
+                <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
+                <button type="submit" id="Search__BTN" disabled></button>
+            </div>
+        </form>
+
+        <div id="Addpost_Login">
+            <div id="Post_add">
+            </div>
+            <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
+        </div>
+
+
+        <div id="Pop_up">
+            <div id="Pop_content">
+                <a href="" id="First_pop">Login</a>
+                <hr>
+                <a href="" id="Second_pop">Register</a>
+            </div>
+
+        </div>
+ 
+        <div id="pop_post_add">
+            <div id="post_add_info">
+                <button id="close_post">+</button>
+                <form action="/" method="GET">
+                    <div id="name">
+                        <label for="post_name_add">Name :</label><br>    
+                        <input type="text" name="post_name_add" id="post_name_add">
+                    </div>
+                    
+                    <div id="tag">
+                        <label for="" id="nb_tag">Tag : 0/4</label>
+                        
+                        <div id="tag_post">
+                            <div id="tag__tag" >
+                                <input type="radio" name="Fast_Food" id="" class="tag__post">
+                                <p class="tag__name Fast_Food_post">Fast Food</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Pizza" id="" class="tag__post">
+                                <p class="tag__name Pizza_post">Pizza</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Burger" id="" class="tag__post">
+                                <p class="tag__name Burger_post">Burger</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Dessert" id="" class="tag__post">
+                                <p class="tag__name Dessert_post">Dessert</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="American" id="" class="tag__post">
+                                <p class="tag__name American_post">American</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Italia" id="" class="tag__post">
+                                <p class="tag__name Italia_post">Italia</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Mexican" id="" class="tag__post">
+                                <p class="tag__name Mexican_post">Mexican</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="India" id="" class="tag__post">
+                                <p class="tag__name India_post">India</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Japan" id="" class="tag__post">
+                                <p class="tag__name Japan_post">Japan</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="French" id="" class="tag__post">
+                                <p class="tag__name French_post">French</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Africa" id="" class="tag__post">
+                                <p class="tag__name Africa_post">Africa</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="BBQ" id="" class="tag__post">
+                                <p class="tag__name BBQ_post">BBQ</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Korea" id="" class="tag__post">
+                                <p class="tag__name Korea_post">Korea</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Vegan" id="" class="tag__post">
+                                <p class="tag__name Vegan_post">Vegan</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="America_Latina" id="" class="tag__post">
+                                <p class="tag__name Latina_America_post">America Latina</p>
+                            </div>
+                            <div id="tag__tag" >
+                                <input type="radio" name="Bakery" id="" class="tag__post">
+                                <p class="tag__name Bakery_post">Bakery</p>
+                            </div>
+                            <div id="tag__tag">
+                                <input type="reset" name="" id="reset__tag" value="reset tag">
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                    <div id="describ_content">
+                        <label for="post_content_add">Description : <br></label>
+                        <textarea name="post_content_add" id="post_content_add" cols="30" rows="10"></textarea>
+                    </div>
+
+                    <button type="submit" id="post_submit">Add</button>
+                    
+                </form>
+            </div>
+        </div>
+
+        <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
+        <script src="/static/js/header.js"></script>
+
+
+    </header>
+
+    
+    <div id="Overview">
+        <div id="Profil_Info">
+            <div id="stat">
+                <p id="Post_stat">
+                    <!-- Post : <strong>0</strong> -->
+                    {{Info.nb_post}}
+                </p>
+                <p id="Liked_stat">
+                    <!-- Liked Post : <strong>0</strong> -->
+                    {{Info.nb_post_liked}}
+                </p>
+            </div>
+            <button id="Edit_profil_btn">
+                Edit Profil
+            </button>
+        </div>
+        <div id="Post_Area">
+
+            {{tout la boucle des posts}}
+            <!-- <div id="Nom_post" class="poste_preview">
+                <div id="header_info">
+                    <p class="title">1234567891234567891234567</p>
+                    <p class="author">123456789123</p>
+                </div>
+                <div id="brief_content">
+                    <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil, doloribus tenetur necessitatibus laborum in reprehenderit iusto harum! Asperiores non consequuntur, quibusdam odio dicta est incidunt ducimus velit impedit quam nostrum! -245 max--
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil, doloribus tenetur necessitatibus laborum in reprehenderit iusto harum! Asperiores non consequuntur, quibusdam odio dicta est incidunt ducimus velit impedit quam nostrum! -245 max--
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil, doloribus tenetur necessitatibus laborum in reprehenderit iusto harum! Asperiores non consequuntur, quibusdam odio dicta est incidunt ducimus velit impedit quam nostrum! -245 max--
+                </p>
+                    
+                </div>
+                <div id="footer_info">
+                    <div class="posttag">
+                        <div class="tag burger">
+                            <p>Burger</p>
+                        </div>
+                        <div class="tag burger">
+                            <p>Burger</p>
+                        </div>
+                        <div class="tag burger">
+                            <p>Burger</p>
+                        </div>
+                        <div class="tag burger">
+                            <p>Burger</p>
+                        </div>
+                    </div>
+                    <div class="stat_global">
+                        <div class="view">
+                            <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
+                            <p id="conteur_view">0</p>
+                        </div>
+                        <div class="like">
+                            <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
+                            <p id="conteur_like">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>         -->
+            
+        </div>
+    </div>
+
+    <div id="Manage_Profile">
+        <button id="Close"><p>+</p></button>
+        <div id="Profile_Info">
+            <p id="Username">USER</p>
+            
+            <div id="modify_setting">
+                <div id="modify">
+                    <div id="user_mod">
+                        <div id="mod_info">
+                            <p id="mod_info_lab">username</p>
+                            <p class="my_info" id="Personal_user">{{Info.User}}</p>
+                        </div>
+                        <button id="user_btn">Modify</button>
+                    </div>
+                    <div id="mail_mod">
+                        <div id="mod_info">
+                            <p id="mod_info_lab">Email address</p>
+                            <p class="my_info" id="Personal_email">{{Info.Mail}}</p>
+                        </div>
+                        <button id="mail_btn">Modify</button>
+                    </div>
+                    <div id="password_mod">
+                        <button id="password_btn">Password Modification</button>
+                    </div>
+                    <form action="/Home" method="get">
+                        <input type="hidden" name="DeleteAccount" id="DeleteInput" name="{{Info.mail}}"> <!-- changer le name par ladress email du cookie -->
+                        <button id="Delete_account">Delete Account</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="Special_modif">
+        <div id="modif">
+            <form action="/" method="get">
+                <div id="Info__modif">
+                    <p id="Name_Modif_1"></p>
+                    <p id="Name_Modif_2"></p>
+                </div>
+                <div id="Modif_Info">
+                    <label for="Input__info" id="Label_Input_modif" name=""></label><br> <!-- changer le name par la modif effectuer-->
+                    <input type="text" name="Input__info" id="Input__info">
+                </div>
+                <div id="Current_password">
+                    <label for="Input__curt_pwd" id="Label_Input__curt_pwd"></label><br>
+                    <input type="text" name="Input__curt_pwd" id="Input__curt_pwd">
+                </div>
+                <button type="submit" id="Save">Save</button>
+            </form>
+            <button id="Exit">Exit</button>
+        </div>
+    </div>
+
+    <script src="/static/js/profile.js"></script>
+</body>
+</html>
