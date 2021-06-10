@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"net/http"
-	"text/template"
 )
 
 var tpl *template.Template
@@ -15,6 +15,7 @@ type User struct {
 }
 
 func main() {
+	tpl, _ = tpl.ParseGlob("*.html")
 	http.HandleFunc("/", index)
 	http.HandleFunc("/recup", recup)
 	http.ListenAndServe(":8080", nil)
