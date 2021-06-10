@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"text/template"
@@ -15,24 +16,17 @@ type User struct {
 
 func main() {
 	http.HandleFunc("/", index)
+	http.HandleFunc("/recup", recup)
 	http.ListenAndServe(":8080", nil)
-
-	http.HandleFunc("/recup", func(w http.ResponseWriter, r *http.Request) {
-		r.ParseMultipartForm(0)
-		fmt.Println(r.FormValue("inp_username"))
-		// var user User
-		// json.NewDecoder(r.Body).Decode(&user)
-
-		// fmt.Fprintf(w, "%s %s", user.Username, user.Password)
-	})
-
-	http.HandleFunc("/encode", func(w http.ResponseWriter, r *http.Request) {
-		tpl.ExecuteTemplate(w, "index.html", nil)
-
-	})
 
 }
 
 func index(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, "index.html")
+	tpl.ExecuteTemplate(response, "index.html", nil)
+}
+
+func recup(response http.ResponseWriter, request *http.Request) {
+	var user User
+	json.NewDecoder(request.Body).Decode(&user)
+	fmt.Printf("%s %s", user.Username, user.Password)
 }
