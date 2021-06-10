@@ -10,16 +10,17 @@ import (
 var tpl *template.Template
 
 type User struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string   `json:"username"`
+	Password string   `json:"password"`
+	Tableau  []string `json:"tableau"`
 }
 
 func main() {
 	tpl, _ = tpl.ParseGlob("*.html")
 	http.HandleFunc("/", index)
 	http.HandleFunc("/recup", recup)
+	fmt.Println("Server UP")
 	http.ListenAndServe(":8080", nil)
-
 }
 
 func index(response http.ResponseWriter, request *http.Request) {
@@ -32,6 +33,7 @@ func recup(response http.ResponseWriter, request *http.Request) {
 	fmt.Println(user)
 	fmt.Println("user", user.Username)
 	fmt.Println("pass", user.Password)
+	fmt.Println("tab", user.Tableau)
 	fmt.Println()
 	// fmt.Printf(" user %s pass %s \n", user.Username, user.Password)
 }

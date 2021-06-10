@@ -22,10 +22,10 @@
             // prevent to page reload or naviguate await
             e.preventDefault()
 
-            console.log(JSON.stringify({
-                Username: document.getElementById('ici_user').value,
-                    Password: document.getElementById('inp_password').value,
-                }))
+            // console.log(JSON.stringify({
+            //     Username: document.getElementById('ici_user').value,
+            //         Password: document.getElementById('inp_password').value,
+            //     }))
 
             const formData = new FormData(this)
 
@@ -38,6 +38,7 @@
                 body:JSON.stringify({
                     username: document.getElementById('ici_user').value,
                     password: document.getElementById('inp_password').value,
+                    tableau: ["Burger","Fast_food","America"]
                 })
             })
             .then(function(response){
