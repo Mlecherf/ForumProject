@@ -13,7 +13,7 @@
         <input type="text" name="inp_username" id="inp_username">
         <label for="inp_password">password</label>
         <input type="text" name="inp_password" id="inp_password">
-        <button type="submit"></button>
+        <button type="submit" style="width: 100px; height: 100px;">GO .....</button>
     </form>
 
     <script>
@@ -26,7 +26,14 @@
 
             fetch('/recup', {
                 method: 'post',
-                body: formData
+                headers : {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    username: document.getElementById('inp_username').value,
+                    password: document.getElementById('inp_password').value
+                })
             })
             .then(function(response){
                 return response.text
