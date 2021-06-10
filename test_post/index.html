@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>Fetch API - Sending Form Data</h1>
-    <form class="form" id="myForm" enctype="multipart/form-data">
-        <label for="inp_username">username</label>
-        <input type="text" name="inp_username" id="inp_username">
+    <form class="form" id="myForm">
+        <label for="ici_user">username</label>
+        <input type="text" name="ici_user" id="ici_user">
         <label for="inp_password">password</label>
         <input type="text" name="inp_password" id="inp_password">
         <button type="submit" style="width: 100px; height: 100px;">GO .....</button>
@@ -22,6 +22,11 @@
             // prevent to page reload or naviguate await
             e.preventDefault()
 
+            console.log(JSON.stringify({
+                Username: document.getElementById('ici_user').value,
+                    Password: document.getElementById('inp_password').value,
+                }))
+
             const formData = new FormData(this)
 
             fetch('/recup', {
@@ -31,8 +36,8 @@
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({
-                    username: document.getElementById('inp_username').value,
-                    password: document.getElementById('inp_password').value
+                    username: document.getElementById('ici_user').value,
+                    password: document.getElementById('inp_password').value,
                 })
             })
             .then(function(response){

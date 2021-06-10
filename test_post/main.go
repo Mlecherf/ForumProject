@@ -10,7 +10,7 @@ import (
 var tpl *template.Template
 
 type User struct {
-	Username string `json:"firstname"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
@@ -29,5 +29,9 @@ func index(response http.ResponseWriter, request *http.Request) {
 func recup(response http.ResponseWriter, request *http.Request) {
 	var user User
 	json.NewDecoder(request.Body).Decode(&user)
-	fmt.Printf("%s %s", user.Username, user.Password)
+	fmt.Println(user)
+	fmt.Println("user", user.Username)
+	fmt.Println("pass", user.Password)
+	fmt.Println()
+	// fmt.Printf(" user %s pass %s \n", user.Username, user.Password)
 }
