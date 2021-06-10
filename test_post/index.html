@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Fetch API - Sending Form Data</h1>
-    <form class="form" id="myForm">
+    <form class="form" id="myForm" enctype="multipart/form-data">
         <label for="inp_username">username</label>
         <input type="text" name="inp_username" id="inp_username">
         <label for="inp_password">password</label>
@@ -26,10 +26,7 @@
 
             fetch('/recup', {
                 method: 'post',
-                body: JSON.stringify({
-                    username: document.getElementById('inp_username').value,
-                    password: document.getElementById('inp_password').value
-                })
+                body: formData
             })
             .then(function(response){
                 return response.text
