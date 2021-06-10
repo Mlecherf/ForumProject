@@ -24,10 +24,12 @@
 
             const formData = new FormData(this)
 
-            fetch('main.go', {
+            fetch('/recup', {
                 method: 'post',
-                body: FormData,
-
+                body: JSON.stringify({
+                    username: document.getElementById('inp_username').value,
+                    password: document.getElementById('inp_password').value
+                })
             })
             .then(function(response){
                 return response.text
