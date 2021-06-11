@@ -50,6 +50,7 @@ func main() {
 	http.HandleFunc("/profile", userprofile)
 	http.HandleFunc("/post", userpost)
 	http.HandleFunc("/theme", usertheme)
+	http.HandleFunc("/logout", logout)
 	style := http.FileServer(http.Dir("asset/style/"))
 	image := http.FileServer(http.Dir("asset/image/"))
 	js := http.FileServer(http.Dir("asset/js/"))
@@ -58,7 +59,7 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8020", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
@@ -169,7 +170,7 @@ func login(response http.ResponseWriter, request *http.Request) {
 			Value:    strconv.FormatBool(connected),
 			HttpOnly: false,
 			Path:     "/",
-			MaxAge:   150,
+			MaxAge:   999999,
 		})
 		tpl.ExecuteTemplate(response, "home.html", nil)
 	} else {
@@ -177,6 +178,22 @@ func login(response http.ResponseWriter, request *http.Request) {
 		tpl.ExecuteTemplate(response, "login.html", nil)
 	}
 
+}
+
+func logout(response http.ResponseWriter, request *http.Request) {
+	http.SetCookie(response, &http.Cookie{
+		Name:     "Connect",
+		HttpOnly: false,
+		Path:     "/",
+		MaxAge:   -1,
+	})
+	http.SetCookie(response, &http.Cookie{
+		Name:     "Logged...",
+		HttpOnly: false,
+		Path:     "/",
+		MaxAge:   -1,
+	})
+	tpl.ExecuteTemplate(response, "home.html", nil)
 }
 
 func userprofile(response http.ResponseWriter, request *http.Request) {

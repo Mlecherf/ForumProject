@@ -43,7 +43,7 @@ if (my_cookie_header == "true"){
     document.getElementById("First_pop").innerHTML = "Profile"
     document.getElementById("First_pop").setAttribute("href","/profile")
     document.getElementById("Second_pop").innerHTML = "Logout"
-    document.getElementById("Second_pop").setAttribute("href","/")
+    document.getElementById("Second_pop").setAttribute("href","/logout")
 }else{
     document.getElementsByClassName("Login")[0].setAttribute("src", "https://img.icons8.com/windows/50/000000/user-ninja.png")
     document.getElementById("First_pop").innerHTML = "Register"
