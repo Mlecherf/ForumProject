@@ -43,16 +43,12 @@ body
     background-color: #373737;
     border-color: #373737;
     border-style: solid;
-    /* height: 180px; */
     width: 100%;
-    /* display: block; */
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
     overflow-x: scroll;
     box-sizing: border-box;
-    /* padding-left: 20px;
-    padding-right: 20px; */
     justify-content: space-between;
 }
 .menu_theme::-webkit-scrollbar

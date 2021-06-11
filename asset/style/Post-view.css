@@ -1,0 +1,119 @@
+*{
+     margin: 0;
+ }
+html{
+    min-width: 300px;
+}
+ body{
+    background: #4d4d4d;
+ }
+.slider{
+    position: fixed;
+    top: 80px;
+    left: 30px;
+    width: 230px;
+    background: #343434;
+    border-radius: 10px 10px 10px 10px;
+}
+.arrowTopTheme{
+    z-index: 999;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    width: 230px;
+    background: #FFCB77;
+    border: 2px solid #FFCB77;
+    border-radius: 10px 10px 0px 0px;
+}
+.arrowTopTheme p{
+    transform: rotate(180deg);
+}
+.arrowBottomTheme{
+    height: 30px;
+    width: 230px;
+    z-index: 999;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px;
+    background: #FFCB77;
+    border: 2px solid #FFCB77;
+    border-radius: 0px 0px 10px 10px;
+}
+.slides{
+    width: 230px;
+    height: 800px;
+    /* height: 500px; */
+    /* background: purple; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: hidden;
+    
+    /* overflow-y: scroll; */
+}
+
+.slide{
+    width: 150px;
+    height: 150px;
+    background: pink;
+    margin: 15px 0px;
+    /* float: left; */
+}
+
+
+ #all-screen{
+    margin: 0;
+    padding: 0;
+ }
+ #post{
+     margin-left: 10px;
+     position:absolute;
+     left: 15vw;
+     width:80vw;
+     height: 51vw;
+     background: #373737;
+ }
+
+ #User-Post-Name{
+    width: 35vw;
+    height: 70px;
+    top: 0%;
+    right: -43%;
+    transform: translate(-50%,120%);
+    background:grey;
+    position: relative;
+ }
+ #tags{
+     position: absolute;
+     width: 200px;
+     height: 30px;
+     top: 10vw;
+     left: 5vw;
+     background: #FFAA;
+ }
+ #tags p{
+    font-size: 20px;
+    color: #FFCB77;
+ }
+ .line{
+    position: absolute;
+    right: 40vw;
+    top: -17vw;
+    height: 70vw;
+    width: 1px;
+    transform: rotate(90deg);
+    background: #FFCB77;
+ }
+ #text{
+     margin: 15px;
+     position: absolute;
+     left: 4vw;
+     top: 18vw;
+     height: 30vw;
+     width: 70vw;
+     background: red;
+ }
+
+ 

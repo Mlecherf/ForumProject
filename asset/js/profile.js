@@ -33,9 +33,10 @@ Modify_username.addEventListener("click", ()=>{
     Profil_Mod.style.display = "block"
     field_name.innerHTML ="Username"
     filed_describ.innerHTML = "Write your new username and current password"
+    document.getElementById("Input__info").setAttribute("type","text")
     first_label.innerHTML = "Username"
-    first_label.setAttribute("name", "username")
-    first_label.setAttribute("value", "Name")
+    // first_label.setAttribute("name", "username")
+    // first_label.setAttribute("value", "Name")
     ToChange.setAttribute("value", "Name")
     Second_label.innerHTML = "Current Password"
 })
@@ -45,9 +46,10 @@ Modify_email.addEventListener("click", ()=>{
     Profil_Mod.style.display = "block"
     field_name.innerHTML ="Email"
     filed_describ.innerHTML = "Write your new email and current password"
+    document.getElementById("Input__info").setAttribute("type","text")
     first_label.innerHTML = "Email"
-    first_label.setAttribute("name", "email")
-    first_label.setAttribute("value", "Email")
+    // first_label.setAttribute("name", "email")
+    // first_label.setAttribute("value", "Email")
     ToChange.setAttribute("value", "Email")
     Second_label.innerHTML = "Current Password"
 })
@@ -57,12 +59,10 @@ Modify_pwd.addEventListener("click", ()=>{
     Profil_Mod.style.display = "block"
     field_name.innerHTML ="Password"
     filed_describ.innerHTML = "Write two times your new password"
+    document.getElementById("Input__info").setAttribute("type","password")
     first_label.innerHTML = "New Password"
-    first_label.setAttribute("name", "new_password")
     Second_label.innerHTML = "Verification New Password"
     ToChange.setAttribute("value","Password")
-    document.getElementById("Input__info").setAttribute("type","password")
-    document.getElementById("Input__curt_pwd").setAttribute("type","password")
 })
 Exit.addEventListener("click", ()=>{
     Profile.style.display = "block"
