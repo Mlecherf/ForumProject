@@ -61,34 +61,39 @@ function Select_Login_cookie (){
     return my_cookie_login
 }
 
-// // name input management
+// --name input management--
+
+// let nb_character = 0;
+// document.getElementById("post_name_add").addEventListener("input", ()=>{
+//     if (document.getElementById("post_name_add").value.length < 4){
+//         document.getElementById("label_name_post").innerHTML = `Name : | not enough character ${nb_character}/25`
+//     }else if(document.getElementById("post_name_add").value.length > 25){
+//         document.getElementById("label_name_post").innerHTML = `Name : | too many character ${nb_character}/25`
+//     }else{
+//         document.getElementById("label_name_post").innerHTML = `Name : | character ${nb_character}/25`
+//     }
+//     nb_character ++
+//     console.log(nb_character)
+// })
+
+
+// Tag management
 let nb_character = 0;
 var NameAdd = document.getElementById("post_name_add");
 var ContentAdd = document.getElementById("post_content_add");
-// Tag management
 const Post_tag = [...document.getElementsByClassName('tag__post')]
 const restes_tag = document.getElementById('reset__tag')
 const nb_tag = document.getElementById('nb_tag')
 let nb_tag_up = 0;
-let String = "";
-let Name = "";
-let Content ="";
+let Check_Tag = "";
 Post_tag.forEach((elem)=>{
     elem.value = "down"
     elem.removeAttribute("disabled")
 })
 
-NameAdd.addEventListener('input',()=>{
-    Name = NameAdd.value
-})
-
-ContentAdd.addEventListener('input',()=>{
-    Content = ContentAdd.value
-})
-
 Post_tag.forEach((elem, index)=>{
     elem.addEventListener('click', ()=>{
-        String+=elem.name
+        Check_Tag+=elem.name
         Up_tag(index)
     })
 })
@@ -100,7 +105,7 @@ restes_tag.addEventListener('click', ()=>{
     })
     nb_tag.innerHTML = `Tag : 0/4`
     nb_tag_up = 0
-    String = ""
+    Check_Tag = ""
 })
 
 function Up_tag (index_tag){
@@ -133,9 +138,9 @@ myForm.addEventListener('submit',function (e){
             'Content-Type':'application/json'
         },
         body:JSON.stringify({
-            Name: Name,
-            Content: Content,
-            Tags: String
+            Name: NameAdd.value,
+            Content: ContentAdd.value,
+            Tags: Check_Tag
         })
     })
     .then(function(response){
