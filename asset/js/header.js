@@ -35,8 +35,6 @@ document.addEventListener("click", ()=>{
 
 
 let my_cookie_header = Select_Login_cookie()
-
-    console.log(document.cookie);
 if (my_cookie_header == "true"){
     document.getElementsByClassName("Login")[0].setAttribute("src", "https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png")
     document.getElementById("Post_add").style.display = "flex"
@@ -63,7 +61,8 @@ function Select_Login_cookie (){
     return my_cookie_login
 }
 
-// // name input management
+// --name input management--
+
 // let nb_character = 0;
 // document.getElementById("post_name_add").addEventListener("input", ()=>{
 //     if (document.getElementById("post_name_add").value.length < 4){
@@ -77,15 +76,24 @@ function Select_Login_cookie (){
 //     console.log(nb_character)
 // })
 
+
 // Tag management
+let nb_character = 0;
+var NameAdd = document.getElementById("post_name_add");
+var ContentAdd = document.getElementById("post_content_add");
 const Post_tag = [...document.getElementsByClassName('tag__post')]
 const restes_tag = document.getElementById('reset__tag')
 const nb_tag = document.getElementById('nb_tag')
 let nb_tag_up = 0;
-
+let Check_Tag = "";
+Post_tag.forEach((elem)=>{
+    elem.value = "down"
+    elem.removeAttribute("disabled")
+})
 
 Post_tag.forEach((elem, index)=>{
     elem.addEventListener('click', ()=>{
+        Check_Tag+=elem.name
         Up_tag(index)
     })
 })
@@ -97,12 +105,13 @@ restes_tag.addEventListener('click', ()=>{
     })
     nb_tag.innerHTML = `Tag : 0/4`
     nb_tag_up = 0
+    Check_Tag = ""
 })
 
 function Up_tag (index_tag){
     if (Post_tag[index_tag].value == "down" && nb_tag_up <4){
         Post_tag[index_tag].value = "up"
-        nb_tag_up ++
+        nb_tag_up++
         nb_tag.innerHTML = `Tag : ${nb_tag_up}/4`
         if (nb_tag_up == 4){
             Post_tag.forEach((elem)=>{
@@ -114,3 +123,31 @@ function Up_tag (index_tag){
     }
     
 }
+
+
+const myForm = document.getElementById("myForm")
+myForm.addEventListener('submit',function (e){
+    document.getElementById("pop_post_add").style.display="none";
+    e.preventDefault()
+    const formData = new FormData(this)
+
+    fetch('/recup', {
+        method: 'post',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+            Name: NameAdd.value,
+            Content: ContentAdd.value,
+            Tags: Check_Tag
+        })
+    })
+    .then(function(response){
+        return response.text
+    })
+    .catch(function(error){
+        console.error(error)
+    })
+
+})

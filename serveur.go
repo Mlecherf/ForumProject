@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha256"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -15,20 +16,6 @@ import (
 )
 
 var db = initDatabase("database.db")
-
-type Cookie struct {
-	User       string
-	Mail       string
-	Path       string
-	Domain     string
-	Expires    time.Time
-	RawExpires string
-	MaxAge     int
-	Secure     bool
-	HttpOnly   bool
-	Raw        string
-	Unparsed   []string
-}
 
 var tpl *template.Template
 
@@ -51,6 +38,8 @@ func main() {
 	http.HandleFunc("/post", userpost)
 	http.HandleFunc("/theme", usertheme)
 	http.HandleFunc("/logout", logout)
+	http.HandleFunc("/delete", delete)
+	http.HandleFunc("/recup", recup)
 	style := http.FileServer(http.Dir("asset/style/"))
 	image := http.FileServer(http.Dir("asset/image/"))
 	js := http.FileServer(http.Dir("asset/js/"))
@@ -59,11 +48,93 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8020", nil)
+	http.ListenAndServe(":8030", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
 	tpl.ExecuteTemplate(response, "home.html", nil)
+}
+
+type Test struct {
+	Tableau []string
+}
+
+type User struct {
+	Id       int
+	Name     string
+	Email    string
+	Password string
+	Like     int
+	Post     int
+}
+
+type Post struct {
+	Id      int
+	Like    int
+	Views   int
+	Content string
+	Name    string
+	Tags    string
+	User_id int
+}
+
+type Cookie struct {
+	User       string
+	Mail       string
+	Path       string
+	Domain     string
+	Expires    time.Time
+	RawExpires string
+	MaxAge     int
+	Secure     bool
+	HttpOnly   bool
+	Raw        string
+	Unparsed   []string
+}
+
+func recup(response http.ResponseWriter, request *http.Request) {
+	var post Post
+	post.Like = 0
+	post.Views = 0
+	session, _ := store.Get(request, "Logged...")
+	NameUser := session.Values["Name "]
+	json.NewDecoder(request.Body).Decode(&post)
+	row := db.QueryRow("SELECT * FROM users WHERE name = ?;", NameUser)
+	var p User
+	err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+	if err != nil {
+		fmt.Println(err)
+	}
+	post.User_id = p.Id
+	insertIntoPosts(db, post.Like, post.Views, post.Content, post.Name, post.Tags, post.User_id)
+	row1 := db.QueryRow("SELECT * FROM posts WHERE name = ?;", post.Name)
+	var s Post
+	err2 := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
+	if err2 != nil {
+		fmt.Println(err2)
+	}
+	NewString := ""
+	NewArr := []string{}
+	for i := 0; i < len(post.Tags); i++ {
+		if string(post.Tags[i]) <= "Z" && string(post.Tags[i]) >= "A" {
+			if i > 0 {
+				if string(post.Tags[i-1]) != "_" {
+					NewArr = append(NewArr, NewString)
+					NewString = ""
+				}
+			}
+		}
+		NewString += string(post.Tags[i])
+	}
+	NewArr = append(NewArr, NewString)
+	post.Id = s.Id
+	type Final struct {
+		Y Post
+		Z []string
+	}
+
+	X := Final{post, NewArr}
+	tpl.ExecuteTemplate(response, "home.html", X)
 }
 
 func register(response http.ResponseWriter, request *http.Request) {
@@ -76,12 +147,6 @@ func register(response http.ResponseWriter, request *http.Request) {
 	post := 0
 
 	if len(email) != 0 || len(username) != 0 || len(password) != 0 || len(passwordverif) != 0 {
-		println("=================")
-		println("EMAIL :", email)
-		println("USERNAME :", username)
-		println("PASSWORD :", password)
-		println("PASSWORDVERIF :", passwordverif)
-		println("=================")
 		alltable := selectAllFromTable(db, "users")
 		Arr := VerifRegister(alltable)
 		Wrong := false
@@ -154,15 +219,14 @@ func login(response http.ResponseWriter, request *http.Request) {
 		}
 	}
 
-	fmt.Println(emailtrue, passwordtrue)
 	if emailtrue == true && passwordtrue == true {
-		println("LOGIN AUTORISEE")
+		fmt.Println("Login...")
 		session, _ := store.Get(request, "Logged...")
 		session.Values["Authentificated "] = true
 		session.Values["Email "] = email
 		session.Values["Password "] = Password
 		session.Values["Name "] = Name
-		fmt.Println(session.Values)
+
 		session.Save(request, response)
 		connected = true
 		http.SetCookie(response, &http.Cookie{
@@ -174,13 +238,54 @@ func login(response http.ResponseWriter, request *http.Request) {
 		})
 		tpl.ExecuteTemplate(response, "home.html", nil)
 	} else {
-		println("LOGIN REFUSER")
+		fmt.Println("Can't login...")
 		tpl.ExecuteTemplate(response, "login.html", nil)
 	}
 
 }
 
 func logout(response http.ResponseWriter, request *http.Request) {
+	http.SetCookie(response, &http.Cookie{
+		Name:     "Connect",
+		HttpOnly: false,
+		Path:     "/",
+		MaxAge:   -1,
+	})
+	http.SetCookie(response, &http.Cookie{
+		Name:     "Logged...",
+		HttpOnly: false,
+		Path:     "/",
+		MaxAge:   -1,
+	})
+	tpl.ExecuteTemplate(response, "home.html", nil)
+}
+
+func delete(response http.ResponseWriter, request *http.Request) {
+	session, _ := store.Get(request, "Logged...")
+	Psswd := session.Values["Password "]
+	mycode := Psswd.(string)
+	hsha2psswd := sha256.Sum256([]byte(mycode))
+	stringpsswd := ""
+	for i := 0; i < len(hsha2psswd); i++ {
+		stringpsswd += string(hsha2psswd[i])
+	}
+	upStmt := "DELETE FROM users WHERE ( `password` = ?);"
+	stmt, err := db.Prepare(upStmt)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer stmt.Close()
+	var res sql.Result
+	res, err = stmt.Exec(stringpsswd)
+	rowsAff, _ := res.RowsAffected()
+	if err != nil || rowsAff != 1 {
+		panic(err)
+	} else {
+		fmt.Println("User Deleted...")
+	}
+
 	http.SetCookie(response, &http.Cookie{
 		Name:     "Connect",
 		HttpOnly: false,
@@ -221,22 +326,7 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		ChangePassword = true
 	}
 
-	X := ""
-	if ChangeEmail {
-		X = "Email"
-	} else if ChangeUsername {
-		X = "Username"
-	} else if ChangePassword {
-		X = "Password"
-	}
 	Psswd := request.FormValue("Input__curt_pwd")
-	fmt.Println("-------")
-	fmt.Print("Password :  ")
-	fmt.Println(Psswd)
-	fmt.Print(X, " :  ")
-	fmt.Println(Modif)
-	fmt.Println("-------")
-
 	hsha2psswd := sha256.Sum256([]byte(Psswd))
 	stringpsswd := ""
 	for i := 0; i < len(hsha2psswd); i++ {
@@ -276,8 +366,8 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		if err != nil || rowsAff != 1 {
 			panic(err)
 		}
-		session, _ := store.Get(request, "Logged...")
 		session.Values["Name "] = Modif
+		session.Save(request, response)
 
 	} else if passwordtrue == true && ChangeEmail == true {
 
@@ -304,8 +394,8 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 			panic(err)
 		}
 
-		session, _ := store.Get(request, "Logged...")
 		session.Values["Email "] = Modif
+		session.Save(request, response)
 
 	} else if passwordtrue == true && ChangePassword == true {
 		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
@@ -335,23 +425,19 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		if err != nil || rowsAff != 1 {
 			panic(err)
 		}
+		session.Values["Password "] = Modif
+		session.Save(request, response)
 
-		session, _ := store.Get(request, "Logged...")
-		session.Values["Password "] = stringpsswd2
-
-		alltable1 := selectAllFromTable(db, "users")
-		displayUsersRow(alltable1)
 	}
+
 	type Data struct {
 		Username     interface{}
 		Email_Adress interface{}
 	}
-	session2, _ := store.Get(request, "Logged...")
-	Userss := session2.Values["Name "]
-	Emailss := session2.Values["Email "]
+	Userss := session.Values["Name "]
+	Emailss := session.Values["Email "]
 
 	SEND := Data{Username: Userss, Email_Adress: Emailss}
-	fmt.Println(SEND)
 	tpl.ExecuteTemplate(response, "profile.html", SEND) // Nil devient l'ensemble des posts (DB POST.)
 }
 
@@ -361,24 +447,6 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
 	tpl.ExecuteTemplate(response, "template/theme.html", nil)
-}
-
-type User struct {
-	Id       int
-	Name     string
-	Email    string
-	Password string
-	Like     int
-	Post     int
-}
-
-type Post struct {
-	Id      int
-	Like    int
-	Views   int
-	Content string
-	Name    string
-	User_id int
 }
 
 func initDatabase(name string) *sql.DB {
@@ -406,6 +474,7 @@ func initDatabase(name string) *sql.DB {
 					views INTEGER NOT NULL,
 					content TEXT NOT NULL,
 					name TEXT NOT NULL,
+					tags TEXT NOT NULL,
 					user_id INTEGER NOT NULL,
 					FOREIGN KEY (user_id) REFERENCES users(id)
 			   );
@@ -435,14 +504,14 @@ func insertIntoUsers(db *sql.DB, name string, email string, password string, lik
 	return result.LastInsertId()
 }
 
-func insertIntoPosts(db *sql.DB, like int, views int, content string, name string, user_id int) (int64, error) {
+func insertIntoPosts(db *sql.DB, like int, views int, content string, name string, tags string, user_id int) (int64, error) {
 
-	result2, _ := db.Exec(`
-				INSERT INTO posts (like, views, content, name, user_id) VALUES (?,?,?,?,?)
+	result, _ := db.Exec(`
+				INSERT INTO posts (like, views, content, name, tags, user_id) VALUES (?,?,?,?,?,?)
 						`,
-		like, views, content, name, user_id)
+		like, views, content, name, tags, user_id)
 
-	return result2.LastInsertId()
+	return result.LastInsertId()
 }
 
 func updatePosts(db *sql.DB, id int, content string, name string, user_id string) {
@@ -538,7 +607,7 @@ func NewUsername(rows *sql.Rows) []string {
 func displayPostsRow(rows *sql.Rows) {
 	for rows.Next() {
 		var p Post
-		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.User_id)
+		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
 
 		if err != nil {
 			log.Fatal(err)
