@@ -445,6 +445,29 @@ func insertIntoPosts(db *sql.DB, like int, views int, content string, name strin
 	return result2.LastInsertId()
 }
 
+func updatePosts(db *sql.DB, id int, content string, name string, user_id string) {
+	sage := strconv.Itoa(id)
+	tx, _ := db.Begin()
+	stmt, _ := tx.Prepare("update testTable set id=?,content=?,name=? user_id=?")
+	_, err := stmt.Exec(sage, content, name, user_id)
+	checkError(err)
+	tx.Commit()
+}
+
+func deletePost(db *sql.DB, id int) {
+	sid := strconv.Itoa(id) // int to string
+	tx, _ := db.Begin()
+	stmt, _ := tx.Prepare("delete from testTable where id=?")
+	_, err := stmt.Exec(sid)
+	checkError(err)
+	tx.Commit()
+}
+
+func checkError(err error) {
+	if err != nil {
+	}
+}
+
 func selectAllFromTable(db *sql.DB, table string) *sql.Rows {
 
 	query := "SELECT * FROM " + table
