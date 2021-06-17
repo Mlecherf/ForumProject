@@ -560,6 +560,7 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 	Emailss := session.Values["Email "]
 
 	SEND := Data{Username: Userss, Email_Adress: Emailss, Display: TabPost}
+	fmt.Println(SEND)
 	tpl.ExecuteTemplate(response, "profile.html", SEND)
 }
 
