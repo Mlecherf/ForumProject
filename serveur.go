@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 
@@ -48,11 +49,47 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8030", nil)
+	http.ListenAndServe(":8001", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "home.html", nil)
+	type Final struct {
+		Post_info Post
+		Tag_info  []string
+	}
+	TabPost := []Final{}
+	NewString := ""
+	alltable := selectAllFromTable(db, "posts")
+	Tabint := returnPostLike(alltable)
+	sort.Ints(Tabint)
+	ToSearch := 0
+	for i := len(Tabint) - 1; i > len(Tabint)-6; i-- {
+		NewArr := []string{}
+		ToSearch = Tabint[i]
+		row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
+		var s Post
+		err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
+		if err != nil {
+			fmt.Println(err)
+		}
+		for i := 0; i < len(s.Tags); i++ {
+			if string(s.Tags[i]) <= "Z" && string(s.Tags[i]) >= "A" {
+				if i > 0 {
+					if string(s.Tags[i-1]) != "_" {
+						NewArr = append(NewArr, NewString)
+						NewString = ""
+					}
+				}
+			}
+			NewString += string(s.Tags[i])
+		}
+		NewArr = append(NewArr, NewString)
+		NewString = ""
+		PostToGive := Final{s, NewArr}
+		TabPost = append(TabPost, PostToGive)
+	}
+
+	tpl.ExecuteTemplate(response, "home.html", TabPost)
 }
 
 type Test struct {
@@ -129,11 +166,13 @@ func recup(response http.ResponseWriter, request *http.Request) {
 	NewArr = append(NewArr, NewString)
 	post.Id = s.Id
 	type Final struct {
-		Y Post
-		Z []string
+		Post_info Post
+		Tag_info  []string
 	}
 
 	X := Final{post, NewArr}
+	fmt.Println("New enter in database / posts...")
+	fmt.Println(X)
 	tpl.ExecuteTemplate(response, "home.html", X)
 }
 
@@ -429,16 +468,91 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		session.Save(request, response)
 
 	}
+	TablePost := selectAllFromTable(db, "posts")
+	IdPost := returnPostId(TablePost)
+
+	rows := db.QueryRow("SELECT * FROM users WHERE name = ?;", session.Values["Name "])
+	var s User
+	err := rows.Scan(&s.Id, &s.Name, &s.Email, &s.Password, &s.Like, &s.Post)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	NewArr := []string{}
+	NewString := ""
+	type Final struct {
+		Post_info Post
+		Tag_info  []string
+	}
+	BBQVERIF := false
+	TabPost := []Final{}
+	for i := 0; i < len(IdPost); i++ {
+		if IdPost[i] == s.Id {
+			row := db.QueryRow("SELECT * FROM `posts` WHERE (`id` = ?);", i+1)
+			var p Post
+			err1 := row.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+			if err1 != nil {
+				fmt.Println(err1)
+			}
+			for z := 0; z < len(p.Tags); z++ {
+				if string(p.Tags[z]) <= "Z" && string(p.Tags[z]) >= "A" {
+					if z > 0 {
+
+						if string(p.Tags[z-1]) != "_" {
+							if BBQVERIF == false {
+								if NewString != "B" {
+									NewArr = append(NewArr, NewString)
+								}
+
+							}
+							if string(p.Tags[z]) == "B" {
+								if string(p.Tags[z+1]) == "B" || string(p.Tags[z+1]) == "Q" {
+
+									if BBQVERIF == false {
+										NewArr = append(NewArr, "BBQ")
+									}
+									BBQVERIF = true
+
+								} else {
+									NewString = ""
+								}
+							} else if string(p.Tags[z]) == "Q" && string(p.Tags[z-1]) == "B" {
+								NewString = "BBQ"
+								BBQVERIF = true
+							} else {
+								NewString = ""
+								BBQVERIF = false
+							}
+
+						}
+					}
+				}
+
+				if BBQVERIF {
+				} else {
+					NewString += string(p.Tags[z])
+				}
+			}
+			if BBQVERIF == false {
+				NewArr = append(NewArr, NewString)
+			}
+			NewString = ""
+			Allinfo := Final{Post_info: p, Tag_info: NewArr}
+			NewArr = nil
+			TabPost = append(TabPost, Allinfo)
+		}
+	}
 
 	type Data struct {
 		Username     interface{}
 		Email_Adress interface{}
+		Display      []Final
 	}
 	Userss := session.Values["Name "]
 	Emailss := session.Values["Email "]
 
-	SEND := Data{Username: Userss, Email_Adress: Emailss}
-	tpl.ExecuteTemplate(response, "profile.html", SEND) // Nil devient l'ensemble des posts (DB POST.)
+	SEND := Data{Username: Userss, Email_Adress: Emailss, Display: TabPost}
+	tpl.ExecuteTemplate(response, "profile.html", SEND)
 }
 
 func userpost(response http.ResponseWriter, request *http.Request) {
@@ -446,6 +560,7 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 }
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
+	
 	tpl.ExecuteTemplate(response, "template/theme.html", nil)
 }
 
@@ -575,8 +690,7 @@ func NewUsername(rows *sql.Rows) []string {
 		if err != nil {
 			log.Fatal(err)
 		}
-		arr = append(arr, p.Password)
-		arr = append(arr, p.Name)
+
 	}
 	return (arr)
 }
@@ -591,6 +705,34 @@ func displayPostsRow(rows *sql.Rows) {
 		}
 		fmt.Println(p)
 	}
+}
+
+func returnPostLike(rows *sql.Rows) []int {
+	arr := []int{}
+	for rows.Next() {
+		var p Post
+		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		arr = append(arr, p.Like)
+	}
+	return arr
+}
+
+func returnPostId(rows *sql.Rows) []int {
+	arr := []int{}
+	for rows.Next() {
+		var p Post
+		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		arr = append(arr, p.User_id)
+	}
+	return arr
 }
 
 func selectUserNameWithPattern(db *sql.DB, pattern string) *sql.Rows {
