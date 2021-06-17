@@ -61,34 +61,35 @@ func home(response http.ResponseWriter, request *http.Request) {
 	NewString := ""
 	alltable := selectAllFromTable(db, "posts")
 	Tabint := returnPostLike(alltable)
-	sort.Ints(Tabint)
-	ToSearch := 0
-	for i := len(Tabint) - 1; i > len(Tabint)-6; i-- {
-		NewArr := []string{}
-		ToSearch = Tabint[i]
-		row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
-		var s Post
-		err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
-		if err != nil {
-			fmt.Println(err)
-		}
-		for i := 0; i < len(s.Tags); i++ {
-			if string(s.Tags[i]) <= "Z" && string(s.Tags[i]) >= "A" {
-				if i > 0 {
-					if string(s.Tags[i-1]) != "_" {
-						NewArr = append(NewArr, NewString)
-						NewString = ""
+	if len(Tabint) != 0 {
+		sort.Ints(Tabint)
+		ToSearch := 0
+		for i := len(Tabint) - 1; i > len(Tabint)-6; i-- {
+			NewArr := []string{}
+			ToSearch = Tabint[i]
+			row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
+			var s Post
+			err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
+			if err != nil {
+				fmt.Println(err)
+			}
+			for i := 0; i < len(s.Tags); i++ {
+				if string(s.Tags[i]) <= "Z" && string(s.Tags[i]) >= "A" {
+					if i > 0 {
+						if string(s.Tags[i-1]) != "_" {
+							NewArr = append(NewArr, NewString)
+							NewString = ""
+						}
 					}
 				}
+				NewString += string(s.Tags[i])
 			}
-			NewString += string(s.Tags[i])
+			NewArr = append(NewArr, NewString)
+			NewString = ""
+			PostToGive := Final{s, NewArr}
+			TabPost = append(TabPost, PostToGive)
 		}
-		NewArr = append(NewArr, NewString)
-		NewString = ""
-		PostToGive := Final{s, NewArr}
-		TabPost = append(TabPost, PostToGive)
 	}
-
 	tpl.ExecuteTemplate(response, "home.html", TabPost)
 }
 
