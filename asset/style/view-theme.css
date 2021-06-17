@@ -108,16 +108,38 @@ body
 }
 
 @media screen and (max-width: 1225px){
+    #carousel_fix
+    {
+        margin-left: 30%;
+        z-index: 1;
+    }
+
+    #test
+    {
+        height: 20vh;
+    }
+    .titre
+    {
+        margin-top: 300px;
+        margin-left: 30%;
+    }
     .affichage
     {
         grid-template-columns: auto;
     }
     .all_posts
     {
-        padding-left: 180px;
+        padding-left: 0px;
+    }
+    .line
+    {
+        padding: 0 5%;
+        margin-left: 2%;
+        width: auto;
+        left: 10%;
     }
     .page
     {
-        padding-left: 0;
+        padding-left: 20px;
     }
 }
