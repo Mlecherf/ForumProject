@@ -15,41 +15,9 @@
     
 </head>
 <body>
-    <header id="Header">
-        <div id="LOGO">
-            <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
-            <div id="Logo__Write">
-                <a href="/" class="Logo_Write">Angry <strong>Creative</strong></a>
-            </div>
-        </div>
-        
-        <form action="/register" method="POST">
-            <div id="search-box">
-                <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
-                <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
-                <button type="submit" id="Search__BTN" disabled></button>
-            </div>
-        </form>
+    
+    {{template "header"}}
 
-        <div id="Addpost_Login">
-            <div id="Post_add">
-            </div>
-            <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
-        </div>
-
-
-        <div id="Pop_up">
-            <div id="Pop_content">
-                <a href="" id="First_pop">Login</a>
-                <hr>
-                <a href="" id="Second_pop">Register</a>
-            </div>
-
-        </div>
-
-        <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
-        <script src="/static/js/header.js"></script>
-    </header>
     <div class="page">
         <div class="all_themes" id="theme">
             <p>All-Themes</p>
