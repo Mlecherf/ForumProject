@@ -11,7 +11,6 @@ import (
 	"sort"
 	"strconv"
 	"time"
-
 	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -53,43 +52,27 @@ func main() {
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
-	type Final struct {
-		Post_info Post
-		Tag_info  []string
-	}
-	TabPost := []Final{}
-	NewString := ""
+
+	TabPost := []Post{}
 	alltable := selectAllFromTable(db, "posts")
 	Tabint := returnPostLike(alltable)
 	if len(Tabint) != 0 {
 		sort.Ints(Tabint)
 		ToSearch := 0
-		for i := len(Tabint) - 1; i > len(Tabint)-6; i-- {
-			NewArr := []string{}
-			ToSearch = Tabint[i]
-			row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
-			var s Post
-			err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
-			if err != nil {
-				fmt.Println(err)
-			}
-			for i := 0; i < len(s.Tags); i++ {
-				if string(s.Tags[i]) <= "Z" && string(s.Tags[i]) >= "A" {
-					if i > 0 {
-						if string(s.Tags[i-1]) != "_" {
-							NewArr = append(NewArr, NewString)
-							NewString = ""
-						}
-					}
+		for i := len(Tabint)-1; i >= 0; i-- {
+			if i > len(Tabint)-4 {
+				ToSearch = Tabint[i]
+				row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
+				var s Post
+				err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
+				if err != nil {
+					fmt.Println(err)
 				}
-				NewString += string(s.Tags[i])
+				TabPost = append(TabPost, s)
 			}
-			NewArr = append(NewArr, NewString)
-			NewString = ""
-			PostToGive := Final{s, NewArr}
-			TabPost = append(TabPost, PostToGive)
 		}
 	}
+	fmt.Println(TabPost)
 	tpl.ExecuteTemplate(response, "home.html", TabPost)
 }
 
@@ -144,37 +127,31 @@ func recup(response http.ResponseWriter, request *http.Request) {
 		fmt.Println(err)
 	}
 	post.User_id = p.Id
-	insertIntoPosts(db, post.Like, post.Views, post.Content, post.Name, post.Tags, post.User_id)
-	row1 := db.QueryRow("SELECT * FROM posts WHERE name = ?;", post.Name)
-	var s Post
-	err2 := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
-	if err2 != nil {
-		fmt.Println(err2)
-	}
 	NewString := ""
-	NewArr := []string{}
+	NewArr := ""
 	for i := 0; i < len(post.Tags); i++ {
 		if string(post.Tags[i]) <= "Z" && string(post.Tags[i]) >= "A" {
 			if i > 0 {
 				if string(post.Tags[i-1]) != "_" {
-					NewArr = append(NewArr, NewString)
-					NewString = ""
+					NewArr +=NewString
+					NewString = " "
 				}
 			}
 		}
 		NewString += string(post.Tags[i])
 	}
-	NewArr = append(NewArr, NewString)
-	post.Id = s.Id
+	NewArr += NewString
+	fmt.Println(NewArr)
+	insertIntoPosts(db, post.Like, post.Views, post.Content, post.Name, NewArr, post.User_id)
+
 	type Final struct {
 		Post_info Post
-		Tag_info  []string
 	}
 
-	X := Final{post, NewArr}
+	X := Final{post}
 	fmt.Println("New enter in database / posts...")
 	fmt.Println(X)
-	tpl.ExecuteTemplate(response, "home.html", X)
+	tpl.ExecuteTemplate(response, "home.html", nil)
 }
 
 func register(response http.ResponseWriter, request *http.Request) {
@@ -560,7 +537,6 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 	Emailss := session.Values["Email "]
 
 	SEND := Data{Username: Userss, Email_Adress: Emailss, Display: TabPost}
-	fmt.Println(SEND)
 	tpl.ExecuteTemplate(response, "profile.html", SEND)
 }
 
@@ -572,7 +548,45 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	// recup url
 	// ? -> fastfood
 	// -> dbb recup tout les tags fastfood
-	fmt.Println(request.URL)
+	URL:= request.URL
+	name, ok := URL.Query()["name"]
+	fmt.Println(URL)
+	if !ok || len(name[0]) < 1 {
+        log.Println("Url Param 'name' is missing")
+        return
+    }
+	key := name[0]
+	ALLTABLE := selectAllFromTable(db,"posts")
+	ArrTagsBrut := []string{}
+	for ALLTABLE.Next() {
+		var p Post
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		ArrTagsBrut = append(ArrTagsBrut,p.Tags)
+	}
+	fmt.Println(ArrTagsBrut)
+
+
+	// fmt.Println(s.Tags)
+	// NewString := ""
+	// NewArr := []string{}
+	// for i := 0; i < len(post.Tags); i++ {
+	// 	if string(post.Tags[i]) <= "Z" && string(post.Tags[i]) >= "A" {
+	// 		if i > 0 {
+	// 			if string(post.Tags[i-1]) != "_" {
+	// 				NewArr = append(NewArr, NewString)
+	// 				NewString = ""
+	// 			}
+	// 		}
+	// 	}
+	// 	NewString += string(post.Tags[i])
+	// }
+	// NewArr = append(NewArr, NewString)
+
+    fmt.Println("Url Param 'name' is: " + string(key))
 	tpl.ExecuteTemplate(response, "view-theme.html", nil)
 }
 
