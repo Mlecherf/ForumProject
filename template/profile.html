@@ -43,10 +43,7 @@
             </button>
         </div>
         <div id="Post_Area">
-            {{range .Display}}
-            <div id="Nom_post" class="poste_preview">
-
-            {{range .Display}}
+            {{range .}}
                 <div id="Nom_post" class="poste_preview">
                         <div id="header_info">
                             <p class="title">{{.Post_info.Name}}</p>
