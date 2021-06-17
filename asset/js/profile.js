@@ -14,8 +14,12 @@ const field_name = document.getElementById("Name_Modif_1")
 const filed_describ = document.getElementById("Name_Modif_2")
 const first_label = document.getElementById("Label_Input_modif")
 const Second_label = document.getElementById("Label_Input__curt_pwd")
+const Save = document.getElementById("Save")
 const Exit = document.getElementById("Exit")
 const ToChange = document.getElementById("ToChange")
+
+const FirstInput = document.getElementById("Input__info")
+const SecondInput = document.getElementById("Input__curt_pwd")
 
 
 Btn_Edit.addEventListener("click", ()=>{
@@ -35,8 +39,6 @@ Modify_username.addEventListener("click", ()=>{
     filed_describ.innerHTML = "Write your new username and current password"
     document.getElementById("Input__info").setAttribute("type","text")
     first_label.innerHTML = "Username"
-    // first_label.setAttribute("name", "username")
-    // first_label.setAttribute("value", "Name")
     ToChange.setAttribute("value", "Name")
     Second_label.innerHTML = "Current Password"
 })
@@ -48,8 +50,6 @@ Modify_email.addEventListener("click", ()=>{
     filed_describ.innerHTML = "Write your new email and current password"
     document.getElementById("Input__info").setAttribute("type","text")
     first_label.innerHTML = "Email"
-    // first_label.setAttribute("name", "email")
-    // first_label.setAttribute("value", "Email")
     ToChange.setAttribute("value", "Email")
     Second_label.innerHTML = "Current Password"
 })
@@ -69,42 +69,205 @@ Exit.addEventListener("click", ()=>{
     Profil_Mod.style.display = "none"
     document.getElementById("Input__info").value = ""
     document.getElementById("Input__curt_pwd").value = ""
+    FirstInput.style.borderColor = "#FFCB77"
+    SecondInput.style.borderColor = "#FFCB77"
+})
+// Save.removeAttribute("disabled")
+FirstInput.addEventListener('input', ()=>{
+    if (ToChange.value == "Name"){
+        let username_value = FirstInput.value
+        // console.log(FirstInput.value)
+        Username_Verification(username_value)
+    }else if  (ToChange.value == "Email"){
+        let email_value = FirstInput.value
+        // console.log(FirstInput.value)
+        Email_Verification(email_value)
+    }else if (ToChange.value == "Password"){
+        let pwd_value = FirstInput.value
+        // console.log(FirstInput.value)
+        Pwd_Verification(pwd_value)
+    }
+    if (SecondInput.style.borderColor == "green" && FirstInput.style.borderColor == "green"){
+        Save.removeAttribute("disabled")
+    }
+
+})
+SecondInput.addEventListener('input', ()=>{
+    let pwd_value = SecondInput.value
+    Pwd_Verification_verification(pwd_value)
+        if (SecondInput.style.borderColor == "green" && FirstInput.style.borderColor == "green"){
+            Save.removeAttribute("disabled")
+        }
 })
 
-// let my_cookie = Select_Login_cookie()
-// if (my_cookie != ""){
-//     my_cookie = JSON.parse(Cookie_cooker(my_cookie))
-//     console.log(my_cookie)
+function Username_Verification(user){
+    // console.log(user, user.length)
+    if(user.length < 4){
+        first_label.innerHTML = "Username <strong>Not enough characters</strong>"
+        FirstInput.style.borderColor = "red"
+    }else if (user.length > 12){
+        first_label.innerHTML = "Username <strong>Too many characters</strong>"
+        FirstInput.style.borderColor = "red"
+    }else{
+        first_label.innerHTML = "Username"
+        FirstInput.style.borderColor = "green"
+    }
+    user.split("").forEach((element, index)=> {
+        if (element == " "){
+            first_label.innerHTML = "Username <strong>Space character not allowed</strong>"
+            FirstInput.style.borderColor = "red"
+        }
+    })
+}
+function Email_Verification(email){
+    if(email.length < 5){
+        first_label.innerHTML = "Email <strong>Not enough characters</strong>"
+        FirstInput.style.borderColor = "red"
+    }else{
+        let verif_mail = email.split("@").length
+        if (verif_mail == 2){
+            let verif_point = email.split("@")[1].split(".")
+            if (verif_point.length != 2){
+                first_label.innerHTML = "Email <strong>End of mail invalide</strong>"
+                FirstInput.style.borderColor = "red"
+            }else{
+                if (verif_point[1] == ""){
+                    first_label.innerHTML = "Email <strong>End of mail invalide</strong>"
+                    FirstInput.style.borderColor = "red"
+                }else{
+                    first_label.innerHTML = "Email"
+                    FirstInput.style.borderColor = "green"
+                }
+            }
+        }else{
+            first_label.innerHTML = "Email <strong>Invalide number of @</strong>"
+            FirstInput.style.borderColor = "red"
+        }
+    }
+    email.split("").forEach((element, index)=> {
+        let ascii = element.charCodeAt(0)
+        if (ascii < 32 || ascii > 126){
+            first_label.innerHTML = "Email <strong>Invalide character</strong>"
+            FirstInput.style.borderColor = "red"
+        }
+        if (element == " "){
+            first_label.innerHTML = "Email <strong>Space character not allowed</strong>"
+            FirstInput.style.borderColor = "red"
+        }
+        if (index > 0){
+            if (element == "." && email[index -1] == "."){
+                first_label.innerHTML = "Email <strong>. after an other .</strong>"
+                FirstInput.style.borderColor = "red"
+            }
+            if (element == "." && email[index -1] == "@"){
+                first_label.innerHTML = "Email <strong>. after an @</strong>"
+                FirstInput.style.borderColor = "red"
+            }
+            if (element == "@" && email[index -1] == "."){
+                first_label.innerHTML = "Email <strong>. before an @</strong>"
+                FirstInput.style.borderColor = "red"
+            }
+        }
+    })
+}
+function Pwd_Verification(pwd){
+    let to_verif = SecondInput.value
+    let Lower = 0
+    let Upper = 0
+    let Nb = 0
+    let Space_count = 0
 
-//     document.getElementById("Post_stat").innerHTML = `Post : <strong>${my_cookie.nb_posts}</strong>`
-//     document.getElementById("Liked_stat").innerHTML = `Liked Post : <strong>${my_cookie.nb_likes}</strong>`
+    pwd.split("").forEach((element, index)=> {
+        let ascii = element.charCodeAt(0)
+        if (ascii >= 65 && ascii <= 90){
+            Upper ++
+        }else if (ascii >= 97 && ascii <= 122){
+            Lower ++
+        }else if (ascii >= 48 && ascii <= 57){
+            Nb ++
+        }else if(element == " "){
+            Space_count ++
+        }
+    })
 
-//     document.getElementById('Personal_user').innerHTML = `${my_cookie.user}`
-//     document.getElementById('Personal_email').innerHTML = `${my_cookie.mail}`
-//     document.getElementById("DeleteInput").setAttribute("name", `${my_cookie.mail}`)
+    if(pwd.length < 6){
+        first_label.innerHTML = "Password <strong>Not enough characters</strong>"
+        FirstInput.style.borderColor = "red"
+    }else if (Space_count >0 ){
+        first_label.innerHTML = "Password <strong>Space character not allowed</strong>"
+        FirstInput.style.borderColor = "red"
+    }else if (Lower < 1){
+        first_label.innerHTML = "Password <strong>Not enough lowercase</strong>"
+        FirstInput.style.borderColor = "red"
+    }else if (Upper < 1){
+        first_label.innerHTML = "Password <strong>Not enough uppsercase</strong>"
+        FirstInput.style.borderColor = "red"
+    }else if (Nb < 1){
+        first_label.innerHTML = "Password <strong>Not enough number</strong>"
+        FirstInput.style.borderColor = "red"
+    }else if(pwd != to_verif){
+        first_label.innerHTML = "Password"
+        FirstInput.style.borderColor = "green"
+        Second_label.innerHTML = "Password Verification <strong>not the same</strong>"
+        SecondInput.style.borderColor = "red"
+    }else if(pwd == to_verif){
+        first_label.innerHTML = "Password"
+        FirstInput.style.borderColor = "green"
+        Second_label.innerHTML = "Password Verification"
+        SecondInput.style.borderColor = "green"
+    }
+    else{
+        first_label.innerHTML = "Password"
+        FirstInput.style.borderColor = "green"
+    }
 
-// }
-
-// function Select_Login_cookie (){
-//     let my_cookie_login = ""
-
-//     document.cookie.split("; ").forEach((elem)=>{
-//         // console.log(elem.slice(0, 5))
-//         // console.log(elem)
-//         if (elem.slice(0,5) == "Login"){
-//             my_cookie_login = elem.slice(7,-1)
-//         }
-//     })
-//     // console.log(my_cookie_login)
-//     return my_cookie_login
-// }
-
-// function Cookie_cooker (initial_cookie){
-//     const new_hot_cookie = initial_cookie.split("")
-//     new_hot_cookie.forEach((element, index) => {
-//         if (element == "'"){
-//             new_hot_cookie[index] = '"'
-//         }
-//     });
-//     return new_hot_cookie.join("")
-// }
+}
+function Pwd_Verification_verification(pwd){
+    let to_verif = FirstInput.value
+    let Lower = 0
+    let Upper = 0
+    let Nb = 0
+    let Space_count = 0
+    if(pwd.length < 6){
+        Second_label.innerHTML = "Password verification <strong>Not enough characters</strong>"
+        SecondInput.style.borderColor = "red"
+    }
+    pwd.split("").forEach((element, index)=> {
+        let ascii = element.charCodeAt(0)
+        if (ascii >= 65 && ascii <= 90){
+            Upper ++
+        }else if (ascii >= 97 && ascii <= 122){
+            Lower ++
+        }else if (ascii >= 48 && ascii <= 57){
+            Nb ++
+        }else if(element == " "){
+            Space_count ++
+        }
+    })
+    if (Space_count >0 ){
+        Second_label.innerHTML = "Password verification <strong>Space character not allowed</strong>"
+        SecondInput.style.borderColor = "red"
+    }else if (Lower < 1){
+        Second_label.innerHTML = "Password verification <strong>Not enough lowercase</strong>"
+        SecondInput.style.borderColor = "red"
+    }else if (Upper < 1){
+        Second_label.innerHTML = "Password verification <strong>Not enough uppsercase</strong>"
+        SecondInput.style.borderColor = "red"
+    }else if (Nb < 1){
+        Second_label.innerHTML = "Password verification <strong>Not enough number</strong>"
+        SecondInput.style.borderColor = "red"
+    }else if(pwd != to_verif && ToChange.value == "Password"){
+        Second_label.innerHTML = "Password Verification <strong>not the same</strong>"
+        SecondInput.style.borderColor = "red"
+    }
+    else if(pwd == to_verif  && ToChange.value == "Password"){
+        first_label.innerHTML = "Password"
+        FirstInput.style.borderColor = "green"
+        Second_label.innerHTML = "Password Verification"
+        SecondInput.style.borderColor = "green"
+    }
+    else{
+        Second_label.innerHTML = "Password verification"
+        SecondInput.style.borderColor = "green"
+    }
+}

@@ -295,6 +295,10 @@ button{
     right: 50px;
 
 }
+#modif strong{
+    color: red;
+    font-size: 15px;
+}
 
 @media screen and (max-width: 1200px){
     #Manage_Profile{
