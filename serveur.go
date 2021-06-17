@@ -49,7 +49,7 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8001", nil)
+	http.ListenAndServe(":8020", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
@@ -316,14 +316,11 @@ func delete(response http.ResponseWriter, request *http.Request) {
 	}
 
 	defer stmt.Close()
-	var res sql.Result
-	res, err = stmt.Exec(stringpsswd)
-	rowsAff, _ := res.RowsAffected()
-	if err != nil || rowsAff != 1 {
-		panic(err)
-	} else {
-		fmt.Println("User Deleted...")
-	}
+
+	_, err = stmt.Exec(stringpsswd)
+
+	fmt.Println("User Deleted...")
+
 
 	http.SetCookie(response, &http.Cookie{
 		Name:     "Connect",
@@ -486,6 +483,7 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 	}
 	BBQVERIF := false
 	TabPost := []Final{}
+	CountB:= 0
 	for i := 0; i < len(IdPost); i++ {
 		if IdPost[i] == s.Id {
 			row := db.QueryRow("SELECT * FROM `posts` WHERE (`id` = ?);", i+1)
@@ -497,6 +495,15 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 			for z := 0; z < len(p.Tags); z++ {
 				if string(p.Tags[z]) <= "Z" && string(p.Tags[z]) >= "A" {
 					if z > 0 {
+						if(string(p.Tags[z]) == "B"){
+							CountB++
+						}else{
+							CountB = 0
+						}
+
+						if CountB == 2 {
+							NewString = "BBQ"
+						}
 
 						if string(p.Tags[z-1]) != "_" {
 							if BBQVERIF == false {
