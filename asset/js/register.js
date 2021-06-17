@@ -56,6 +56,7 @@ function Email_Verification (email){
     email.split("").forEach((element, index)=> {
         let ascii = element.charCodeAt(0)
         if (ascii < 32 || ascii > 126){
+            console.log(element)
             if (input_err.includes("Invalide character") == false){
                 input_err.push("Invalide character")
             }
@@ -155,18 +156,18 @@ Password.addEventListener("input", (event)=>{
     verif()
 })
 
-function Password_Verification (user){
+function Password_Verification (pwd){
     Disclaimer_Error[2].innerHTML = ""
     const input_err = []
     let Lower = 0
     let Upper = 0
     let Nb = 0
-    if(user.length < 6){
+    if(pwd.length < 6){
         if (input_err.includes("Not enough characters") == false){
             input_err.push("Not enough characters")
         }
     }
-    user.split("").forEach((element, index)=> {
+    pwd.split("").forEach((element, index)=> {
         let ascii = element.charCodeAt(0)
         if (element == " "){
             if (input_err.includes("Space character not allowed") == false){
