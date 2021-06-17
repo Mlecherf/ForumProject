@@ -1,0 +1,136 @@
+{{define "header"}}
+
+<header id="Header">
+    <div id="LOGO">
+        <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
+        <div id="Logo__Write">
+            <a href="/" class="Logo_Write">Angry <strong>Creative</strong></a>
+        </div>
+    </div>
+    
+    <form action="/register" method="POST">
+        <div id="search-box">
+            <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
+            <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
+            <button type="submit" id="Search__BTN" disabled></button>
+        </div>
+    </form>
+
+    <div id="Addpost_Login">
+        <div id="Post_add">
+        </div>
+        <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
+    </div>
+
+
+    <div id="Pop_up">
+        <div id="Pop_content">
+            <a href="" id="First_pop">Login</a>
+            <hr>
+            <a href="" id="Second_pop">Register</a>
+        </div>
+
+    </div>
+
+    <div id="pop_post_add">
+        <div id="post_add_info">
+            <button id="close_post">+</button>
+            <form action="/" method="GET" id="myForm">
+                <div id="name">
+                    <label for="post_name_add" id="label_name_post">Name : character 0/25</label><br>    
+                    <input type="text" name="post_name_add" id="post_name_add">
+                </div>
+                
+                <div id="tag">
+                    <label for="" id="nb_tag">Tag : 0/4 </label>
+                    
+                    <div id="tag_post">
+                        <div id="tag__tag" >
+                            <input type="radio" name="Fast_Food" class="tag__post" >
+                            <p class="tag__name Fast_Food_post">Fast Food</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Pizza" class="tag__post" >
+                            <p class="tag__name Pizza_post">Pizza</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Burger" class="tag__post" >
+                            <p class="tag__name Burger_post">Burger</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Dessert" class="tag__post" >
+                            <p class="tag__name Dessert_post">Dessert</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="American" class="tag__post" >
+                            <p class="tag__name American_post">American</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Italia" class="tag__post" >
+                            <p class="tag__name Italia_post">Italia</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Mexican" class="tag__post" >
+                            <p class="tag__name Mexican_post">Mexican</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="India" class="tag__post" >
+                            <p class="tag__name India_post">India</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Japan" class="tag__post" >
+                            <p class="tag__name Japan_post">Japan</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="French" class="tag__post" >
+                            <p class="tag__name French_post">French</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Africa" class="tag__post" >
+                            <p class="tag__name Africa_post">Africa</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="BBQ" class="tag__post" >
+                            <p class="tag__name BBQ_post">BBQ</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Korea" class="tag__post" >
+                            <p class="tag__name Korea_post">Korea</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Vegan" class="tag__post" >
+                            <p class="tag__name Vegan_post">Vegan</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="America_Latina" class="tag__post" >
+                            <p class="tag__name Latina_America_post">America Latina</p>
+                        </div>
+                        <div id="tag__tag" >
+                            <input type="radio" name="Bakery" class="tag__post" >
+                            <p class="tag__name Bakery_post">Bakery</p>
+                        </div>
+                        <div id="tag__tag">
+                            <div id="reset__tag">reset tag</div>
+                            <!-- <input type="radio" name="" id="reset__tag" value="reset tag"> -->
+                        </div>
+                        
+
+                    </div>
+                </div>
+                <div id="describ_content">
+                    <label for="post_content_add" id="label_content_post">Description : character 0/2000 <br></label>
+                    <textarea name="post_content_add" id="post_content_add" cols="30" rows="10"></textarea>
+                </div>
+
+                <button type="submit" id="post_submit" disabled>Add</button>
+                
+            </form>
+        </div>
+    </div>
+
+    <!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
+    <script src="/static/js/header.js"></script>
+
+
+</header>
+{{end}}
