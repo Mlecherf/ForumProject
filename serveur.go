@@ -446,7 +446,11 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 }
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "template/theme.html", nil)
+	// recup url
+	// ? -> fastfood
+	// -> dbb recup tout les tags fastfood
+	fmt.Println(request.URL)
+	tpl.ExecuteTemplate(response, "view-theme.html", nil)
 }
 
 func initDatabase(name string) *sql.DB {
