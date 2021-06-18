@@ -2,6 +2,9 @@
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
 }
+header {
+    box-sizing: content-box;
+}
 #Header{
     z-index: 999;
     position: fixed;
@@ -79,6 +82,7 @@
     height: 50px;
 }
 #Post_add{
+    box-sizing: content-box;
     cursor: pointer;
     display: none;
     position: relative;

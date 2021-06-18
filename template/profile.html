@@ -43,7 +43,7 @@
             </button>
         </div>
         <div id="Post_Area">
-            {{range .}}
+            {{range .Display}}
                 <div id="Nom_post" class="poste_preview">
                         <div id="header_info">
                             <p class="title">{{.Post_info.Name}}</p>
@@ -72,50 +72,7 @@
                         </div>
                     </div>
                 </div>
-            {{end}}
-            <!-- recup depuis la BDD  en fornat de tableau de struct-->
-
-            <!-- <div id="Nom_post" class="poste_preview">
-                <div id="header_info">
-                    <p class="title">1234567891234567891234567</p>
-                    <p class="author">123456789123</p>
-                </div>
-                <div id="brief_content">
-                    <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil, doloribus tenetur necessitatibus laborum in reprehenderit iusto harum! Asperiores non consequuntur, quibusdam odio dicta est incidunt ducimus velit impedit quam nostrum! -245 max--
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil, doloribus tenetur necessitatibus laborum in reprehenderit iusto harum! Asperiores non consequuntur, quibusdam odio dicta est incidunt ducimus velit impedit quam nostrum! -245 max--
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil, doloribus tenetur necessitatibus laborum in reprehenderit iusto harum! Asperiores non consequuntur, quibusdam odio dicta est incidunt ducimus velit impedit quam nostrum! -245 max--
-                </p>
-                    
-                </div>
-                <div id="footer_info">
-                    <div class="posttag">
-                        <div class="tag burger">
-                            <p>Burger</p>
-                        </div>
-                        <div class="tag burger">
-                            <p>Burger</p>
-                        </div>
-                        <div class="tag burger">
-                            <p>Burger</p>
-                        </div>
-                        <div class="tag burger">
-                            <p>Burger</p>
-                        </div>
-                    </div>
-                    <div class="stat_global">
-                        <div class="view">
-                            <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
-                            <p id="conteur_view">0</p>
-                        </div>
-                        <div class="like">
-                            <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
-                            <p id="conteur_like">0</p>
-                        </div>
-                    </div>
-                </div>
-            </div>         -->
-            
+            {{end}}            
         </div>
     </div>
 

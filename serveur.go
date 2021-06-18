@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/sessions"
@@ -49,46 +50,30 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8001", nil)
+	http.ListenAndServe(":8020", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
-	type Final struct {
-		Post_info Post
-		Tag_info  []string
-	}
-	TabPost := []Final{}
-	NewString := ""
+
+	TabPost := []Post{}
 	alltable := selectAllFromTable(db, "posts")
 	Tabint := returnPostLike(alltable)
-	sort.Ints(Tabint)
-	ToSearch := 0
-	for i := len(Tabint) - 1; i > len(Tabint)-6; i-- {
-		NewArr := []string{}
-		ToSearch = Tabint[i]
-		row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
-		var s Post
-		err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
-		if err != nil {
-			fmt.Println(err)
-		}
-		for i := 0; i < len(s.Tags); i++ {
-			if string(s.Tags[i]) <= "Z" && string(s.Tags[i]) >= "A" {
-				if i > 0 {
-					if string(s.Tags[i-1]) != "_" {
-						NewArr = append(NewArr, NewString)
-						NewString = ""
-					}
+	if len(Tabint) != 0 {
+		sort.Ints(Tabint)
+		ToSearch := 0
+		for i := len(Tabint) - 1; i >= 0; i-- {
+			if i > len(Tabint)-4 {
+				ToSearch = Tabint[i]
+				row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
+				var s Post
+				err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
+				if err != nil {
+					fmt.Println(err)
 				}
+				TabPost = append(TabPost, s)
 			}
-			NewString += string(s.Tags[i])
 		}
-		NewArr = append(NewArr, NewString)
-		NewString = ""
-		PostToGive := Final{s, NewArr}
-		TabPost = append(TabPost, PostToGive)
 	}
-
 	tpl.ExecuteTemplate(response, "home.html", TabPost)
 }
 
@@ -143,37 +128,17 @@ func recup(response http.ResponseWriter, request *http.Request) {
 		fmt.Println(err)
 	}
 	post.User_id = p.Id
+
 	insertIntoPosts(db, post.Like, post.Views, post.Content, post.Name, post.Tags, post.User_id)
-	row1 := db.QueryRow("SELECT * FROM posts WHERE name = ?;", post.Name)
-	var s Post
-	err2 := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
-	if err2 != nil {
-		fmt.Println(err2)
-	}
-	NewString := ""
-	NewArr := []string{}
-	for i := 0; i < len(post.Tags); i++ {
-		if string(post.Tags[i]) <= "Z" && string(post.Tags[i]) >= "A" {
-			if i > 0 {
-				if string(post.Tags[i-1]) != "_" {
-					NewArr = append(NewArr, NewString)
-					NewString = ""
-				}
-			}
-		}
-		NewString += string(post.Tags[i])
-	}
-	NewArr = append(NewArr, NewString)
-	post.Id = s.Id
+
 	type Final struct {
 		Post_info Post
-		Tag_info  []string
 	}
 
-	X := Final{post, NewArr}
+	X := Final{post}
 	fmt.Println("New enter in database / posts...")
 	fmt.Println(X)
-	tpl.ExecuteTemplate(response, "home.html", X)
+	tpl.ExecuteTemplate(response, "home.html", nil)
 }
 
 func register(response http.ResponseWriter, request *http.Request) {
@@ -316,14 +281,10 @@ func delete(response http.ResponseWriter, request *http.Request) {
 	}
 
 	defer stmt.Close()
-	var res sql.Result
-	res, err = stmt.Exec(stringpsswd)
-	rowsAff, _ := res.RowsAffected()
-	if err != nil || rowsAff != 1 {
-		panic(err)
-	} else {
-		fmt.Println("User Deleted...")
-	}
+
+	_, err = stmt.Exec(stringpsswd)
+
+	fmt.Println("User Deleted...")
 
 	http.SetCookie(response, &http.Cookie{
 		Name:     "Connect",
@@ -475,16 +436,15 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 	var s User
 	err := rows.Scan(&s.Id, &s.Name, &s.Email, &s.Password, &s.Like, &s.Post)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("err1", err)
 	}
 
-	NewArr := []string{}
-	NewString := ""
 	type Final struct {
 		Post_info Post
 		Tag_info  []string
 	}
-	BBQVERIF := false
+
+	fmt.Println(IdPost)
 	TabPost := []Final{}
 	for i := 0; i < len(IdPost); i++ {
 		if IdPost[i] == s.Id {
@@ -492,53 +452,12 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 			var p Post
 			err1 := row.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
 			if err1 != nil {
-				fmt.Println(err1)
+				fmt.Println("mypost", err1)
 			}
-			for z := 0; z < len(p.Tags); z++ {
-				if string(p.Tags[z]) <= "Z" && string(p.Tags[z]) >= "A" {
-					if z > 0 {
+			fmt.Println("My tag", p)
+			fmt.Println("Tag info", p.Tags, strings.Split(p.Tags, "$")[1:])
 
-						if string(p.Tags[z-1]) != "_" {
-							if BBQVERIF == false {
-								if NewString != "B" {
-									NewArr = append(NewArr, NewString)
-								}
-
-							}
-							if string(p.Tags[z]) == "B" {
-								if string(p.Tags[z+1]) == "B" || string(p.Tags[z+1]) == "Q" {
-
-									if BBQVERIF == false {
-										NewArr = append(NewArr, "BBQ")
-									}
-									BBQVERIF = true
-
-								} else {
-									NewString = ""
-								}
-							} else if string(p.Tags[z]) == "Q" && string(p.Tags[z-1]) == "B" {
-								NewString = "BBQ"
-								BBQVERIF = true
-							} else {
-								NewString = ""
-								BBQVERIF = false
-							}
-
-						}
-					}
-				}
-
-				if BBQVERIF {
-				} else {
-					NewString += string(p.Tags[z])
-				}
-			}
-			if BBQVERIF == false {
-				NewArr = append(NewArr, NewString)
-			}
-			NewString = ""
-			Allinfo := Final{Post_info: p, Tag_info: NewArr}
-			NewArr = nil
+			Allinfo := Final{Post_info: p, Tag_info: strings.Split(p.Tags, "$")[1:]}
 			TabPost = append(TabPost, Allinfo)
 		}
 	}
@@ -563,8 +482,40 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	// recup url
 	// ? -> fastfood
 	// -> dbb recup tout les tags fastfood
-	fmt.Println(request.URL)
-	tpl.ExecuteTemplate(response, "view-theme.html", nil)
+	URL := request.URL
+	name, ok := URL.Query()["name"]
+	if !ok || len(name[0]) < 1 {
+		log.Println("Url Param 'name' is missing")
+		return
+	}
+	ALLTABLE := selectAllFromTable(db, "posts")
+	ArrTagsBrut := []Post{}
+	for ALLTABLE.Next() {
+		var p Post
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		ArrTagsBrut = append(ArrTagsBrut, p)
+	}
+	SelectedPosts := []Post{}
+	NewArr2 := []string{}
+	for i := 0; i < len(ArrTagsBrut); i++ {
+		if strings.Contains(string(ArrTagsBrut[i].Tags), name[0]) {
+			SelectedPosts = append(SelectedPosts, ArrTagsBrut[i])
+		}
+		NewArr2 = append(NewArr2, ArrTagsBrut[i].Tags)
+		NewArr2 = append(NewArr2, "||")
+	}
+	row := db.QueryRow("SELECT `tags` FROM `posts`;")
+	var p Post
+	err1 := row.Scan(&p.Tags)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+	fmt.Println(SelectedPosts)
+	tpl.ExecuteTemplate(response, "view-theme.html", SelectedPosts)
 }
 
 func initDatabase(name string) *sql.DB {
