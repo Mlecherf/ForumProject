@@ -134,7 +134,7 @@ Post_tag.forEach((elem)=>{
 Post_tag.forEach((elem, index)=>{
     elem.addEventListener('click', ()=>{
         if (elem.value == "down"){
-            Check_Tag+=elem.name
+            Check_Tag += `$${elem.name}`
             nb_tag_up ++
             nb_tag.innerHTML = `Tag : ${nb_tag_up}/4`
             elem.value = "up"
