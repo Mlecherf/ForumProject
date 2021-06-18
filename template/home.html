@@ -38,18 +38,18 @@
         
         <p class="titre_home" id="titre_popular_posts">Popular - Posts</p>
         <div class="menu_theme popular_posts" id="post">
-            {{range .}}
+            {{range .FinalPost}}
                 <div id="Nom_post" class="poste_preview">
                         <div id="header_info">
-                            <p class="title">{{.Post_info.Name}}</p>
+                            <p class="title">{{.Name}}</p>
                             <!-- <p class="author">123456789123</p> -->
                         </div>
                         <div id="brief_content">
-                        {{.Post_info.Content}}
+                        {{.Content}}
                         </div>
                     <div id="footer_info">
                         <div class="posttag">
-                            {{range .Tag_info}}
+                            {{range .Tags}}
                                 <div class="tag {{.}}_post">
                                     <p>{{.}}</p>
                                 </div>
@@ -58,11 +58,11 @@
                         <div class="stat_global">
                             <div class="view">
                                 <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
-                                <p id="conteur_view">{{.Post_info.Views}}</p>
+                                <p id="conteur_view">{{.Views}}</p>
                             </div>
                             <div class="like">
                                 <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
-                                <p id="conteur_like">{{.Post_info.Like}}</p>
+                                <p id="conteur_like">{{.Like}}</p>
                             </div>
                         </div>
                     </div>
