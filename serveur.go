@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strconv"
 	"time"
+
 	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -59,7 +60,7 @@ func home(response http.ResponseWriter, request *http.Request) {
 	if len(Tabint) != 0 {
 		sort.Ints(Tabint)
 		ToSearch := 0
-		for i := len(Tabint)-1; i >= 0; i-- {
+		for i := len(Tabint) - 1; i >= 0; i-- {
 			if i > len(Tabint)-4 {
 				ToSearch = Tabint[i]
 				row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
@@ -95,7 +96,7 @@ type Post struct {
 	Views   int
 	Content string
 	Name    string
-	Tags    string
+	Tags    []string
 	User_id int
 }
 
@@ -133,7 +134,7 @@ func recup(response http.ResponseWriter, request *http.Request) {
 		if string(post.Tags[i]) <= "Z" && string(post.Tags[i]) >= "A" {
 			if i > 0 {
 				if string(post.Tags[i-1]) != "_" {
-					NewArr +=NewString
+					NewArr += NewString
 					NewString = " "
 				}
 			}
@@ -299,7 +300,6 @@ func delete(response http.ResponseWriter, request *http.Request) {
 
 	fmt.Println("User Deleted...")
 
-
 	http.SetCookie(response, &http.Cookie{
 		Name:     "Connect",
 		HttpOnly: false,
@@ -461,7 +461,7 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 	}
 	BBQVERIF := false
 	TabPost := []Final{}
-	CountB:= 0
+	CountB := 0
 	for i := 0; i < len(IdPost); i++ {
 		if IdPost[i] == s.Id {
 			row := db.QueryRow("SELECT * FROM `posts` WHERE (`id` = ?);", i+1)
@@ -473,9 +473,9 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 			for z := 0; z < len(p.Tags); z++ {
 				if string(p.Tags[z]) <= "Z" && string(p.Tags[z]) >= "A" {
 					if z > 0 {
-						if(string(p.Tags[z]) == "B"){
+						if string(p.Tags[z]) == "B" {
 							CountB++
-						}else{
+						} else {
 							CountB = 0
 						}
 
@@ -548,15 +548,15 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	// recup url
 	// ? -> fastfood
 	// -> dbb recup tout les tags fastfood
-	URL:= request.URL
+	URL := request.URL
 	name, ok := URL.Query()["name"]
 	fmt.Println(URL)
 	if !ok || len(name[0]) < 1 {
-        log.Println("Url Param 'name' is missing")
-        return
-    }
+		log.Println("Url Param 'name' is missing")
+		return
+	}
 	key := name[0]
-	ALLTABLE := selectAllFromTable(db,"posts")
+	ALLTABLE := selectAllFromTable(db, "posts")
 	ArrTagsBrut := []string{}
 	for ALLTABLE.Next() {
 		var p Post
@@ -565,10 +565,9 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		ArrTagsBrut = append(ArrTagsBrut,p.Tags)
+		// ArrTagsBrut = append(ArrTagsBrut, p.Tags)
 	}
 	fmt.Println(ArrTagsBrut)
-
 
 	// fmt.Println(s.Tags)
 	// NewString := ""
@@ -586,7 +585,7 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	// }
 	// NewArr = append(NewArr, NewString)
 
-    fmt.Println("Url Param 'name' is: " + string(key))
+	fmt.Println("Url Param 'name' is: " + string(key))
 	tpl.ExecuteTemplate(response, "view-theme.html", nil)
 }
 
