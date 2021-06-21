@@ -44,7 +44,7 @@
         </div>
         <div id="Post_Area">
             {{range .Display}}
-                <div id="Nom_post" class="poste_preview">
+                <a id="Nom_post" class="poste_preview" href="viewpost?id={{.Post_info.Id}}">
                         <div id="header_info">
                             <p class="title">{{.Post_info.Name}}</p>
                             <!-- <p class="author">123456789123</p> -->
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             {{end}}            
         </div>
     </div>

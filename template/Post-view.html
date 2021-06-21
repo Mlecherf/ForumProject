@@ -46,40 +46,48 @@
         <div class="stat_global">
             <div class="view">
                 <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
-                <p id="conteur_view">0</p>
+                <p id="conteur_view">{{.Post_info.Views}}</p>
             </div>
             <div class="like">
                 <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
-                <p id="conteur_like">0</p>
+                <p id="conteur_like">{{.Post_info.Like}}</p>
             </div>
             <div>
+                {{if eq .Owner true}}
+
                 <div class="params">
                     <button id="params_btn">
                     <span class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
                     </button>
                 </div>
+                                
+                {{end}}
             </div>
         </div>
         <div id="post">
-            <div id="User-Post-Name">boudin aux pommes - nicolas</div>
+            <div id="User-Post-Name">{{.Post_info.Name}}</div>
             <div id="tags"><p>Tags for this post :</p></div>
                 <div id="alltags">
-                    <div id="Tag1" class="Tag American_post">American</div>
-                    <div id="Tag2" class="Tag Burger_post">Burger</div>
-                    <div id="Tag3" class="Tag Fast_Food_post" >Fast-Food</div>
-                    <div id="Tag4" class="Tag Pizza_post">Pizza</div>
+                    {{range .Tag_info}}
+                        <div class="Tag {{.}}_post">
+                            {{.}}
+                        </div>
+                    {{end}}
                 </div>
             <div class="line"></div>
-            <div id="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in dui vel ante tempus tempor. Integer congue erat ac arcu maximus tristique. Ut maximus augue id commodo pretium. Quisque dolor arcu, tristique ut semper sit amet, dapibus et leo. Aliquam vitae felis felis. Nunc vel imperdiet diam, at pharetra sem. Fusce dignissim, magna a bibendum sodales, urna ligula blandit purus, a euismod leo massa ac purus. Sed quis augue placerat, mollis felis nec, dapibus justo. Pellentesque facilisis nisi pharetra arcu condimentum, nec semper enim hendrerit. Ut rhoncus nisi sit amet dui lacinia aliquet. Integer tincidunt ac sapien volutpat vestibulum. Curabitur massa sem, mattis vel pharetra non, porta eget eros. Aliquam id nulla sodales, scelerisque magna ac, accumsan velit.
-
-                Nulla varius semper odio et vulputate. Suspendisse potenti. In hac habitasse platea dictumst. In imperdiet purus non tellus interdum, ut congue augue vehicula. Mauris id finibus lectus. Aliquam erat volutpat. Integer quis aliquam sapien. Aliquam laoreet nisl sit amet rutrum tristique. Suspendisse varius mi lacus, in ultricies nisl pretium at. Vestibulum ultrices aliquet dignissim. Ut vel maximus purus. In nec tortor ligula.
-                
-                Suspendisse potenti. Integer ultrices nulla rhoncus enim euismod, ac hendrerit libero pellentesque. Praesent porta pulvinar augue. In nulla augue, pulvinar sit amet tempus eget, hendrerit et ligula. Donec id neque sit amet mi tincidunt semper. Nulla hendrerit faucibus varius. Nullam elementum eros leo. Maecenas quis libero ut lacus interdum pulvinar eu a nibh. Sed molestie mauris justo, feugiat interdum mauris consectetur congue. Sed euismod nisi ac tortor feugiat ornare. Mauris nec scelerisque erat, id posuere purus. Suspendisse lobortis sapien id tincidunt ornare. Cras eget hendrerit felis.
-                
-                Sed euismod ligula sed posuere condimentum. Cras accumsan nisl vel accumsan porttitor. Nam elementum ante eros, vel fringilla turpis rhoncus in. Sed non libero ultricies, facilisis tellus eget, pulvinar nisi. Aenean cursus mauris lorem, in lobortis nisi blandit a. Morbi ornare, leo quis aliquam imperdiet, lectus orci porttitor leo, eu ultricies neque justo eu sem. Praesent gravida suscipit ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce tincidunt facilisis quam eu iaculis. Donec lacinia feugiat congue. Nulla id neque faucibus, lobortis felis non, fermentum urna. Vestibulum a luctus risus, sit amet tempor mauris. Phasellus dignissim tempus ligula, tincidunt volutpat arcu congue in. Nunc tempus risus diam, ac pellentesque erat semper eu. Suspendisse potenti. Maecenas dapibus pellentesque tristique.</div> 
+            <div id="text">{{.Post_info.Content}}</div> 
         </div>
     </div>
 
 </body>
 <script src="/static/js/Post-view.js"></script>
 </html>
+
+{{/*
+    eq Returns the boolean truth of arg1 == arg2
+    ne Returns the boolean truth of arg1 != arg2
+    lt Returns the boolean truth of arg1 <  arg2
+    le Returns the boolean truth of arg1 <= arg2
+    gt Returns the boolean truth of arg1 >  arg2
+    ge Returns the boolean truth of arg1 >= arg2
+*/}}

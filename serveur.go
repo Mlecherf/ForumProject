@@ -37,7 +37,7 @@ func main() {
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/profile", userprofile)
-	http.HandleFunc("/post", userpost)
+	http.HandleFunc("/viewpost", userpost)
 	http.HandleFunc("/theme", usertheme)
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/delete", delete)
@@ -71,12 +71,17 @@ func home(response http.ResponseWriter, request *http.Request) {
 	for i := len(ArrTagsBrut) - 1; i >= 0; i-- {
 		IntArr = append(IntArr, ArrTagsBrut[i].Like)
 	}
-	IntArr = append(IntArr, 5)
+
 	sort.Ints(IntArr)
+
+	type Final struct {
+		Post_info Post
+		Tag_info  []string
+	}
 
 	ALLTABLE2 := selectAllFromTable(db, "posts")
 	FinalPost := []Post{}
-	Position := []int{}
+	verif := false
 	for ALLTABLE2.Next() {
 		var p Post
 		err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
@@ -85,22 +90,41 @@ func home(response http.ResponseWriter, request *http.Request) {
 			log.Fatal(err)
 		}
 		for i := len(IntArr) - 1; i >= 0; i-- {
-
-			if p.Like == IntArr[i] {
-
-				if len(IntArr)-i >= 5 {
-					FinalPost = append(FinalPost, p)
-					Position = append(Position, len(IntArr)-1)
+			if len(FinalPost) < 5 {
+				if p.Like == IntArr[i] {
+					if len(IntArr)-i >= 5 {
+						for z := 0; z < len(FinalPost); z++ {
+							if FinalPost[z] == p {
+								verif = true
+							}
+						}
+						if verif == true {
+							verif = false
+						} else {
+							FinalPost = append(FinalPost, p)
+						}
+					}
 				}
 			}
 		}
+		if len(IntArr) < 5 {
+			FinalPost = append(FinalPost, p)
+
+		}
+	}
+
+	FinalArr := []Final{}
+
+	for i := 0; i < len(FinalPost); i++ {
+		Posts := Final{Post_info: FinalPost[i], Tag_info: strings.Split(FinalPost[i].Tags, "$")[1:]}
+		FinalArr = append(FinalArr, Posts)
 	}
 
 	type PopularPost struct {
-		FinalPost []Post
-		Position  []int
+		FinalArr []Final
 	}
-	ToSend := PopularPost{FinalPost: FinalPost, Position: Position}
+
+	ToSend := PopularPost{FinalArr: FinalArr}
 	tpl.ExecuteTemplate(response, "home.html", ToSend)
 }
 
@@ -227,13 +251,14 @@ func login(response http.ResponseWriter, request *http.Request) {
 	for i := 0; i < len(hsha2psswd); i++ {
 		stringpsswd += string(hsha2psswd[i])
 	}
-	Name := ""
+
 	var passwordtrue bool
 	var emailtrue bool
 	passwordtrue = false
 	emailtrue = false
 	Arr := VerifLogin(alltable)
 	for i := 0; i < len(Arr); i++ {
+
 		if Arr[i] == stringpsswd {
 			passwordtrue = true
 		}
@@ -241,17 +266,30 @@ func login(response http.ResponseWriter, request *http.Request) {
 			emailtrue = true
 		}
 
-		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
-		var p User
-		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
-		Name = p.Name
-		if err != nil {
-			fmt.Println(err)
-		}
 	}
 
 	if emailtrue == true && passwordtrue == true {
-		fmt.Println("Login...")
+
+		ALLTABLE := selectAllFromTable(db, "users")
+		ArrTagsBrut := []User{}
+		for ALLTABLE.Next() {
+			var p User
+			err := ALLTABLE.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+			ArrTagsBrut = append(ArrTagsBrut, p)
+		}
+
+		Name := ""
+
+		for i := 0; i < len(ArrTagsBrut); i++ {
+			if ArrTagsBrut[i].Email == email && ArrTagsBrut[i].Password == stringpsswd {
+				Name = ArrTagsBrut[i].Name
+			}
+		}
+
 		session, _ := store.Get(request, "Logged...")
 		session.Values["Authentificated "] = true
 		session.Values["Email "] = email
@@ -267,9 +305,9 @@ func login(response http.ResponseWriter, request *http.Request) {
 			Path:     "/",
 			MaxAge:   999999,
 		})
-		tpl.ExecuteTemplate(response, "home.html", nil)
+		http.Redirect(response, request, "/", http.StatusSeeOther)
+
 	} else {
-		fmt.Println("Can't login...")
 		tpl.ExecuteTemplate(response, "login.html", nil)
 	}
 
@@ -499,7 +537,61 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 }
 
 func userpost(response http.ResponseWriter, request *http.Request) {
-	tpl.ExecuteTemplate(response, "template/post.html", nil)
+	URL := request.URL
+	name, ok := URL.Query()["id"]
+	if !ok || len(name[0]) < 1 {
+		log.Println("Url Param 'id' is missing")
+		return
+	}
+	ALLTABLE := selectAllFromTable(db, "posts")
+	ArrTagsBrut := []Post{}
+	for ALLTABLE.Next() {
+		var p Post
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		ArrTagsBrut = append(ArrTagsBrut, p)
+	}
+	type Final struct {
+		Post_info Post
+		Tag_info  []string
+		Owner     bool
+	}
+
+	ALLTABLE2 := selectAllFromTable(db, "users")
+	UserTab := []User{}
+	for ALLTABLE2.Next() {
+		var p User
+		err := ALLTABLE2.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		UserTab = append(UserTab, p)
+	}
+	Connected_ID := 0
+	session, _ := store.Get(request, "Logged...")
+	for i := 0; i < len(UserTab); i++ {
+		if UserTab[i].Name == session.Values["Name "] {
+			Connected_ID = UserTab[i].Id
+		}
+	}
+
+	Owner := false
+	for i := 0; i < len(ArrTagsBrut); i++ {
+
+		if strconv.Itoa(ArrTagsBrut[i].Id) == name[0] {
+			if Connected_ID == ArrTagsBrut[i].User_id {
+				Owner = true
+			}
+			Finals := Final{Post_info: ArrTagsBrut[i], Tag_info: strings.Split(ArrTagsBrut[i].Tags, "$")[1:], Owner: Owner}
+			tpl.ExecuteTemplate(response, "Post-view.html", Finals)
+		}
+
+	}
+
 }
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
@@ -520,11 +612,21 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 		}
 		ArrTagsBrut = append(ArrTagsBrut, p)
 	}
-	SelectedPosts := []Post{}
+
+	type Final struct {
+		Post_info Post
+		Tag_info  []string
+	}
+	type PopularPost struct {
+		FinalArr  []Final
+		NameTheme string
+	}
+	SelectedPosts := []Final{}
 	NewArr2 := []string{}
 	for i := 0; i < len(ArrTagsBrut); i++ {
 		if strings.Contains(string(ArrTagsBrut[i].Tags), name[0]) {
-			SelectedPosts = append(SelectedPosts, ArrTagsBrut[i])
+			Final := Final{Post_info: ArrTagsBrut[i], Tag_info: strings.Split(ArrTagsBrut[i].Tags, "$")[1:]}
+			SelectedPosts = append(SelectedPosts, Final)
 		}
 		NewArr2 = append(NewArr2, ArrTagsBrut[i].Tags)
 		NewArr2 = append(NewArr2, "||")
@@ -535,8 +637,18 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	if err1 != nil {
 		fmt.Println(err1)
 	}
-	fmt.Println(SelectedPosts)
-	tpl.ExecuteTemplate(response, "view-theme.html", SelectedPosts)
+	newstring := ""
+	for i := 0; i < len(name[0]); i++ {
+		fmt.Println(string(name[0][i]))
+
+		if string(name[0][i]) == "_" {
+			newstring += " "
+		} else {
+			newstring += string(name[0][i])
+		}
+	}
+	SEND := PopularPost{FinalArr: SelectedPosts, NameTheme: newstring}
+	tpl.ExecuteTemplate(response, "view-theme.html", SEND)
 }
 
 func initDatabase(name string) *sql.DB {
