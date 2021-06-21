@@ -4,90 +4,89 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style/post.css">
-    <link rel="stylesheet" href="/static/style/Post-view.css">
-    <link rel="stylesheet" href="/static/style/header.css">
-    <link rel="stylesheet" href="/static/style/theme.css">
-    <link rel="stylesheet" href="/static/style/tag_post.css">
-    
+    <link rel="stylesheet" href="../asset/style/post.css">
+    <link rel="stylesheet" href="../asset/style/Post-view.css">
+    <link rel="stylesheet" href="../asset/style/header.css">
+    <link rel="stylesheet" href="../asset/style/theme.css">
+    <link rel="stylesheet" href="../asset/style/tag_post.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
     <title>Post-View</title>
 </head>
 <body>
-    {{template "header"}}
-    
-    <div id="carousel_fix">
-        <p class="titre_carousel">All - Themes</p>
-        <div>
-            <div class="arrow arrowTop"><i class="fas fa-arrow-up"></i></div>
-            <div id="picture">
-                <div class="theme Fast_Food"><p>Fast Food</p></div>
-                <div class="theme Pizza"><p>Pizza</p></div>
-                <div class="theme Burger"><p>Burger</p></div>
-                <div class="theme Dessert"><p>Dessert</p></div>
-                <div class="theme American"><p>American</p></div>
-                <div class="theme Italia"><p>Italian</p></div>
-                <div class="theme Mexican"><p>Mexican</p></div>
-                <div class="theme India"><p>Indian</p></div>
-                <div class="theme Japan"><p>Japan</p></div>
-                <div class="theme French"><p>French</p></div>
-                <div class="theme Africa"><p>African</p></div>
-                <div class="theme BBQ"><p>BBQ</p></div>
-                <div class="theme Korea"><p>Korean</p></div>
-                <div class="theme Vegan"><p>Vegan</p></div>
-                <div class="theme Latina_America"><p>Latina America</p></div>
-                <div class="theme Bakery"><p>Bakery</p></div>
+    <div id="IwantALL">
+    <header id="Header">
+        <div id="LOGO">
+            <img src="https://img.icons8.com/windows/50/000000/cook-male.png"/>
+            <div id="Logo__Write">
+                <a href="/" class="Logo_Write">Angry <strong>Creative</strong></a>
             </div>
-            <div class=" arrow arrowBottom"><i class="fas fa-arrow-down"></i></div>
         </div>
-    </div>
-    <div id="all-screen">
-        <div class="stat_global">
-            <div class="view">
-                <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
-                <p id="conteur_view">{{.Post_info.Views}}</p>
+        
+        <form action="/register" method="POST">
+            <div id="search-box">
+                <img src="https://img.icons8.com/windows/25/000000/search--v1.png" class="search_loop"/>
+                <input class="search-text" type="text" name="" placeholder="Type to search" id="Search__Text">
+                <button type="submit" id="Search__BTN" disabled></button>
             </div>
-            <div class="like">
-                <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
-                <p id="conteur_like">{{.Post_info.Like}}</p>
-            </div>
-            <div>
-                {{if eq .Owner true}}
+        </form>
 
-                <div class="params">
-                    <button id="params_btn">
-                    <span class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
-                    </button>
-                </div>
-                                
-                {{end}}
+        <div id="Addpost_Login">
+            <div id="Post_add">
             </div>
+            <img src="https://img.icons8.com/windows/50/000000/user-ninja.png" class="Login"/>
         </div>
-        <div id="post">
-            <div id="User-Post-Name">{{.Post_info.Name}}</div>
+
+        <div id="Pop_up">
+            <div id="Pop_content">
+                <a href="" id="First_pop">Login</a>
+                <hr>
+                <a href="" id="Second_pop">Register</a>
+            </div>
+
+        </div>
+<!-- <img src="https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png"/> -->
+        <script src="../asset/js/header.js"></script>
+
+
+    </header>
+
+    <div id="post">
+            <div id="User-Post-Name">boudin aux pommes et aux olives - nicolas</div>
             <div id="tags"><p>Tags for this post :</p></div>
-                <div id="alltags">
-                    {{range .Tag_info}}
-                        <div class="Tag {{.}}_post">
-                            {{.}}
+            <div id="lineTop"></div>
+                <div id="TagsAndWidgets">
+                    <div id="alltags">
+                        <div id="Tag1" class="Tag American_post">American</div>
+                        <div id="Tag2" class="Tag Burger_post">Burger</div>
+                        <div id="Tag3" class="Tag Fast_Food_post" >Fast-Food</div>
+                        <div id="Tag4" class="Tag Pizza_post">Pizza</div>
+                    </div>
+                    <div class="stat_global">
+                        <div class="view">
+                            <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
+                            <p id="conteur_view">0</p>
                         </div>
-                    {{end}}
+                        <div class="like">
+                            <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
+                            <p id="conteur_like">0</p>
+                        </div>
+                        <div class="params">
+                            <button id="params_btn">
+                            <span class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
+                        </div>
+                    </div>
                 </div>
-            <div class="line"></div>
-            <div id="text">{{.Post_info.Content}}</div> 
-        </div>
+            <div id="lineBot"></div>
+                <div id="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in dui vel ante tempus tempor. Integer congue erat ac arcu maximus tristique. Ut maximus augue id commodo pretium. Quisque dolor arcu, tristique ut semper sit amet, dapibus et leo. Aliquam vitae felis felis. Nunc vel imperdiet diam, at pharetra sem. Fusce dignissim, magna a bibendum sodales, urna ligula blandit purus, a euismod leo massa ac purus. Sed quis augue placerat, mollis felis nec, dapibus justo. Pellentesque facilisis nisi pharetra arcu condimentum, nec semper enim hendrerit. Ut rhoncus nisi sit amet dui lacinia aliquet. Integer tincidunt ac sapien volutpat vestibulum. Curabitur massa sem, mattis vel pharetra non, porta eget eros. Aliquam id nulla sodales, scelerisque magna ac, accumsan velit.
+    
+                    Nulla varius semper odio et vulputate. Suspendisse potenti. In hac habitasse platea dictumst. In imperdiet purus non tellus interdum, ut congue augue vehicula. Mauris id finibus lectus. Aliquam erat volutpat. Integer quis aliquam sapien. Aliquam laoreet nisl sit amet rutrum tristique. Suspendisse varius mi lacus, in ultricies nisl pretium at. Vestibulum ultrices aliquet dignissim. Ut vel maximus purus. In nec tortor ligula.
+                    
+                    Suspendisse potenti. Integer ultrices nulla rhoncus enim euismod, ac hendrerit libero pellentesque. Praesent porta pulvinar augue. In nulla augue, pulvinar sit amet tempus eget, hendrerit et ligula. Donec id neque sit amet mi tincidunt semper. Nulla hendrerit faucibus varius. Nullam elementum eros leo. Maecenas quis libero ut lacus interdum pulvinar eu a nibh. Sed molestie mauris justo, feugiat interdum mauris consectetur congue. Sed euismod nisi ac tortor feugiat ornare. Mauris nec scelerisque erat, id posuere purus. Suspendisse lobortis sapien id tincidunt ornare. Cras eget hendrerit felis.
+                    
+                    Sed euismod ligula sed posuere condimentum. Cras accumsan nisl vel accumsan porttitor. Nam elementum ante eros, vel fringilla turpis rhoncus in. Sed non libero ultricies, facilisis tellus eget, pulvinar nisi. Aenean cursus mauris lorem, in lobortis nisi blandit a. Morbi ornare, leo quis aliquam imperdiet, lectus orci porttitor leo, eu ultricies neque justo eu sem. Praesent gravida suscipit ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce tincidunt facilisis quam eu iaculis. Donec lacinia feugiat congue. Nulla id neque faucibus, lobortis felis non, fermentum urna. Vestibulum a luctus risus, sit amet tempor mauris. Phasellus dignissim tempus ligula, tincidunt volutpat arcu congue in. Nunc tempus risus diam, ac pellentesque erat semper eu. Suspendisse potenti. Maecenas dapibus pellentesque tristique.</div> 
+            </div>
     </div>
-
 </body>
-<script src="/static/js/Post-view.js"></script>
+<script src="../asset/js/Post-view.js"></script>
 </html>
-
-{{/*
-    eq Returns the boolean truth of arg1 == arg2
-    ne Returns the boolean truth of arg1 != arg2
-    lt Returns the boolean truth of arg1 <  arg2
-    le Returns the boolean truth of arg1 <= arg2
-    gt Returns the boolean truth of arg1 >  arg2
-    ge Returns the boolean truth of arg1 >= arg2
-*/}}

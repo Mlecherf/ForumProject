@@ -8,103 +8,59 @@ html{
     background: #4d4d4d;
     overflow: hidden;
  }
- #carousel_fix
- {
-     position: fixed;
-     margin-left: 50px;
-     margin-top: 80px;
- }
- 
- .titre_carousel
- {
-     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-     font-size: 30px;
-     color:#FFCB77;
- }
- 
- #picture
- {
-     height: 80vh;
-     width:180px;
-     overflow: hidden;
- }
- #picture::-webkit-scrollbar
- {
-     display: none;
- }
- 
- .arrow
- {
-     height: 30px;
-     width: 170px;
-     background: #FFCB77;
-     text-align: center;
-     opacity: 0.9;
-     user-select: none;
-     z-index: 1;
- }
- .arrow:hover
- {
-     opacity: 1;
- }
- 
- .arrowTop
- {
-     border-radius: 5px 5px 0px 0px;
- }
- 
- .arrowBottom
- {
-     bottom: 0;
-     border-radius: 0px 0px 5px 5px;
- }
 
-
- #all-screen{
-    margin: 0;
-    padding: 0;
+ #IwantALL{
+    width: 100%;
+    height: 100vh;
  }
+ #post{
+     position: relative;
+     top: 55px;
+    width:100%;
+    height: 94%;
+}
  .stat_global{
-    margin-left: 10px;
-    width: 250px;
-    height: 75px;
-    display: flex;
+    display: flex !important;
+    align-items: center !important;
+    width: 400px !important;
+    height: 80px !important;
+    margin-left: 0px !important;
 }
 .stat_global p{
-    font-size: 40px;
-    margin-top: 30px;
+    font-size: 40px !important;
+    margin-top: 0px !important;
 }
 .iconify{
-    font-size: 50px;
-    margin-top: 27px;
+    font-size: 50px !important;
+    margin-top: 0px !important;
+    
 }
 .view{
-    position: fixed;
-    right:13%;
-    top: 32%;
     display: flex;
     width: 100px;
     height: 75px;
     color: #FFFFFF;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .like{
-    position: fixed;
-    right:7%;
-    top: 32%;
     display: flex;
     width: 100px;
     height: 75px;
     color: #FFCB77;
+    align-items: center;
+    justify-content: center;
+
 }
 .params{
-    position: fixed;
-    right:2%;
-    top: 32%;
     display: flex;
     width: 100px;
     height: 75px;
     color: black;
+    align-items: center;
+    justify-content: center;
 }
 #params_btn{
     background: none;
@@ -112,21 +68,13 @@ html{
     width: 50px;
     height: 50px;
 }
- #post{
-     margin-left: 10px;
-     position:absolute;
-     left: 8%;
-     width:80%;
-     height: 100%;
- }
-
  #User-Post-Name{
-    width: 50vw; 
-    height: 3vw;
-    top: 10%;
+    width: 80%; 
+    height: 20%;
+    bottom: 70%;
     left: 50%;
     text-align: center;
-    transform: translate(-50%,120%);
+    transform: translate(-50%);
     position: fixed;
     font-size: 44px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -141,7 +89,7 @@ html{
      position: absolute;
      width: 60vh;
      height: 10vh;
-     top: 22%;
+     top: 23%;
      left: 8%;
 
  }
@@ -151,13 +99,21 @@ html{
     color: #FFCB77;
     position: fixed;
  }
- #alltags{
-    position: fixed;
-    width:60vw;
-    height: 2vw;
-    top:35%;
-    left: 15%;
+ #TagsAndWidgets{
+    position: sticky;
+    top:32%;
+    height: 5vw;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+ }
+ #alltags{
+     position: relative;
+     left: 8%;
+    display: flex;
+    width: 60vw;
+    height: 5vw;
+    align-items: center;
     justify-content: space-between;
  }
  .Tag{
@@ -168,44 +124,57 @@ html{
      display: flex;
      background: #FFCB77;
  }
- .line{
-    position: fixed;
-    right:4%;
-    top: 41%;
-    height: 1px;
-    width: 81vw;
-    /* transform: rotate(90deg); */
+  #lineTop{
+    top: 33%;
+    width: 100%;    
     background: #FFCB77;
+    position: fixed;
+    height: 1px;
+}
+ #lineBot{
+    top: 40%;
+    width: 100%;
+    background: #FFCB77;
+    position: fixed;
+    height: 1px;
  }
  #text{
      margin: 15px;
      position: fixed;
-     left: 14%;
+     left: 7%;
      top: 40%;
-     height: auto;
-     width: 60vw;
+     height: 50%;
+     width: 80%;
      font-size: 18px;
      background:#4d4d4d;
      color: #FFFFFF;
     justify-content: center;
 
 }
-/* @media screen and (max-width:1570px) {
+
+ /* @media screen and (max-width:1560px) {
     #User-Post-Name{
-        font-size: 2vw;
+        top: 15%;
     }
     #text{
         left:21%;
+        width: 74%;
     }
     .line{
-        right: 5%;
-        width: 72vw;
+        right: 4%;
+        width: 74vw;
     }
+    #line_renaud{
+        right: 4%;
+        width: 74vw;
+        top: 33%;
+    }
+
     #alltags{
         left: 22%;
     }
     #tags{
-        left: 16%;
+        left: 17%;
     }
     .Tag{
         font-size: 20px;
@@ -227,18 +196,24 @@ html{
     .params{    
         right:0%;
     }
-}
-@media screen and (max-width:1150px){
+} 
+
+@media screen and (max-width:1100px){
     #text{
         left:25%;
         font-size: 15px;
     }
     .line{
         right: 3%;
-        width: 70vw;
+        width: 71vw;
+    }
+    #line_renaud{
+        right: 3%;
+        width: 71vw;
+        top: 33%;
     }
     #alltags{
-        left: 26%;
+        left: 26%;        
     }
     #tags{
         left: 21%;
@@ -248,6 +223,7 @@ html{
     }
     .Tag{
         font-size: 16px;
+        width: 12vw;
     }
 
     .stat_global p{
@@ -262,7 +238,8 @@ html{
     .Tag{
         width: 10vw;
     }
-}
+}  */
+/*
 @media screen and (max-width:400px) {
     .Tag{
         font-size: 10px;
@@ -333,4 +310,119 @@ html{
     .params{
         top: 29%;
     }
-} */
+} *//* @media screen and (max-width:500px){
+    #text{
+        width: 440px;
+        left:0%;
+        top: 40%;
+        font-size: 16px;
+        overflow-y: scroll;
+    }
+    .params{
+        right: 10%;  
+        top: 32%; 
+    }
+    .view{
+        left: 19%;
+        top: 32%; 
+    }
+    .like{
+        right: 35%;
+        top: 32%; 
+    }
+    .stat_global p{
+        font-size: 35px;
+    }
+    .iconify{
+        font-size: 40px;
+    }
+    .line{
+        top: 39%;
+        right: 0%;
+        width: 460px;
+    }
+    #lineFor400px{
+        top: 34%;
+        width: 460px;    
+        background: #FFCB77;
+        position: fixed;
+        right:0%;
+        height: 1px;
+    }
+    #alltags{
+        width: 440px;
+        left: 1%;
+        top: 30%;
+    }
+    #tags p{
+        top: 25%;
+        left: 1%;
+    }
+    .Tag{
+        width: 100px;
+        height: 30px;
+        font-size: 21px;
+    }
+    #User-Post-Name{
+        font-size: 30px ;
+        top: 0%;
+        width: 350px;
+        height: 100px;
+    }
+}
+@media screen and (max-height:850px){
+    #text{
+        height: 50%;
+        top: 45%;
+    }
+    #User-Post-Name{
+        height: 7%;
+        font-size: 150%;
+        top: 5%;
+    }
+    .params{
+        right: 10%;  
+        top: 32%; 
+    }
+    .view{
+        left: 19%;
+        top: 32%; 
+    }
+    .like{
+        right: 35%;
+        top: 32%; 
+    }
+    .stat_global p{
+        font-size: 35px;
+    }
+    .iconify{
+        font-size: 40px;
+    }
+    .line{
+        top: 41%;
+        right: 0%;
+        width: 460px;
+    }
+    #lineFor400px{
+        top: 35%;
+        width: 460px;    
+        background: #FFCB77;
+        position: fixed;
+        right:0%;
+        height: 1px;
+    }
+    #alltags{
+        width: 440px;
+        left: 1%;
+        top: 30%;
+    }
+    #tags p{
+        top: 25%;
+        left: 1%;
+    }
+    .Tag{
+        width: 100px;
+        height: 30px;
+        font-size: 21px;
+    }
+}*/
