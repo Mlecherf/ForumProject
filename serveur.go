@@ -59,7 +59,7 @@ func home(response http.ResponseWriter, request *http.Request) {
 	ArrTagsBrut := []Post{}
 	for ALLTABLE.Next() {
 		var p Post
-		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
@@ -84,7 +84,7 @@ func home(response http.ResponseWriter, request *http.Request) {
 	verif := false
 	for ALLTABLE2.Next() {
 		var p Post
-		err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
@@ -142,13 +142,14 @@ type User struct {
 }
 
 type Post struct {
-	Id      int
-	Like    int
-	Views   int
-	Content string
-	Name    string
-	Tags    string
-	User_id int
+	Id       int
+	Like     int
+	Views    int
+	Content  string
+	Name     string
+	Tags     string
+	User_id  int
+	ViewList string
 }
 
 type Cookie struct {
@@ -180,7 +181,7 @@ func recup(response http.ResponseWriter, request *http.Request) {
 	}
 	post.User_id = p.Id
 
-	insertIntoPosts(db, post.Like, post.Views, post.Content, post.Name, post.Tags, post.User_id)
+	insertIntoPosts(db, post.Like, post.Views, post.Content, post.Name, post.Tags, post.User_id, "")
 
 	type Final struct {
 		Post_info Post
@@ -508,18 +509,21 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		Post_info Post
 		Tag_info  []string
 	}
-
+	TOTALLIKE := 0
+	TOTALPOST := 0
 	TabPost := []Final{}
 	for i := 0; i < len(IdPost); i++ {
 		if IdPost[i] == s.Id {
 			row := db.QueryRow("SELECT * FROM `posts` WHERE (`id` = ?);", i+1)
 			var p Post
-			err1 := row.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+			err1 := row.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 			if err1 != nil {
 				fmt.Println("mypost", err1)
 			}
-			fmt.Println(p.Tags)
 			Allinfo := Final{Post_info: p, Tag_info: strings.Split(p.Tags, "$")[1:]}
+
+			TOTALLIKE += p.Like
+			TOTALPOST += 1
 			TabPost = append(TabPost, Allinfo)
 		}
 	}
@@ -528,11 +532,14 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		Username     interface{}
 		Email_Adress interface{}
 		Display      []Final
+		Like         int
+		Postes       int
 	}
 	Userss := session.Values["Name "]
 	Emailss := session.Values["Email "]
 
-	SEND := Data{Username: Userss, Email_Adress: Emailss, Display: TabPost}
+	SEND := Data{Username: Userss, Email_Adress: Emailss, Display: TabPost, Like: TOTALLIKE, Postes: TOTALPOST}
+
 	tpl.ExecuteTemplate(response, "profile.html", SEND)
 }
 
@@ -547,7 +554,7 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 	ArrTagsBrut := []Post{}
 	for ALLTABLE.Next() {
 		var p Post
-		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
@@ -582,6 +589,46 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 	Owner := false
 	for i := 0; i < len(ArrTagsBrut); i++ {
 
+		row := db.QueryRow("SELECT * FROM posts WHERE id = ?;", ArrTagsBrut[i].Id)
+		var p Post
+		err := row.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
+		if !(strings.Contains(string(ArrTagsBrut[i].ViewList), strconv.Itoa(Connected_ID))) {
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			upStmt := "UPDATE `posts` SET `views` = ? WHERE ( `id` = ?);"
+			stmt, err := db.Prepare(upStmt)
+
+			if err != nil {
+				panic(err)
+			}
+
+			defer stmt.Close()
+			var res sql.Result
+			res, err = stmt.Exec(p.Views+1, p.Id)
+			rowsAff, _ := res.RowsAffected()
+			if err != nil || rowsAff != 1 {
+				panic(err)
+			}
+
+			upStmt2 := "UPDATE `posts` SET `viewlist` = ? WHERE ( `id` = ?);"
+			stmt2, err2 := db.Prepare(upStmt2)
+
+			if err2 != nil {
+				panic(err2)
+			}
+			fmt.Println(p)
+			defer stmt2.Close()
+			var res2 sql.Result
+			res2, err2 = stmt2.Exec(strconv.Itoa(Connected_ID), p.Id)
+			rowsAff2, _ := res2.RowsAffected()
+			if err2 != nil || rowsAff2 != 1 {
+				panic(err2)
+			}
+		}
+
 		if strconv.Itoa(ArrTagsBrut[i].Id) == name[0] {
 			if Connected_ID == ArrTagsBrut[i].User_id {
 				Owner = true
@@ -605,7 +652,7 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	ArrTagsBrut := []Post{}
 	for ALLTABLE.Next() {
 		var p Post
-		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
@@ -678,6 +725,7 @@ func initDatabase(name string) *sql.DB {
 					name TEXT NOT NULL,
 					tags TEXT NOT NULL,
 					user_id INTEGER NOT NULL,
+					viewlist TEXT NOT NULL,
 					FOREIGN KEY (user_id) REFERENCES users(id)
 			   );
 				`
@@ -706,12 +754,12 @@ func insertIntoUsers(db *sql.DB, name string, email string, password string, lik
 	return result.LastInsertId()
 }
 
-func insertIntoPosts(db *sql.DB, like int, views int, content string, name string, tags string, user_id int) (int64, error) {
+func insertIntoPosts(db *sql.DB, like int, views int, content string, name string, tags string, user_id int, viewlist string) (int64, error) {
 
 	result, _ := db.Exec(`
-				INSERT INTO posts (like, views, content, name, tags, user_id) VALUES (?,?,?,?,?,?)
+				INSERT INTO posts (like, views, content, name, tags, user_id, viewlist) VALUES (?,?,?,?,?,?,?)
 						`,
-		like, views, content, name, tags, user_id)
+		like, views, content, name, tags, user_id, viewlist)
 
 	return result.LastInsertId()
 }
@@ -785,7 +833,7 @@ func NewUsername(rows *sql.Rows) []string {
 func displayPostsRow(rows *sql.Rows) {
 	for rows.Next() {
 		var p Post
-		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
@@ -798,7 +846,7 @@ func returnPostLike(rows *sql.Rows) []int {
 	arr := []int{}
 	for rows.Next() {
 		var p Post
-		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
@@ -812,7 +860,7 @@ func returnPostId(rows *sql.Rows) []int {
 	arr := []int{}
 	for rows.Next() {
 		var p Post
-		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+		err := rows.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList)
 
 		if err != nil {
 			log.Fatal(err)
