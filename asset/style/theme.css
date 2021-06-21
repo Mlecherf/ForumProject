@@ -47,7 +47,7 @@
 .Dessert
 {
     background-image: url(/static/image/theme_Dessert.jpg);
-    background-size: 100%;
+    background-size: 150%;
 }
 
 .American
@@ -107,7 +107,7 @@
 .Vegan
 {
     background-image: url(/static/image/theme_Vegan.jpg);
-    background-size: 100%;
+    background-size: 150%;
 }
 
 .Latina_America
