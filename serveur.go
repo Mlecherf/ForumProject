@@ -50,31 +50,58 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8020", nil)
+	http.ListenAndServe(":8010", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
 
-	TabPost := []Post{}
-	alltable := selectAllFromTable(db, "posts")
-	Tabint := returnPostLike(alltable)
-	if len(Tabint) != 0 {
-		sort.Ints(Tabint)
-		ToSearch := 0
-		for i := len(Tabint) - 1; i >= 0; i-- {
-			if i > len(Tabint)-4 {
-				ToSearch = Tabint[i]
-				row1 := db.QueryRow("SELECT * FROM posts WHERE like = ?;", ToSearch)
-				var s Post
-				err := row1.Scan(&s.Id, &s.Like, &s.Views, &s.Content, &s.Name, &s.Tags, &s.User_id)
-				if err != nil {
-					fmt.Println(err)
+	ALLTABLE := selectAllFromTable(db, "posts")
+	ArrTagsBrut := []Post{}
+	for ALLTABLE.Next() {
+		var p Post
+		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		ArrTagsBrut = append(ArrTagsBrut, p)
+	}
+	IntArr := []int{}
+	for i := len(ArrTagsBrut) - 1; i >= 0; i-- {
+		IntArr = append(IntArr, ArrTagsBrut[i].Like)
+	}
+	IntArr = append(IntArr, 5)
+	sort.Ints(IntArr)
+
+	ALLTABLE2 := selectAllFromTable(db, "posts")
+	FinalPost := []Post{}
+	Position := []int{}
+	for ALLTABLE2.Next() {
+		var p Post
+		err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		for i := len(IntArr) - 1; i >= 0; i-- {
+
+			if p.Like == IntArr[i] {
+
+				if len(IntArr)-i >= 5 {
+					FinalPost = append(FinalPost, p)
+					Position = append(Position, len(IntArr)-1)
 				}
-				TabPost = append(TabPost, s)
 			}
 		}
 	}
-	tpl.ExecuteTemplate(response, "home.html", TabPost)
+
+	type PopularPost struct {
+		FinalPost []Post
+		Position  []int
+	}
+	ToSend := PopularPost{FinalPost: FinalPost, Position: Position}
+	tpl.ExecuteTemplate(response, "home.html", ToSend)
 }
 
 type Test struct {
@@ -444,7 +471,6 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 		Tag_info  []string
 	}
 
-	fmt.Println(IdPost)
 	TabPost := []Final{}
 	for i := 0; i < len(IdPost); i++ {
 		if IdPost[i] == s.Id {
@@ -454,9 +480,7 @@ func userprofile(response http.ResponseWriter, request *http.Request) {
 			if err1 != nil {
 				fmt.Println("mypost", err1)
 			}
-			fmt.Println("My tag", p)
-			fmt.Println("Tag info", p.Tags, strings.Split(p.Tags, "$")[1:])
-
+			fmt.Println(p.Tags)
 			Allinfo := Final{Post_info: p, Tag_info: strings.Split(p.Tags, "$")[1:]}
 			TabPost = append(TabPost, Allinfo)
 		}
@@ -479,9 +503,6 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 }
 
 func usertheme(response http.ResponseWriter, request *http.Request) {
-	// recup url
-	// ? -> fastfood
-	// -> dbb recup tout les tags fastfood
 	URL := request.URL
 	name, ok := URL.Query()["name"]
 	if !ok || len(name[0]) < 1 {
