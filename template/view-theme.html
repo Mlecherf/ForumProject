@@ -50,7 +50,7 @@
         </div>
         <div class="all_posts">
             <div class="titre"><p>{{.NameTheme}}</p></div>
-            <div class="line"></div>
+            <div class="line {{.NameTheme}}_post" ></div>
             <div class="affichage">
                 {{range .FinalArr}}
                 <a id="Nom_post" class="poste_preview" href="viewpost?id={{.Post_info.Id}}">
