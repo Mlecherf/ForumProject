@@ -6,7 +6,7 @@ html{
 }
  body{
     background: #4d4d4d;
-    overflow-x: hidden;
+    overflow: hidden;
  }
 
  #IwantALL{
@@ -27,14 +27,17 @@ html{
     height: 80px !important;
     margin-left: 0px !important;
     left: 5%;
+    transition: 0.5s;
 }
 .stat_global p{
     font-size: 40px !important;
     margin-top: 0px !important;
+    transition: 0.5s;
 }
 .iconify{
     font-size: 50px !important;
     margin-top: 0px !important;
+    transition: 0.5s;
     
 }
 .view{
@@ -44,7 +47,7 @@ html{
     color: #FFFFFF;
     align-items: center;
     justify-content: center;
-
+    transition: 0.5s;
 }
 
 .like{
@@ -55,6 +58,7 @@ html{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: 0.5s;
 }
 #Like-Button{
     color: #FFCB77;
@@ -68,6 +72,7 @@ html{
     color: black;
     align-items: center;
     justify-content: center;
+    transition: 0.5s;
 }
 #params_btn{
     background: none;
@@ -78,7 +83,7 @@ html{
  #User-Post-Name{
     width: 80%; 
     height: 100px;
-    bottom: 80%;
+    bottom: 75%;
     left: 50%;
     text-align: center;
     transform: translate(-50%);
@@ -90,25 +95,26 @@ html{
     font-style: normal;
     font-weight: normal;
     color: #FFFFFF;
-
+    transition: 0.5s;
  }
  #tags{
      position: absolute;
      width: 60vh;
      height: 10vh;
-     top: 26%;
+     top: 25%;
      left: 8%;
-
+     transition: 0.5s;
  }
 
  #tags p{
     font-size: 25px;
     color: #FFCB77;
     position: sticky;
+    transition: 0.5s;
  }
  #TagsAndWidgets{
     position: sticky;
-    top:32%;
+    top:38%;
     height: 90px;
     display: flex;
     align-items: center;
@@ -120,8 +126,7 @@ html{
     display: flex;
     width: 1000px;
     height: 50px;
-    align-items: center;
-    justify-content: space-between;
+    transition: 0.5s;
  }
  .Tag{
      width: 200px;
@@ -131,33 +136,38 @@ html{
      font-size: 25px;
      display: flex;
      background: #FFCB77;
+     margin-right: 30px;
+     transition: 0.5s;
  }
   #lineTop{
-    top: 33%;
+    top: 38%;
     width: 100%;    
     background: #FFCB77;
     position: sticky;
     height: 1px;
+    transition: 0.5s;
 }
  #lineBot{
-    top: 40%;
+    bottom: 53%;
     width: 100%;
     background: #FFCB77;
-    position: sticky;
+    position: fixed;
     height: 1px;
+    transition: 0.5s;
  }
  #text{
      margin: 15px;
      position: fixed;
      left: 7%;
-     top: 40%;
+     top: 50%;
      height: 50%;
      width: 80%;
      font-size: 18px;
      background:#4d4d4d;
      color: #FFFFFF;
     justify-content: center;
-
+    word-break: break-all;
+    transition: 0.5s;
 }
 @media screen and (max-width:1470px){
     .stat_global{
@@ -209,6 +219,10 @@ html{
          width: 100px;
          font-size: 17px;
      }
+     #text{
+         height: 450px;
+         overflow-y: scroll;
+     }
 }
 @media screen and (max-width:920px){
     .stat_global{
@@ -232,11 +246,14 @@ html{
         left: -5% ;
     }
     #alltags{
-        width: 200px;
+        top: 6%;
+        width: 250px;
         flex-wrap: wrap;
-        height: 120px;
+        height: 110px;
      }
-
+     #TagsAndWidgets{
+        top:32%;
+     }
      .Tag{
          width: 80px;
          font-size: 15px;
@@ -257,7 +274,7 @@ html{
          top: 45%;
      }
     }
-@media screen  and (max-width:450px){
+@media screen  and (max-width:520px){
     .stat_global{
         width: 70px !important;
         height: 140px !important;
@@ -265,10 +282,10 @@ html{
         left: 0%;
     }
     .stat_global p{
-        font-size: 30px !important;
+        font-size: 25px !important;
     }
     .iconify{
-        font-size: 30px !important;        
+        font-size: 25px !important;        
     }
     .view{
         width: 70px;
@@ -284,6 +301,60 @@ html{
         height: 50px;
     }
     #User-Post-Name{
-        font-size: 22px;
+        width: 300px;
+        font-size: 18px;
+
     }
+    #text{
+        width: 400px;
+        height: 300px;
+    }
+}
+@media screen  and (max-height:880px){
+    #text{
+        top: 55%;
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    #lineBot{
+        top: 49%;
+    }
+    #tags{
+        top: 18%;
+    }
+}
+@media screen  and (max-height:720px){
+    #User-Post-Name{
+        bottom: 75%;
+    }
+    #text{
+        height: 200px;
+        top: 55%;
+    }
+     #lineBot{
+        top: 50%;
+     }
+}
+@media screen  and (max-height:650px){
+    #User-Post-Name{
+        bottom: 65%;
+    }
+    #tags{
+        top: 14%;
+    }
+    #tags p{
+        font-size: 20px;
+    }
+    #text{
+        height: 150px;
+    }
+     #lineBot{
+        top: 52%;
+     }
+}
+@media screen  and (max-height:650px){
+    #lineBot{
+        top: 57%;
+     }
 }
