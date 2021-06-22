@@ -6,7 +6,7 @@ html{
 }
  body{
     background: #4d4d4d;
-
+    overflow-x: hidden;
  }
 
  #IwantALL{
@@ -20,11 +20,13 @@ html{
      height: 94%;
 }
  .stat_global{
+     position: relative;
     display: flex !important;
     align-items: center !important;
     width: 400px !important;
     height: 80px !important;
     margin-left: 0px !important;
+    left: 5%;
 }
 .stat_global p{
     font-size: 40px !important;
@@ -52,7 +54,7 @@ html{
     color: #FFCB77;
     align-items: center;
     justify-content: center;
-
+    cursor: pointer;
 }
 #Like-Button{
     color: #FFCB77;
@@ -75,8 +77,8 @@ html{
 }
  #User-Post-Name{
     width: 80%; 
-    height: 20%;
-    bottom: 70%;
+    height: 100px;
+    bottom: 80%;
     left: 50%;
     text-align: center;
     transform: translate(-50%);
@@ -102,12 +104,12 @@ html{
  #tags p{
     font-size: 25px;
     color: #FFCB77;
-    position: fixed;
+    position: sticky;
  }
  #TagsAndWidgets{
     position: sticky;
     top:32%;
-    height: 5vw;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -116,14 +118,14 @@ html{
      position: relative;
      left: 8%;
     display: flex;
-    width: 60vw;
-    height: 5vw;
+    width: 1000px;
+    height: 50px;
     align-items: center;
     justify-content: space-between;
  }
  .Tag{
-     width: 13vw;
-     height: 2vw;
+     width: 200px;
+     height: 50px;
      justify-content: center;
      align-items: center;
      font-size: 25px;
@@ -134,14 +136,14 @@ html{
     top: 33%;
     width: 100%;    
     background: #FFCB77;
-    position: fixed;
+    position: sticky;
     height: 1px;
 }
  #lineBot{
     top: 40%;
     width: 100%;
     background: #FFCB77;
-    position: fixed;
+    position: sticky;
     height: 1px;
  }
  #text{
@@ -157,11 +159,110 @@ html{
     justify-content: center;
 
 }
-@media screen  and (max-width:500px){
-
-    #User-Post-Name{
+@media screen and (max-width:1470px){
+    .stat_global{
+       width: 300px !important;
+       left: 4%;
+   }
+   .stat_global p{
+       font-size: 30px !important;
+   }
+   .iconify{
+       font-size: 40px !important;
+       
+   }
+   .view{
+       width: 80px;
+       height: 75px;
+   }
+   
+   .like{
+       width: 80px;
+       height: 75px;
+   }
+   .params{
+       width: 80px;
+       height: 75px;
+   }
+    #tags{
+        width: 40vh;
+        height: 3vh;
+        top: 26%;
+        left: 8%;
+   
+    }
+    #alltags{
+       width: 800px;
+    }
+    .Tag{
+        width: 150px;
         font-size: 20px;
-        position: absolute;
+    }
+    
+}
+@media screen and (max-width:1150px){
+
+    #alltags{
+        width: 580px;
+     }
+     .Tag{
+         width: 100px;
+         font-size: 17px;
+     }
+}
+@media screen and (max-width:920px){
+    .stat_global{
+        width: 200px !important;
+        left: 0%;
+    }
+    #alltags{
+        width: 450px;
+     }
+     .Tag{
+         width: 80px;
+         font-size: 15px;
+     }
+     #User-Post-Name{
+         font-size: 34px;
+     }
+}
+@media screen and (max-width:720px){
+    .stat_global{
+        width: 160px !important;
+        left: -5% ;
+    }
+    #alltags{
+        width: 200px;
+        flex-wrap: wrap;
+        height: 120px;
+     }
+
+     .Tag{
+         width: 80px;
+         font-size: 15px;
+     }
+     #tags{
+         top: 22%;
+     }
+     #User-Post-Name{
+        font-size: 24px;
+    }
+    #lineTop{
+        top: 30%;
+    }
+     #lineBot{
+        top: 44%;
+     }
+     #text{
+         top: 45%;
+     }
+    }
+@media screen  and (max-width:450px){
+    .stat_global{
+        width: 70px !important;
+        height: 140px !important;
+        flex-wrap: wrap;
+        left: 0%;
     }
     .stat_global p{
         font-size: 30px !important;
@@ -182,18 +283,7 @@ html{
         width: 70px;
         height: 50px;
     }
-    #TagsAndWidgets{
-        top:35%;
-        height: 34px;
+    #User-Post-Name{
+        font-size: 22px;
     }
-    #alltags{
-        flex-wrap: wrap;
-        width: 240px;
-        height: 120px;
-    }
-    .Tag{
-        width: 100px;
-        height: 50px;
-    }
-
 }
