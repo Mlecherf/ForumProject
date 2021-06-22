@@ -169,8 +169,6 @@ function ADD_enabled (){
 myForm.addEventListener('submit',function (e){
     document.getElementById("pop_post_add").style.display="none";
     e.preventDefault()
-    // const formData = new FormData(this)
-
     fetch('/recup', {
         method: 'post',
         headers : {

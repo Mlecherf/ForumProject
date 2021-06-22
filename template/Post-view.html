@@ -34,14 +34,14 @@
                             <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
                             <p id="conteur_view">{{.Post_info.Views}}</p>
                         </div>
-                        <form action="/" method="GET" id="Likeform">
-                            <button type="submit" id="Like-Button">
+                        
+                            <button type="button" id="Like-Button">
                                 <div class="like">
                                         <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
                                         <p id="conteur_like">{{.Post_info.Like}}</p>
                                 </div>
-                            </button> 
-                        </form>
+                            </button>
+                        
                         <div class="params">
                             {{if eq  .Owner true}}
                             <span class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
