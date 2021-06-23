@@ -26,7 +26,7 @@ html{
     width: 400px !important;
     height: 80px !important;
     margin-left: 0px !important;
-    left: 5%;
+    left: 2%;
     transition: 0.5s;
 }
 .stat_global p{
@@ -73,6 +73,10 @@ html{
     align-items: center;
     justify-content: center;
     transition: 0.5s;
+}
+#modify-post{
+    background: none;
+    border: none;
 }
 #pop_post_modify{
     display: none   ;
@@ -188,6 +192,18 @@ html{
     justify-content: center;
     align-items: center;
 }
+#post_submit_mod{
+    position: relative;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    left: 4%;
+    bottom: 13%;
+    background: #343434;
+    border:1px solid #FFCB77;
+    border-radius: 4px;
+    color: #FFFFFF;
+}
 @media screen and (max-width:1470px){
     .stat_global{
        width: 300px !important;
@@ -292,6 +308,10 @@ html{
      #text{
          top: 45%;
      }
+#post_submit_mod{
+    left: 8%;
+    bottom: 18%;
+}
     }
 @media screen  and (max-width:520px){
     .stat_global{
@@ -328,6 +348,9 @@ html{
         width: 400px;
         height: 300px;
     }
+#post_submit_mod{
+bottom: 20%;
+}
 }
 @media screen  and (max-height:880px){
     #text{
