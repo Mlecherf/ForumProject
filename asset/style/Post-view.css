@@ -8,125 +8,89 @@ html{
     background: #4d4d4d;
     overflow: hidden;
  }
- #carousel_fix
- {
-     position: fixed;
-     margin-left: 50px;
-     margin-top: 80px;
- }
- 
- .titre_carousel
- {
-     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-     font-size: 30px;
-     color:#FFCB77;
- }
- 
- #picture
- {
-     height: 80vh;
-     width:180px;
-     overflow: hidden;
- }
- #picture::-webkit-scrollbar
- {
-     display: none;
- }
- 
- .arrow
- {
-     height: 30px;
-     width: 170px;
-     background: #FFCB77;
-     text-align: center;
-     opacity: 0.9;
-     user-select: none;
-     z-index: 1;
- }
- .arrow:hover
- {
-     opacity: 1;
- }
- 
- .arrowTop
- {
-     border-radius: 5px 5px 0px 0px;
- }
- 
- .arrowBottom
- {
-     bottom: 0;
-     border-radius: 0px 0px 5px 5px;
- }
 
-
- #all-screen{
-    margin: 0;
-    padding: 0;
+ #IwantALL{
+    width: 100%;
+    height: 100vh;
  }
+ #post{
+     position: absolute;
+     top: 55px;
+     width:100%;
+     height: 94%;
+}
  .stat_global{
-    margin-left: 10px;
-    width: 250px;
-    height: 75px;
-    display: flex;
+     position: relative;
+    display: flex !important;
+    align-items: center !important;
+    width: 400px !important;
+    height: 80px !important;
+    margin-left: 0px !important;
+    left: 5%;
+    transition: 0.5s;
 }
 .stat_global p{
-    font-size: 40px;
-    margin-top: 30px;
+    font-size: 40px !important;
+    margin-top: 0px !important;
+    transition: 0.5s;
 }
 .iconify{
-    font-size: 50px;
-    margin-top: 27px;
+    font-size: 50px !important;
+    margin-top: 0px !important;
+    transition: 0.5s;
+    
 }
 .view{
-    position: fixed;
-    right:13%;
-    top: 32%;
     display: flex;
     width: 100px;
     height: 75px;
     color: #FFFFFF;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
 }
 
 .like{
-    position: fixed;
-    right:7%;
-    top: 32%;
     display: flex;
     width: 100px;
     height: 75px;
     color: #FFCB77;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#Like-Button{
+    color: #FFCB77;
+    background: none;
+    border: none;
 }
 .params{
-    position: fixed;
-    right:2%;
-    top: 32%;
     display: flex;
     width: 100px;
     height: 75px;
     color: black;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
 }
-#params_btn{
-    background: none;
-    border: none; 
-    width: 50px;
-    height: 50px;
+#modify{
+    display: none;
+    position: absolute;
+    right: 25px;
+    top: 50px;
+    width: 150px;
+    height: 100px;
+    border: 5px solid #fff;
+    background: #FFCB77;
 }
- #post{
-     margin-left: 10px;
-     position:absolute;
-     left: 8%;
-     width:80%;
-     height: 100%;
- }
-
  #User-Post-Name{
-    width: 50vw; 
-    height: 3vw;
-    top: 10%;
+    width: 80%; 
+    height: 100px;
+    bottom: 75%;
     left: 50%;
     text-align: center;
-    transform: translate(-50%,120%);
+    transform: translate(-50%);
     position: fixed;
     font-size: 44px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -135,202 +99,267 @@ html{
     font-style: normal;
     font-weight: normal;
     color: #FFFFFF;
-
+    transition: 0.5s;
  }
  #tags{
      position: absolute;
      width: 60vh;
      height: 10vh;
-     top: 22%;
+     top: 25%;
      left: 8%;
-
+     transition: 0.5s;
  }
 
  #tags p{
     font-size: 25px;
     color: #FFCB77;
-    position: fixed;
+    position: sticky;
+    transition: 0.5s;
  }
- #alltags{
-    position: fixed;
-    width:60vw;
-    height: 2vw;
-    top:35%;
-    left: 15%;
+ #TagsAndWidgets{
+    position: sticky;
+    top:38%;
+    height: 90px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
  }
+ #alltags{
+     position: relative;
+     left: 8%;
+    display: flex;
+    width: 1000px;
+    height: 50px;
+    transition: 0.5s;
+ }
  .Tag{
-     width: 13vw;
-     height: 2vw;
+     width: 200px;
+     height: 50px;
      justify-content: center;
+     align-items: center;
      font-size: 25px;
      display: flex;
      background: #FFCB77;
+     margin-right: 30px;
+     transition: 0.5s;
  }
- .line{
-    position: fixed;
-    right:4%;
-    top: 41%;
-    height: 1px;
-    width: 81vw;
-    /* transform: rotate(90deg); */
+  #lineTop{
+    top: 38%;
+    width: 100%;    
     background: #FFCB77;
+    position: sticky;
+    height: 1px;
+    transition: 0.5s;
+}
+ #lineBot{
+    bottom: 53%;
+    width: 100%;
+    background: #FFCB77;
+    position: fixed;
+    height: 1px;
+    transition: 0.5s;
  }
  #text{
      margin: 15px;
      position: fixed;
-     left: 14%;
-     top: 40%;
-     height: auto;
-     width: 60vw;
+     left: 7%;
+     top: 50%;
+     height: 50%;
+     width: 80%;
      font-size: 18px;
      background:#4d4d4d;
      color: #FFFFFF;
     justify-content: center;
-
+    word-break: break-all;
+    transition: 0.5s;
 }
-/* @media screen and (max-width:1570px) {
-    #User-Post-Name{
-        font-size: 2vw;
-    }
-    #text{
-        left:21%;
-    }
-    .line{
-        right: 5%;
-        width: 72vw;
+@media screen and (max-width:1470px){
+    .stat_global{
+       width: 300px !important;
+       left: 4%;
+   }
+   .stat_global p{
+       font-size: 30px !important;
+   }
+   .iconify{
+       font-size: 40px !important;
+       
+   }
+   .view{
+       width: 80px;
+       height: 75px;
+   }
+   
+   .like{
+       width: 80px;
+       height: 75px;
+   }
+   .params{
+       width: 80px;
+       height: 75px;
+   }
+    #tags{
+        width: 40vh;
+        height: 3vh;
+        top: 26%;
+        left: 8%;
+   
     }
     #alltags{
-        left: 22%;
-    }
-    #tags{
-        left: 16%;
+       width: 800px;
     }
     .Tag{
+        width: 150px;
         font-size: 20px;
     }
+    
+}
+@media screen and (max-width:1150px){
 
+    #alltags{
+        width: 580px;
+     }
+     .Tag{
+         width: 100px;
+         font-size: 17px;
+     }
+     #text{
+         height: 450px;
+         overflow-y: scroll;
+     }
+}
+@media screen and (max-width:920px){
+    .stat_global{
+        width: 200px !important;
+        left: 0%;
+    }
+    #alltags{
+        width: 450px;
+     }
+     .Tag{
+         width: 80px;
+         font-size: 15px;
+     }
+     #User-Post-Name{
+         font-size: 34px;
+     }
+}
+@media screen and (max-width:720px){
+    .stat_global{
+        width: 160px !important;
+        left: -5% ;
+    }
+    #alltags{
+        top: 6%;
+        width: 250px;
+        flex-wrap: wrap;
+        height: 110px;
+     }
+     #TagsAndWidgets{
+        top:32%;
+     }
+     .Tag{
+         width: 80px;
+         font-size: 15px;
+     }
+     #tags{
+         top: 22%;
+     }
+     #User-Post-Name{
+        font-size: 24px;
+    }
+    #lineTop{
+        top: 30%;
+    }
+     #lineBot{
+        top: 44%;
+     }
+     #text{
+         top: 45%;
+     }
+    }
+@media screen  and (max-width:520px){
+    .stat_global{
+        width: 70px !important;
+        height: 140px !important;
+        flex-wrap: wrap;
+        left: 0%;
+    }
     .stat_global p{
-        font-size: 20px;
+        font-size: 25px !important;
     }
     .iconify{
-        font-size: 30px;
+        font-size: 25px !important;        
     }
     .view{
-        right:7%;
+        width: 70px;
+        height: 50px;
     }
     
     .like{
-        right:3%;
+        width: 70px;
+        height: 50px;
     }
-    .params{    
-        right:0%;
-    }
-}
-@media screen and (max-width:1150px){
-    #text{
-        left:25%;
-        font-size: 15px;
-    }
-    .line{
-        right: 3%;
-        width: 70vw;
-    }
-    #alltags{
-        left: 26%;
-    }
-    #tags{
-        left: 21%;
-    }
-    #tags p{
-        font-size: 19px;
-    }
-    .Tag{
-        font-size: 16px;
-    }
-
-    .stat_global p{
-        font-size: 20px;
-    }
-    .iconify{
-        font-size: 30px;
-    }
-    #alltags{
-        width: 50vw;
-    }
-    .Tag{
-        width: 10vw;
-    }
-}
-@media screen and (max-width:400px) {
-    .Tag{
-        font-size: 10px;
-    }
-    #text{
-        height: 100px;
-        overflow: hidden;
-        overflow-y: scroll;
+    .params{
+        width: 70px;
+        height: 50px;
     }
     #User-Post-Name{
-        width: 50vw; 
-        height: 3vw;
-        top: 3%;
-        left: 50%;
-        text-align: center;
-        transform: translate(-50%,120%);
-        position: fixed;
-        font-size: 44px;
-        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        text-transform: uppercase;
-        font-family: Roboto, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        color: #FFFFFF;
-    }
-}
-@media screen and (max-height:900px){
-    .arrow
-    {
-        height: 20px;
-        width: 170px;
-    }
-    #picture{
-        height: 70vh;
-    }
-    .line{
-        top: 40%;
+        width: 300px;
+        font-size: 18px;
+
     }
     #text{
-        height: 44vh;
-        overflow: hidden;
-        overflow-y: scroll;
-    }
-
-    #alltags{
-        top: 34%;
-    }
-    #tags p{
-        top: 28%;
-    }
-    .like{
-        top: 30%;
-    }
-    .view{
-        top: 30%;
-    }
-    .params{
-        top: 30%;
+        width: 400px;
+        height: 300px;
     }
 }
-@media screen and (max-height:750px){
-    .like{
-        top: 29%;
+@media screen  and (max-height:880px){
+    #text{
+        top: 55%;
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
-    .view{
-        top: 29%;
+    #lineBot{
+        top: 49%;
     }
-    .params{
-        top: 29%;
+    #tags{
+        top: 18%;
     }
-} */
+}
+
+@media screen  and (max-height:720px){
+    #User-Post-Name{
+        bottom: 75%;
+    }
+    #text{
+        height: 200px;
+        top: 55%;
+    }
+     #lineBot{
+        top: 50%;
+     }
+}
+@media screen  and (max-height:650px){
+    #User-Post-Name{
+        bottom: 65%;
+    }
+    #tags{
+        top: 14%;
+    }
+    #tags p{
+        font-size: 20px;
+    }
+    #text{
+        height: 150px;
+    }
+     #lineBot{
+        top: 52%;
+     }
+}
+@media screen  and (max-height:650px){
+    #lineBot{
+        top: 57%;
+     }
+}

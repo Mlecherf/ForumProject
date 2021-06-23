@@ -32,9 +32,11 @@
         <div id="Profil_Info">
             <div id="stat">
                 <p id="Post_stat">
+                    Post : <strong>{{.Postes}}</strong>
                     <!-- recup depuis la BDD  -->
                 </p>
                 <p id="Liked_stat">
+                    Total Like : <strong>{{.Like}}</strong>
                     <!-- recup depuis la BDD  -->
                 </p>
             </div>
@@ -44,13 +46,15 @@
         </div>
         <div id="Post_Area">
             {{range .Display}}
-                <div id="Nom_post" class="poste_preview">
+                <a id="Nom_post" class="poste_preview" href="viewpost?id={{.Post_info.Id}}">
                         <div id="header_info">
                             <p class="title">{{.Post_info.Name}}</p>
                             <!-- <p class="author">123456789123</p> -->
                         </div>
                         <div id="brief_content">
+                            <p>
                         {{.Post_info.Content}}
+                    </p>
                         </div>
                     <div id="footer_info">
                         <div class="posttag">
@@ -71,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             {{end}}            
         </div>
     </div>

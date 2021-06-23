@@ -24,40 +24,42 @@
         <div id="carousel_fix">
             <p class="titre_carousel">All - Themes</p>
             <div>
-                <div class="arrow arrowTop"><i class="fas fa-arrow-up"></i></div>
+                <div class="arrow arrowTop"><p><i class="fas fa-arrow-up"></i></p></div>
+                <div class="arrow arrowLeft"><p><i class="fas fa-arrow-left"></i></p></div>
                 <div id="test">
-                    <a class="theme Fast_Food" href="/theme/name=Fast_Food"><p>Fast Food</p></a>
-                    <a class="theme Pizza"href="/theme/name=Pizza"><p>Pizza</p></a>
-                    <a class="theme Burger" href="/theme/name=Burger"><p>Burger</p></a>
-                    <a class="theme Dessert" href="/theme/name=Dessert"><p>Dessert</p></a>
-                    <a class="theme American" href="/theme/name=American"><p>American</p></a>
-                    <a class="theme Italia" href="/theme/name=Italia"><p>Italian</p></a>
-                    <a class="theme Mexican" href="/theme/name=Mexican"><p>Mexican</p></a>
-                    <a class="theme India" href="/theme/name=India"><p>Indian</p></a>
-                    <a class="theme Japan" href="/theme/name=Japan"><p>Japan</p></a>
-                    <a class="theme French" href="/theme/name=French"><p>French</p></a>
-                    <a class="theme Africa" href="/theme/name=Africa"><p>African</p></a>
-                    <a class="theme BBQ" href="/theme/name=BBQ"><p>BBQ</p></a>
-                    <a class="theme Korea" href="/theme/name=Korea"><p>Korean</p></a>
-                    <a class="theme Vegan" href="/theme/name=Vegan"><p>Vegan</p></a>
-                    <a class="theme Latina_America" href="/theme/name=Latina_America"><p>Latina America</p></a>
-                    <a class="theme Bakery" href="/theme/name=Bakery"><p>Bakery</p></a>
+                    <a class="theme Fast_Food" href="/theme?name=Fast_Food"><p>Fast Food</p></a>
+                <a class="theme Pizza"href="/theme?name=Pizza"><p>Pizza</p></a>
+                <a class="theme Burger" href="/theme?name=Burger"><p>Burger</p></a>
+                <a class="theme Dessert" href="/theme?name=Dessert"><p>Dessert</p></a>
+                <a class="theme American" href="/theme?name=American"><p>American</p></a>
+                <a class="theme Italia" href="/theme?name=Italia"><p>Italian</p></a>
+                <a class="theme Mexican" href="/theme?name=Mexican"><p>Mexican</p></a>
+                <a class="theme India" href="/theme?name=India"><p>Indian</p></a>
+                <a class="theme Japan" href="/theme?name=Japan"><p>Japan</p></a>
+                <a class="theme French" href="/theme?name=French"><p>French</p></a>
+                <a class="theme Africa" href="/theme?name=Africa"><p>African</p></a>
+                <a class="theme BBQ" href="/theme?name=BBQ"><p>BBQ</p></a>
+                <a class="theme Korea" href="/theme?name=Korea"><p>Korean</p></a>
+                <a class="theme Vegan" href="/theme?name=Vegan"><p>Vegan</p></a>
+                <a class="theme Latina_America" href="/theme?name=Latina_America"><p>Latina America</p></a>
+                <a class="theme Bakery" href="/theme?name=Bakery"><p>Bakery</p></a>
                 </div>
-                <div class=" arrow arrowBottom"><i class="fas fa-arrow-down"></i></div>
+                <div class=" arrow arrowBottom"><p><i class="fas fa-arrow-down"></i></p></div>
+                <div class="arrow arrowRight"><p><i class="fas fa-arrow-right"></i></p></div>
             </div>
         </div>
         <div class="all_posts">
-            <div class="titre"><p>Fast Food</p></div>
-            <div class="line"></div>
+            <div class="titre"><p>{{.NameTheme}}</p></div>
+            <div class="line {{.NameTheme}}_post" ></div>
             <div class="affichage">
-                {{range .Display}}
-                <div id="Nom_post" class="poste_preview">
+                {{range .FinalArr}}
+                <a id="Nom_post" class="poste_preview" href="viewpost?id={{.Post_info.Id}}">
                         <div id="header_info">
                             <p class="title">{{.Post_info.Name}}</p>
                             <!-- <p class="author">123456789123</p> -->
                         </div>
                         <div id="brief_content">
-                        {{.Post_info.Content}}
+                        <p>{{.Post_info.Content}}</p>
                         </div>
                     <div id="footer_info">
                         <div class="posttag">
@@ -75,10 +77,10 @@
                             <div class="like">
                                 <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
                                 <p id="conteur_like">{{.Post_info.Like}}</p>
-                            </div>  
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             {{end}}
             </div>
         </div>

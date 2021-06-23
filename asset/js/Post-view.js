@@ -1,36 +1,41 @@
-const arrowTop = document.querySelectorAll(".arrowTop")[0]
-const arrowBottom = document.querySelectorAll(".arrowBottom")[0]
-
-arrowTop.addEventListener("click", () => {
-    const theme = document.getElementById("test")
-    theme.scrollTo({
-        top:theme.scrollTop-400,
-        left:0,
-        behavior:"smooth"
+const LikePost = document.getElementById("Like-Button")
+LikePost.value = "non"
+const likeForm = document.getElementById("Likeform")
+const PostModif = document.getElementById("modify-post")
+const modif = document.getElementById("modify")
+ADD_Like()
+function ADD_Like(){
+    LikePost.addEventListener("click",()=>{
+        if(LikePost.value == "non"){
+            console.log("false to true");
+            LikePost.value = "oui";
+            LikePost.style.color = "#FFCB77"
+        }else if (LikePost.value == "oui"){
+            console.log("true to false");
+            LikePost.value = "non";
+            LikePost.style.color = "#c29958"
+        }
+    })
+}
+likeForm.addEventListener("submit",function(){
+    fetch('/like', {
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+            Like: LikePost.value
+        })  
+    })
+    .then(function(response){
+        return response.text
+    })
+    .catch(function(error){
+        console.error(error)
     })
 })
-
-arrowBottom.addEventListener("click", () => {
-    const theme = document.getElementById("test")
-    theme.scrollTo({
-        top:theme.scrollTop+400,
-        left:0,
-        behavior:"smooth"
-    })
+PostModif.addEventListener("click",function(){
+    modif.style.display = "block"
 })
- 
 
 
-
-// const top__ = document.getElementById("go_top")
-// const bottom = document.getElementById('go_bottom')
-
-// bottom.addEventListener('click', (e)=>{
-//     const theme = document.getElementById("theme")
-//     theme.scrollTo({
-//         left:0,
-//         top:theme.scrollLeft+500,
-//         behavior:"smooth"
-//     })
-
-// })

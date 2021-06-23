@@ -13,6 +13,9 @@
     <!-- Roboto -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <title>Home</title>
     
 </head>
@@ -25,11 +28,11 @@
             <p class="titre_home" id="titre_popular_themes">Popular - Themes</p>
             <div class="menu_theme">
                 <div id="top5">
-                    <div class="theme Fast_Food"><p>Fast Food</p></div>
-                    <div class="theme Pizza"><p>Pizza</p></div>
-                    <div class="theme Burger"><p>Burger</p></div>
-                    <div class="theme Dessert"><p>Dessert</p></div>
-                    <div class="theme American"><p>American</p></div>
+                    <a class="theme Fast_Food" href="/theme?name=Fast_Food"><p>Fast Food</p></a>
+                    <a class="theme Pizza"href="/theme?name=Pizza"><p>Pizza</p></a>
+                    <a class="theme Burger" href="/theme?name=Burger"><p>Burger</p></a>
+                    <a class="theme Dessert" href="/theme?name=Dessert"><p>Dessert</p></a>
+                    <a class="theme American" href="/theme?name=American"><p>American</p></a>
                 </div>
             </div>
         </div>
@@ -38,14 +41,14 @@
         
         <p class="titre_home" id="titre_popular_posts">Popular - Posts</p>
         <div class="menu_theme popular_posts" id="post">
-            {{range .}}
-                <div id="Nom_post" class="poste_preview">
+            {{range .FinalArr}}
+                <a id="Nom_post" class="poste_preview" href="viewpost?id={{.Post_info.Id}}">
                         <div id="header_info">
                             <p class="title">{{.Post_info.Name}}</p>
                             <!-- <p class="author">123456789123</p> -->
                         </div>
                         <div id="brief_content">
-                        {{.Post_info.Content}}
+                        <p>{{.Post_info.Content}}</p>
                         </div>
                     <div id="footer_info">
                         <div class="posttag">
@@ -66,32 +69,33 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             {{end}}
         </div>
 
         <p class="titre_home" id="titre_all_themes">All - Themes</p>
         
         <div class="menu_theme carousel" id="theme">
-            <div class="arrow arrowLeftTheme"><p></p></div>
-            <div class="arrow arrowRightTheme"><p>></p></div>
+            <div class="arrow arrowLeftTheme"><p><i class="fas fa-arrow-left"></i></p></div>
+            <div class="arrow arrowRightTheme"><p><i class="fas fa-arrow-right"></i></p></div>
             <div>          
-                <a class="theme Fast_Food" href="/theme?fastfood"><p>Fast Food</p></a>
-                <div class="theme Pizza"><p>Pizza</p></div>
-                <div class="theme Burger"><p>Burger</p></div>
-                <div class="theme Dessert"><p>Dessert</p></div>
-                <div class="theme American"><p>American</p></div>
-                <div class="theme Italia"><p>Italian</p></div>
-                <div class="theme Mexican"><p>Mexican</p></div>
-                <div class="theme India"><p>Indian</p></div>
-                <div class="theme Japan"><p>Japan</p></div>
-                <div class="theme French"><p>French</p></div>
-                <div class="theme Africa"><p>African</p></div>
-                <div class="theme BBQ"><p>BBQ</p></div>
-                <div class="theme Korea"><p>Korean</p></div>
-                <div class="theme Vegan"><p>Vegan</p></div>
-                <div class="theme Latina_America"><p>Latina America</p></div>
-                <div class="theme Bakery"><p>Bakery</p></div>
+                <a class="theme Fast_Food" href="/theme?name=Fast_Food"><p>Fast Food</p></a>
+                    <a class="theme Pizza"href="/theme?name=Pizza"><p>Pizza</p></a>
+                    <a class="theme Burger" href="/theme?name=Burger"><p>Burger</p></a>
+                    <a class="theme Dessert" href="/theme?name=Dessert"><p>Dessert</p></a>
+                    <a class="theme American" href="/theme?name=American"><p>American</p></a>
+                    <a class="theme Italia" href="/theme?name=Italia"><p>Italian</p></a>
+                    <a class="theme Mexican" href="/theme?name=Mexican"><p>Mexican</p></a>
+                    <a class="theme India" href="/theme?name=India"><p>Indian</p></a>
+                    <a class="theme Japan" href="/theme?name=Japan"><p>Japan</p></a>
+                    <a class="theme French" href="/theme?name=French"><p>French</p></a>
+                    <a class="theme Africa" href="/theme?name=Africa"><p>African</p></a>
+                    <a class="theme BBQ" href="/theme?name=BBQ"><p>BBQ</p></a>
+                    <a class="theme Korea" href="/theme?name=Korea"><p>Korean</p></a>
+                    <a class="theme Vegan" href="/theme?name=Vegan"><p>Vegan</p></a>
+                    <a class="theme Latina_America" href="/theme?name=Latina_America"><p>Latina America</p></a>
+                    <a class="theme Bakery" href="/theme?name=Bakery"><p>Bakery</p></a>
+               
             </div> 
         </div>
     </div>

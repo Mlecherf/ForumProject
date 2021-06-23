@@ -13,6 +13,7 @@ body
 {
     padding-top: 60px;
     padding-left: 30px;
+    padding-right: 30px;
 }
 
 /*---------------------------------------------------*/
@@ -20,6 +21,9 @@ body
 #carousel_fix
 {
     position: fixed;
+    background: #4D4D4D;
+    height: 90vh;
+    overflow: hidden;
 }
 
 .titre_carousel
@@ -31,9 +35,11 @@ body
 
 #test
 {
-    height: 80vh;
-    width:180px;
-    overflow: hidden;
+    height: 79.2vh;
+    overflow: scroll;
+    flex-direction: column;
+    padding-top: 30px;
+    width: 170px;
 }
 #test::-webkit-scrollbar
 {
@@ -42,8 +48,7 @@ body
 
 .arrow
 {
-    height: 30px;
-    width: 170px;
+    position: absolute;
     background: #FFCB77;
     text-align: center;
     opacity: 0.9;
@@ -58,31 +63,54 @@ body
 .arrowTop
 {
     border-radius: 5px 5px 0px 0px;
+    height: 30px;
+    width: 170px;
 }
 
 .arrowBottom
 {
     bottom: 0;
     border-radius: 0px 0px 5px 5px;
+    height: 30px;
+    width: 170px;
+}
+
+.arrowLeft
+{
+    display: none;
+    height: 170px;
+    width: 30px;
+    border-radius: 5px 0px 0px 5px;
+    position: absolute;
+    left: 0;
+}
+
+.arrowRight
+{
+    display: none;
+    height: 170px;
+    width: 30px;
+    border-radius: 0px 5px 5px 0px;
+    position: absolute;
+    right: 0;
 }
 
 /*---------------------------------------------------*/
 
 .all_posts
 {
-    padding-left: 300px;
-    padding-right: 100px;
+    padding-left: 16%;
+    padding-right: 2.4%;
 }
 
 .titre
 {
-    display: flex;
-    margin-top: 20px;
     font-family: 'Roboto', sans-serif;
     font-size: 90px;
     color: white;
     text-align: center;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .line
@@ -90,7 +118,7 @@ body
     margin-top: 50px;
     background-color: #FFE600;
     height: 1px;
-    width: 96%;
+    width: auto;
 }
 
 .affichage
@@ -108,24 +136,59 @@ body
 }
 
 @media screen and (max-width: 1225px){
-    #carousel_fix
-    {
-        margin-left: 30%;
-        z-index: 1;
-    }
-
-    #test
-    {
-        height: 20vh;
-    }
     .titre
     {
         margin-top: 300px;
-        margin-left: 30%;
+        left: 20%;
+    }
+    .titre_carousel
+    {
+        position: absolute;
+        text-align: center;
+        justify-content: center;
+        top: 60px;
+    }
+    #carousel_fix
+    {
+        position: fixed;
+        width: 80%;
+        text-align: center;
+        justify-content: center;
+        left: 10%;
+        height: 300px;
+    }
+    #test
+    {
+        display: flex;
+        flex-direction: row;
+        height: 170px;
+        margin: 100px 30px 0 30px;
+        padding: 0 0;
+        width: 93%;
+    }
+    .arrowTop
+    {
+        display: none;
+    }
+    .arrowBottom
+    {
+        display: none;
+    }
+    .arrowLeft
+    {
+        display: block;   
+    }
+    .arrowRight
+    {
+        display: block;
+        top: 0;
+        margin-top: 100px;
     }
     .affichage
     {
         grid-template-columns: auto;
+        text-align: center;
+        justify-content: center;
     }
     .all_posts
     {
@@ -133,10 +196,9 @@ body
     }
     .line
     {
-        padding: 0 5%;
         margin-left: 2%;
+        margin-right: 2%;
         width: auto;
-        left: 10%;
     }
     .page
     {

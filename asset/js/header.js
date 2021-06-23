@@ -169,8 +169,6 @@ function ADD_enabled (){
 myForm.addEventListener('submit',function (e){
     document.getElementById("pop_post_add").style.display="none";
     e.preventDefault()
-    // const formData = new FormData(this)
-
     fetch('/recup', {
         method: 'post',
         headers : {
@@ -189,5 +187,13 @@ myForm.addEventListener('submit',function (e){
     .catch(function(error){
         console.error(error)
     })
+    document.getElementById("label_name_post").innerHTML = "Name : character 0/25"
+    NameAdd.value = ""
+    NameAdd.style.borderColor = "#FFCB77"
+    nb_tag.innerHTML = `Tag : 0/4`
+    nb_tag_up = 0
+    document.getElementById("label_content_post").innerHTML = `Description : character 0/2000`
+    ContentAdd.value = ""
+    ContentAdd.style.borderColor = "#FFCB77"
 
 })
