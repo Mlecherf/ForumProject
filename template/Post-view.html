@@ -44,7 +44,11 @@
                         
                         <div class="params">
                             {{if eq  .Owner true}}
-                            <span class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
+                            <span id="modify-post" class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
+                            <div id="modify">
+                                <div id="incomingModify">modify</div>
+                                <div id="incomingDelete">delete</div>
+                            </div>
                             {{end}}
                         </div>
                     </div>

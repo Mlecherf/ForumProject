@@ -1,6 +1,8 @@
 const LikePost = document.getElementById("Like-Button")
 LikePost.value = "non"
 const likeForm = document.getElementById("Likeform")
+const PostModif = document.getElementById("modify-post")
+const modif = document.getElementById("modify")
 ADD_Like()
 function ADD_Like(){
     LikePost.addEventListener("click",()=>{
@@ -32,6 +34,8 @@ likeForm.addEventListener("submit",function(){
         console.error(error)
     })
 })
-
+PostModif.addEventListener("click",function(){
+    modif.style.display = "block"
+})
 
 

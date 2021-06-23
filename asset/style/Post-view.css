@@ -74,11 +74,15 @@ html{
     justify-content: center;
     transition: 0.5s;
 }
-#params_btn{
-    background: none;
-    border: none; 
-    width: 50px;
-    height: 50px;
+#modify{
+    display: none;
+    position: absolute;
+    right: 25px;
+    top: 50px;
+    width: 150px;
+    height: 100px;
+    border: 5px solid #fff;
+    background: #FFCB77;
 }
  #User-Post-Name{
     width: 80%; 
@@ -324,6 +328,7 @@ html{
         top: 18%;
     }
 }
+
 @media screen  and (max-height:720px){
     #User-Post-Name{
         bottom: 75%;
