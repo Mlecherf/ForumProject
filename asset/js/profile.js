@@ -273,3 +273,14 @@ function Pwd_Verification_verification(pwd){
         SecondInput.style.borderColor = "green"
     }
 }
+
+Tags = [...document.getElementsByClassName("tag")]
+Tags.forEach(element => {
+    console.log(element.innerHTML)
+    if (element.innerText == "America_Latina"){
+        element.innerHTML = "<p>America Latina</p>"
+    }
+    if (element.innerText == "Fast_Food"){
+        element.innerHTML = "<p>Fast Food</p>"
+    }
+});

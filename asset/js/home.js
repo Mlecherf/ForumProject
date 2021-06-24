@@ -34,9 +34,9 @@ Tags = [...document.getElementsByClassName("tag")]
 Tags.forEach(element => {
     console.log(element.innerHTML)
     if (element.innerText == "America_Latina"){
-        element.innerText = "America Latina"
+        element.innerHTML = "<p>America Latina</p>"
     }
     if (element.innerText == "Fast_Food"){
-        element.innerText = "Fast Food"
+        element.innerHTML = "<p>Fast Food</p>"
     }
 });
