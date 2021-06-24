@@ -5,6 +5,14 @@ const Password_Verif = document.getElementById("Password_Verif__input")
 const Submit_btn = document.getElementsByClassName("submit")
 const Disclaimer_Error = document.getElementsByClassName("Disclaimer_error")
 
+// Email Gestion
+// error message display if
+// not enough @ or too many @
+// . befor or after @ or .
+// not enough character after @ want @x.x
+// Min 5 character
+// Space not allowed
+// not in 32 - 126 in ascci table
 Email.addEventListener("input", (event)=>{
     let email_value = Email.value
     let error_encounter = Email_Verification(email_value)
@@ -98,7 +106,11 @@ function Email_Verification (email){
     }
     return input_err
 }
-
+// Username Gestion
+// error message display if
+// Max 12 character
+// Min 5 character
+// Space not allowed
 Username.addEventListener("input", (event)=>{
     let username_value = Username.value
     let error_encounter = Username_Verification(username_value)
@@ -135,7 +147,11 @@ function Username_Verification (user){
     })
     return input_err
 }
-
+// Password Gestion
+// error message display if
+// Min 2 for UperCase & LowerCase & Number
+// Min 6 character
+// Space not allowed
 Password.addEventListener("input", (event)=>{
     let pwd_value = Password.value
     let pwd_verif_value = Password_Verif.value
@@ -199,7 +215,8 @@ function Password_Verification (pwd){
     }
     return input_err
 }
-
+// Password Verif Gestion
+// Valid only if equal to password
 Password_Verif.addEventListener("input", (event)=>{
     let pwd_verif_value = Password_Verif.value
     let pwd_value = Password.value
@@ -213,7 +230,7 @@ Password_Verif.addEventListener("input", (event)=>{
     }
     verif()
 })
-
+// Verification of all field 
 function verif (){
     if (Email.style.borderColor == "green" && Username.style.borderColor == "green" && Password.style.borderColor == "green"  && Password_Verif.style.borderColor == "green"){
         Submit_btn[0].removeAttribute('disabled')

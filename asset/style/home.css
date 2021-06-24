@@ -98,10 +98,7 @@ body
 
 .arrow i
 {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor:default;
+    padding-top: 65px;
 }
 
 .arrowLeftTheme

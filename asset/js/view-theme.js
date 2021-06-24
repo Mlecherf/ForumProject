@@ -1,8 +1,11 @@
+// On récupère nos boutons sur les côtés. 
 const arrowTop = document.querySelectorAll(".arrowTop")[0]
 const arrowBottom = document.querySelectorAll(".arrowBottom")[0]
+// Et ceux pour le responsive
 const arrowLeft = document.querySelectorAll(".arrowLeft")[0]
 const arrowRight = document.querySelectorAll(".arrowRight")[0]
 
+// Si on click sur le bouton, on décale theme de 500px sur un côté où l'autre, à la vertical
 arrowTop.addEventListener("click", () => {
     const theme = document.getElementById("test")
     theme.scrollTo({
@@ -21,6 +24,7 @@ arrowBottom.addEventListener("click", () => {
     })
 })
 
+// De même pour le responsive, à l'horizontal
 arrowLeft.addEventListener("click", () => {
     const theme = document.getElementById("test")
     theme.scrollTo({
