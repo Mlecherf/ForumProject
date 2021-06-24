@@ -47,28 +47,24 @@
                             <button id="modify-post">
                             <span  class="iconify" data-icon="clarity:cog-line" data-inline="false"></span>
                             </button>
-                            <div id="pop_post_modify">
-        <div id="post_add_info">
-            <button id="close_post" class="closemod">+</button>
-            <form action="/" method="GET" id="myFormMod">
-                <div id="name">
-                    <label for="post_name_mod" id="label_name_mod">Name : character 0/25</label><br>    
-                    <input type="text" name="post_name_mod" id="post_name_mod">
-                </div>
-                
-                
-                <div id="describ_content">
-                    <label for="post_content_mod" id="label_content_mod">Description : character 0/2000 <br></label>
-                    <textarea name="post_content_mod" id="post_content_mod" cols="30" rows="10"></textarea>
-                </div>
-
-                <input type="hidden" value="{{.Post_info.Id}}" id="Post_id_modif">
-
-                <button id="post_submit_mod" disabled></button>
-                
-            </form>
-        </div>
-    </div>
+                            
+                                <div id="mod_Post">
+                                    <button id="close_mod">+</button>
+                                    <form action="/" method="POST" id="myFormMod">
+                                    <div id="name_mod">
+                                        <label for="Name_mod" id="lab_mod_name">Name : character 0/25</label><br>
+                                        <input type="text" name="Name_mod" id="Name_mod">
+                                    </div>
+                                    <div id="describ_content_mod">
+                                        <label for="Content_mod" id="lab_mod_content">Description : character 0/2000 </label><br>
+                                        <textarea name="Content_mod" id="Content_mod" ></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" id="Mod_sub" disabled>Change</button>
+                                    
+                                    </form>
+                                </div>
+                            
                             {{end}}
                         </div>
                     </div>

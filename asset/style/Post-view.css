@@ -74,21 +74,7 @@ html{
     justify-content: center;
     transition: 0.5s;
 }
-#modify-post{
-    background: none;
-    border: none;
-}
-#pop_post_modify{
-    display: none   ;
-    position:fixed;
-    top: 55px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 55px);
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 999;
-}
- #User-Post-Name{
+#User-Post-Name{
     width: 80%; 
     height: 100px;
     bottom: 75%;
@@ -105,6 +91,114 @@ html{
     color: #FFFFFF;
     transition: 0.5s;
  }
+#modify-post{
+    background: none;
+    border: none;
+}
+#mod_Post{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 800px;
+    height: 700px;
+    background-color: #373737;
+}
+#name_mod{
+    position: relative;
+    left: 40px;
+    top: 20px;
+    width: calc(100% - 80px);
+    height: 15%;
+    /* background: chartreuse; */
+}
+#describ_content_mod{
+    position: relative;
+    bottom: 20px;
+    left: 40px;
+    width: calc(100% - 80px);
+    height: 70%;
+    /* background: cornflowerblue; */
+    margin-top: 50px;
+}
+#name_mod label, #describ_content_mod label{
+    font-size: 25px;
+    color: #fff;
+}
+#name_mod input, #describ_content_mod textarea{
+    margin-top: 10px;
+}
+#name_mod input{
+    width: 80%;
+    height: 20px;
+    padding: 4px 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: #343434;
+    border: 2px solid #FFCB77;
+    border-radius: 5px;
+    color: #fff;
+}
+#name_mod input:focus{
+    /* background: #FFCB77; */
+    outline: none;
+}
+#describ_content_mod textarea{
+    resize: none;
+    width: 80%; 
+    height: 70%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    background: #343434;
+    border: 2px solid #FFCB77;
+    border-radius: 15px;
+    color: #fff;
+}
+#describ_content_mod textarea:focus{
+    outline: none;
+}
+#close_mod{
+    cursor: pointer;
+    transform: rotate(45deg);
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #ffcb77;
+    background: none;
+    border: none;
+    outline: none;
+}
+#close_mod:hover{
+    width: 60px;
+    height: 60px;
+    font-size: 50px;
+    top: 0px;
+    right: 0px;
+}
+#Content_mod{
+    height: 500px !important;
+}
+
+#Mod_sub{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    background: #fff;
+    color: #373737;
+    font-size: 15px;
+    padding: 5px 10px;
+    border: 5px solid #373737;
+    border-radius: 10px;
+}
+#Mod_sub:disabled{
+    opacity: 0.2;
+}
  #tags{
      position: absolute;
      width: 60vh;

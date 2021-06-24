@@ -205,6 +205,7 @@ header {
     height: 35px;
     border: 2px solid transparent;
     display: flex;
+
 }
 #tag__tag input{
     position: relative;
@@ -222,6 +223,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Roboto', sans-serif !important;
 }
 #reset__tag{
     background: #FFCB77;
@@ -262,7 +264,10 @@ header {
     border-radius: 5px;
     color: #fff;
 }
-
+#name input:focus{
+    /* background: #FFCB77; */
+    outline: none;
+}
 #describ_content textarea{
     resize: none;
     width: 80%; 
@@ -275,7 +280,9 @@ header {
     border-radius: 15px;
     color: #fff;
 }
-
+#describ_content textarea:focus{
+    outline: none;
+}
 #post_submit{
     position: absolute;
     bottom: 25px;
