@@ -1,3 +1,4 @@
+/* gestion carré + titre thème  */
 .theme
 {
     border: 10px;
@@ -16,6 +17,7 @@
     background-size: cover;
 }
 
+/* Centre le texte */
 .theme p
 {
     position: relative;
@@ -25,6 +27,8 @@
     text-align: center;
     width: 150px;
 }
+
+/* On récupère les images + règle les tailles */
 
 .Fast_Food
 {
