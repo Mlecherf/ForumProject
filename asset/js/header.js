@@ -18,7 +18,7 @@ input.addEventListener("keyup", function(event) {
 });
 
 
-// Account Gestion
+// Popup on click account icon
 // 
 document.getElementsByClassName("Login")[0].addEventListener("click", (event)=>{
     document.getElementById("Pop_up").style.display = "block"
@@ -31,10 +31,10 @@ document.addEventListener("click", ()=>{
 
 
 // Cookie gestion 
+// depending on cookie value, change occur in the header 
+// if connect = true |-> account image = user-male / post btn = display / gestion = Profile & Logout 
+// if connect = false |-> account image = ninja / post btn = hidden / gestion = Register & Login
 // 
-// 
-// document.cookie = "Login ='{'user':'Clem','mail':'mail@cookie.com','nb_posts':'10','nb_likes':'15'}'"
-// document.cookie = "Connect = true"
 let my_cookie_header = Select_Login_cookie()
 if (my_cookie_header == "true"){
     document.getElementsByClassName("Login")[0].setAttribute("src", "https://img.icons8.com/fluent-systems-regular/45/000000/user-male-circle.png")
@@ -50,7 +50,7 @@ if (my_cookie_header == "true"){
     document.getElementById("Second_pop").innerHTML = "Login"
     document.getElementById("Second_pop").setAttribute("href","/login")
 }
-
+// Select Connect cookie 
 function Select_Login_cookie (){
     let my_cookie_login = ""
 
@@ -64,8 +64,10 @@ function Select_Login_cookie (){
 
 
 // Pop-up Tag
-// 
-// 
+// Gestion of Post Add
+// Name 4-25
+// Tag 1-4
+// Content 4-2000
 const NameAdd = document.getElementById("post_name_add");
 const ContentAdd = document.getElementById("post_content_add");
 const Post_tag = [...document.getElementsByClassName('tag__post')]
@@ -75,7 +77,8 @@ let nb_tag_up = 0;
 let Check_Tag = ""
 const myForm = document.getElementById("myForm")
 
-// listener on popup
+// Close the popup
+// reinitialise all js var / html innerHTML / input border color & input value
 document.getElementById("close_post").addEventListener("click", ()=>{
     document.getElementById('pop_post_add').style.display = "none"
     document.getElementById("label_name_post").innerHTML = "Name : character 0/25"
@@ -93,12 +96,14 @@ document.getElementById("close_post").addEventListener("click", ()=>{
     ContentAdd.style.borderColor = "#FFCB77"
     document.getElementById("post_submit").setAttribute("disabled",true)
 })
+// Open the popup
 document.getElementById("Post_add").addEventListener("click", ()=>{
     document.getElementById('pop_post_add').style.display = "block"
 })
 
 
 // --name input management--
+// looking name-input length
 NameAdd.addEventListener("input", ()=>{
     if (NameAdd.value.length < 4){
         document.getElementById("label_name_post").innerHTML = `Name : not enough character ${NameAdd.value.length}/25`
@@ -113,6 +118,7 @@ NameAdd.addEventListener("input", ()=>{
     ADD_enabled()
 })
 // content post management
+// looking content-input length
 ContentAdd.addEventListener("input", ()=>{
     if (ContentAdd.value.length < 4){
        document.getElementById("label_content_post").innerHTML = `Description : not enough character ${ContentAdd.value.length}/2000`
@@ -127,7 +133,10 @@ ContentAdd.addEventListener("input", ()=>{
     ADD_enabled()
 })
 // Tag management
-
+// Check all up tag 
+// Max 4 up | Min 1 up
+// If 4 up other down and block
+// Reset tag btn -> all tag down
 Post_tag.forEach((elem)=>{
     elem.value = "down"
 })
@@ -159,6 +168,9 @@ restes_tag.addEventListener('click', ()=>{
     nb_tag_up = 0
     Check_Tag = ""
 })
+
+// Looking to nb tag up and coolor of name & content border
+// Disable or not the add btn
 function ADD_enabled (){
     if ((nb_tag_up >0 && nb_tag_up <5)&&(NameAdd.style.borderColor == "green")&&(ContentAdd.style.borderColor == "green")){
         document.getElementById("post_submit").removeAttribute("disabled")
@@ -166,6 +178,8 @@ function ADD_enabled (){
         document.getElementById("post_submit").setAttribute("disabled",true)
     }
 }
+// On submit post
+// Send all data to Golang server through /recup path
 myForm.addEventListener('submit',function (e){
     document.getElementById("pop_post_add").style.display="none";
     e.preventDefault()
