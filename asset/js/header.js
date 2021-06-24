@@ -201,6 +201,14 @@ myForm.addEventListener('submit',function (e){
     .catch(function(error){
         console.error(error)
     })
+    Post_tag.forEach((elem)=>{
+        elem.checked = false;
+        elem.value = "down"
+        elem.removeAttribute("disabled")
+    })
+    nb_tag.innerHTML = `Tag : 0/4`
+    nb_tag_up = 0
+    Check_Tag = ""
     document.getElementById("label_name_post").innerHTML = "Name : character 0/25"
     NameAdd.value = ""
     NameAdd.style.borderColor = "#FFCB77"
