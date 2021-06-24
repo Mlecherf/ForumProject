@@ -123,6 +123,7 @@ document.getElementById("myFormMod").addEventListener('submit',function (e){
     ContentMod.style.borderColor = "#FFCB77"
     document.getElementById("post_submit_mod").setAttribute("disabled",true)
 })
+<<<<<<< HEAD
 const scrollbar = document.getElementById("text")
 
 scrollbar.addEventListener("click",()=>{
@@ -145,3 +146,5 @@ Tags.forEach(element => {
         element.innerText = "Fast Food"
     }
 });
+=======
+>>>>>>> e77d9cc647cdccadc0d7a2dbfc7af5f92f8359a3
