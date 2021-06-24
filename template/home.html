@@ -28,11 +28,9 @@
             <p class="titre_home" id="titre_popular_themes">Popular - Themes</p>
             <div class="menu_theme">
                 <div id="top5">
-                    <a class="theme Fast_Food" href="/theme?name=Fast_Food"><p>Fast Food</p></a>
-                    <a class="theme Pizza"href="/theme?name=Pizza"><p>Pizza</p></a>
-                    <a class="theme Burger" href="/theme?name=Burger"><p>Burger</p></a>
-                    <a class="theme Dessert" href="/theme?name=Dessert"><p>Dessert</p></a>
-                    <a class="theme American" href="/theme?name=American"><p>American</p></a>
+                    {{range .PopularTheme}}
+                    <a class="theme {{.}}" href="/theme?name={{.}}"><p>{{.}}</p></a>
+                    {{end}}
                 </div>
             </div>
         </div>
@@ -93,7 +91,7 @@
                     <a class="theme BBQ" href="/theme?name=BBQ"><p>BBQ</p></a>
                     <a class="theme Korea" href="/theme?name=Korea"><p>Korean</p></a>
                     <a class="theme Vegan" href="/theme?name=Vegan"><p>Vegan</p></a>
-                    <a class="theme Latina_America" href="/theme?name=Latina_America"><p>Latina America</p></a>
+                    <a class="theme America_Latina" href="/theme?name=America_Latina"><p>America Latina</p></a>
                     <a class="theme Bakery" href="/theme?name=Bakery"><p>Bakery</p></a>
                
             </div> 

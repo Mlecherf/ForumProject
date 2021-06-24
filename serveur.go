@@ -212,10 +212,10 @@ func home(response http.ResponseWriter, request *http.Request) {
 	theme["American"] = AC
 	theme["Italia"] = IC
 	theme["Mexican"] = MC
-	theme["Indian"] = INC
+	theme["India"] = INC
 	theme["Japan"] = JC
 	theme["French"] = FC
-	theme["African"] = AFC
+	theme["Africa"] = AFC
 	theme["BBQ"] = BBQC
 	theme["Korea"] = KC
 	theme["Vegan"] = VC
@@ -252,6 +252,7 @@ func home(response http.ResponseWriter, request *http.Request) {
 	}
 
 	ToSend := PopularPost{FinalArr: FinalArr, PopularTheme: order_theme[:]}
+	fmt.Println(ToSend)
 	tpl.ExecuteTemplate(response, "home.html", ToSend)
 }
 

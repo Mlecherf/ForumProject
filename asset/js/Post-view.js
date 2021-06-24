@@ -132,3 +132,16 @@ scrollbar.addEventListener("click",()=>{
         scrollbar.style.overflowY = "scroll"
     }
 })
+
+
+Tags = [...document.getElementsByClassName("Tag")]
+Tags.forEach(element => {
+    console.log(element.innerText)
+    console.log(element.innerText === "America_Latina")
+    if (element.innerText == "America_Latina"){
+        element.innerText = "America Latina"
+    }
+    if (element.innerText == "Fast_Food"){
+        element.innerText = "Fast Food"
+    }
+});
