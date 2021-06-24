@@ -6,9 +6,6 @@ const Modify_username = document.getElementById("user_btn")
 const Modify_email = document.getElementById("mail_btn")
 const Modify_pwd = document.getElementById("password_btn")
 
-// const ToChange = document.getElementById("Tochange")
-
-
 const Profil_Mod = document.getElementById("Special_modif")
 const field_name = document.getElementById("Name_Modif_1")
 const filed_describ = document.getElementById("Name_Modif_2")
@@ -21,17 +18,22 @@ const ToChange = document.getElementById("ToChange")
 const FirstInput = document.getElementById("Input__info")
 const SecondInput = document.getElementById("Input__curt_pwd")
 
-
+// Display the modify page
 Btn_Edit.addEventListener("click", ()=>{
     Overview.style.display = "none"
     Profile.style.display = "block"
 })
-
+// Hide the modify page
 Profile_Close.addEventListener("click", ()=>{
     Profile.style.display = "none"
     Overview.style.display = "block"
 })
 
+// // all listenent depend on where the modification is up
+// username
+// email
+// password
+// exit reset all field
 Modify_username.addEventListener("click", ()=>{
     Profile.style.display = "none"
     Profil_Mod.style.display = "block"
@@ -99,7 +101,7 @@ SecondInput.addEventListener('input', ()=>{
             Save.removeAttribute("disabled")
         }
 })
-
+// Same verification than register and Login
 function Username_Verification(user){
     // console.log(user, user.length)
     if(user.length < 4){

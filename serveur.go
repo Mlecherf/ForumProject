@@ -58,23 +58,23 @@ func home(response http.ResponseWriter, request *http.Request) {
 
 	ALLTABLE := selectAllFromTable(db, "posts")
 	ArrTagsBrut := []Post{}
+	ThemePost := ""
 	for ALLTABLE.Next() {
 		var p Post
 		err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList, &p.LikeList)
 
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println("->", err)
 		}
-
+		ThemePost += p.Tags
 		ArrTagsBrut = append(ArrTagsBrut, p)
 	}
+
 	IntArr := []int{}
 	for i := len(ArrTagsBrut) - 1; i >= 0; i-- {
 		IntArr = append(IntArr, ArrTagsBrut[i].Like)
 	}
-
 	sort.Ints(IntArr)
-
 	type Final struct {
 		Post_info Post
 		Tag_info  []string
@@ -83,17 +83,22 @@ func home(response http.ResponseWriter, request *http.Request) {
 	ALLTABLE2 := selectAllFromTable(db, "posts")
 	FinalPost := []Post{}
 	verif := false
-	for ALLTABLE2.Next() {
-		var p Post
-		err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList, &p.LikeList)
-
-		if err != nil {
-			log.Fatal(err)
+	Likes := []int{}
+	if len(IntArr) > 5 {
+		for i := len(IntArr) - 1; i >= len(IntArr)-5; i-- {
+			Likes = append(Likes, IntArr[i])
 		}
-		for i := len(IntArr) - 1; i >= 0; i-- {
-			if len(FinalPost) < 5 {
-				if p.Like == IntArr[i] {
-					if len(IntArr)-i >= 5 {
+		for ALLTABLE2.Next() {
+			var p Post
+			err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList, &p.LikeList)
+
+			if err != nil {
+				fmt.Println("->", err)
+			}
+			for i := 0; i < len(Likes); i++ {
+
+				if len(FinalPost) < 5 {
+					if p.Like == Likes[i] {
 						for z := 0; z < len(FinalPost); z++ {
 							if FinalPost[z] == p {
 								verif = true
@@ -104,13 +109,40 @@ func home(response http.ResponseWriter, request *http.Request) {
 						} else {
 							FinalPost = append(FinalPost, p)
 						}
+
 					}
 				}
 			}
-		}
-		if len(IntArr) < 5 {
-			FinalPost = append(FinalPost, p)
+			if len(IntArr) < 5 {
 
+				FinalPost = append(FinalPost, p)
+
+			}
+		}
+	} else {
+		for ALLTABLE2.Next() {
+			var p Post
+			err := ALLTABLE2.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList, &p.LikeList)
+
+			if err != nil {
+				fmt.Println("->", err)
+			}
+			for i := 0; i < len(IntArr); i++ {
+				if p.Like == IntArr[i] {
+					for z := 0; z < len(FinalPost); z++ {
+						if FinalPost[z] == p {
+							verif = true
+						}
+					}
+					if verif == true {
+						verif = false
+					} else {
+						FinalPost = append(FinalPost, p)
+					}
+
+				}
+			}
+			FinalPost = append(FinalPost)
 		}
 	}
 
@@ -121,11 +153,105 @@ func home(response http.ResponseWriter, request *http.Request) {
 		FinalArr = append(FinalArr, Posts)
 	}
 
-	type PopularPost struct {
-		FinalArr []Final
+	ALLTABLE3 := selectAllFromTable(db, "posts")
+	ArrStr := []string{}
+	for ALLTABLE3.Next() {
+		var x Post
+		err := ALLTABLE3.Scan(&x.Id, &x.Like, &x.Views, &x.Content, &x.Name, &x.Tags, &x.User_id, &x.ViewList, &x.LikeList)
+
+		if err != nil {
+			fmt.Println("->", err)
+		}
+		Z := strings.Split(x.Tags, "$")
+		for i := 0; i < len(Z); i++ {
+			ArrStr = append(ArrStr, Z[i])
+		}
+	}
+	FFC, PC, BC, DC, AC, IC, MC, INC, JC, FC, AFC, BBQC, KC, VC, ALC, BAC := 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	for i := 0; i < len(ArrStr); i++ {
+		if ArrStr[i] == "Fast_Food" {
+			FFC += 1
+		} else if ArrStr[i] == "Pizza" {
+			PC += 1
+		} else if ArrStr[i] == "Burger" {
+			BC += 1
+		} else if ArrStr[i] == "Dessert" {
+			DC += 1
+		} else if ArrStr[i] == "American" {
+			AC += 1
+		} else if ArrStr[i] == "Italia" {
+			IC += 1
+		} else if ArrStr[i] == "Mexican" {
+			MC += 1
+		} else if ArrStr[i] == "India" {
+			INC += 1
+		} else if ArrStr[i] == "Japan" {
+			JC += 1
+		} else if ArrStr[i] == "French" {
+			FC += 1
+		} else if ArrStr[i] == "Africa" {
+			AFC += 1
+		} else if ArrStr[i] == "BBQ" {
+			BBQC += 1
+		} else if ArrStr[i] == "Korea" {
+			KC += 1
+		} else if ArrStr[i] == "Vegan" {
+			VC += 1
+		} else if ArrStr[i] == "America_Latina" {
+			ALC += 1
+		} else if ArrStr[i] == "Bakery" {
+			BAC += 1
+		}
 	}
 
-	ToSend := PopularPost{FinalArr: FinalArr}
+	theme := make(map[string]int)
+	theme["Fast_Food"] = FFC
+	theme["Pizza"] = PC
+	theme["Burger"] = BC
+	theme["Dessert"] = DC
+	theme["American"] = AC
+	theme["Italia"] = IC
+	theme["Mexican"] = MC
+	theme["Indian"] = INC
+	theme["Japan"] = JC
+	theme["French"] = FC
+	theme["African"] = AFC
+	theme["BBQ"] = BBQC
+	theme["Korea"] = KC
+	theme["Vegan"] = VC
+	theme["America_Latina"] = ALC
+	theme["Bakery"] = BAC
+
+	pre_order := [5]int{}
+	order_theme := [5]string{}
+
+	for i := 0; i < 5; i++ {
+		last_add := ""
+		for name, v := range theme {
+
+			if i == 0 {
+				if v >= pre_order[i] {
+					pre_order[i] = v
+					order_theme[i] = name
+					last_add = name
+				}
+			} else {
+				if v <= pre_order[i-1] && v >= pre_order[i] {
+					pre_order[i] = v
+					order_theme[i] = name
+					last_add = name
+				}
+			}
+
+		}
+		theme[last_add] = -1
+	}
+	type PopularPost struct {
+		FinalArr     []Final
+		PopularTheme []string
+	}
+
+	ToSend := PopularPost{FinalArr: FinalArr, PopularTheme: order_theme[:]}
 	tpl.ExecuteTemplate(response, "home.html", ToSend)
 }
 
@@ -194,9 +320,7 @@ func recup(response http.ResponseWriter, request *http.Request) {
 		Post_info Post
 	}
 
-	X := Final{post}
 	fmt.Println("New enter in database / posts...")
-	fmt.Println(X)
 	tpl.ExecuteTemplate(response, "home.html", nil)
 }
 
@@ -731,7 +855,6 @@ func userpost(response http.ResponseWriter, request *http.Request) {
 			if err2 != nil {
 				panic(err2)
 			}
-			fmt.Println(p)
 			defer stmt2.Close()
 			var res2 sql.Result
 			res2, err2 = stmt2.Exec(strconv.Itoa(Connected_ID), p.Id)
@@ -798,7 +921,6 @@ func usertheme(response http.ResponseWriter, request *http.Request) {
 	}
 	newstring := ""
 	for i := 0; i < len(name[0]); i++ {
-		fmt.Println(string(name[0][i]))
 
 		if string(name[0][i]) == "_" {
 			newstring += " "
