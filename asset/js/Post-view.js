@@ -60,8 +60,6 @@ document.getElementById("close_mod").addEventListener("click",()=>{
 
 // // --name input management--
 NameMod.addEventListener("input", ()=>{
-    console.log("name")
-    console.log(document.getElementById("lab_mod_name").innerHTML)
     if (NameMod.value.length < 4){
         document.getElementById("lab_mod_name").innerHTML = `Name : not enough character ${NameMod.value.length}/25`
         NameMod.style.borderColor = "red"
@@ -72,12 +70,10 @@ NameMod.addEventListener("input", ()=>{
         document.getElementById("lab_mod_name").innerHTML = `Name : character ${NameMod.value.length}/25`
         NameMod.style.borderColor = "green"
     }
-    ADD_enabled()
+    ADD_enabled_mod()
 })
 // // content post management
 ContentMod.addEventListener("input", ()=>{
-    console.log("content")
-    console.log(document.getElementById("lab_mod_content").innerHTML)
     if (ContentMod.value.length < 4){
        document.getElementById("lab_mod_content").innerHTML = `Description : not enough character ${ContentMod.value.length}/2000`
        ContentMod.style.borderColor = "red"
@@ -88,9 +84,9 @@ ContentMod.addEventListener("input", ()=>{
        document.getElementById("lab_mod_content").innerHTML = `Description : character ${ContentMod.value.length}/2000`
        ContentMod.style.borderColor = "green"
     }
-    ADD_enabled()
+    ADD_enabled_mod()
 })
-function ADD_enabled (){
+function ADD_enabled_mod (){
     if ((NameMod.style.borderColor == "green")&&(ContentMod.style.borderColor == "green")){
         document.getElementById("Mod_sub").removeAttribute("disabled")
     }else{
