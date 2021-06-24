@@ -4,11 +4,13 @@
     padding: 0;
 }
 
+/* couleur de fond */
 body
 {
     background-color: #4D4D4D;
 }
 
+/* padding global */
 .page
 {
     padding-top: 60px;
@@ -18,6 +20,8 @@ body
 
 /*---------------------------------------------------*/
 
+/* gestion du carousel */
+/* global */
 #carousel_fix
 {
     position: fixed;
@@ -25,7 +29,7 @@ body
     height: 90vh;
     overflow: hidden;
 }
-
+/* titre */
 .titre_carousel
 {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -33,6 +37,7 @@ body
     color:#FFCB77;
 }
 
+/* carousel */
 #test
 {
     height: 79.2vh;
@@ -46,6 +51,7 @@ body
     display: none;
 }
 
+/* bouton */
 .arrow
 {
     position: absolute;
@@ -97,12 +103,14 @@ body
 
 /*---------------------------------------------------*/
 
+/* Gestion des posts */
 .all_posts
 {
     padding-left: 16%;
     padding-right: 2.4%;
 }
 
+/* titre du theme */
 .titre
 {
     font-family: 'Roboto', sans-serif;
@@ -113,6 +121,7 @@ body
     margin-top: 10px;
 }
 
+/* ligne de séparation */
 .line
 {
     margin-top: 50px;
@@ -121,6 +130,7 @@ body
     width: auto;
 }
 
+/* tableau pour afficher tous les posts */
 .affichage
 {
     margin-top: 50px;
@@ -128,6 +138,7 @@ body
     grid-template-columns: auto auto auto;
 }
 
+/* responsives*/ 
 @media screen and (max-width: 1665px){
     .affichage
     {
