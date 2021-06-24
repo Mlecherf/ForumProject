@@ -123,12 +123,3 @@ document.getElementById("myFormMod").addEventListener('submit',function (e){
     ContentMod.style.borderColor = "#FFCB77"
     document.getElementById("post_submit_mod").setAttribute("disabled",true)
 })
-const scrollbar = document.getElementById("text")
-
-scrollbar.addEventListener("click",()=>{
-    if(NameMod.value.length<280){
-        scrollbar.style.overflowY = "hidden"
-    }else{
-        scrollbar.style.overflowY = "scroll"
-    }
-})
