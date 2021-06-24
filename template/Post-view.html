@@ -50,7 +50,7 @@
                             
                                 <div id="mod_Post">
                                     <button id="close_mod">+</button>
-                                    <form action="/" method="POST" id="myFormMod">
+                                    <form action="/viewpost?id={{.Post_info.Id}}" method="POST" id="myFormMod">
                                     <div id="name_mod">
                                         <label for="Name_mod" id="lab_mod_name">Name : character 0/25</label><br>
                                         <input type="text" name="Name_mod" id="Name_mod">
@@ -63,6 +63,10 @@
                                     <button type="submit" id="Mod_sub" disabled>Change</button>
                                     
                                     </form>
+                                    <form action="/deletepost">
+                                        <input type="hidden" value="{{.Post_info.Id}}">
+                                        <button type="submit" id="DeletePost">Delete</button>
+                                    </form>
                                 </div>
                             
                             {{end}}
@@ -70,7 +74,7 @@
                     </div>
                 </div>
             <div id="lineBot"></div>
-                <div id="text">{{.Post_info.Content}}}</div> 
+                <div id="text">{{.Post_info.Content}}</div> 
     </div>
 </body>
 <script src="/static/js/Post-view.js"></script>

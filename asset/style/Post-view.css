@@ -182,7 +182,7 @@ html{
     right: 0px;
 }
 #Content_mod{
-    height: 500px !important;
+    height: 450px !important;
 }
 
 #Mod_sub{
@@ -297,6 +297,18 @@ html{
     border:1px solid #FFCB77;
     border-radius: 4px;
     color: #FFFFFF;
+}
+#DeletePost{
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 150px;
+    height: 40px;
+    color: red;
+    background: none;
+    border: 5px solid #4d4d4d;
+    border-radius: 15px;
 }
 @media screen and (max-width:1470px){
     .stat_global{
