@@ -51,7 +51,7 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
-	http.ListenAndServe(":8010", nil)
+	http.ListenAndServeTLS(":8080", "server.crt", "server.key", nil)
 }
 
 func home(response http.ResponseWriter, request *http.Request) {
