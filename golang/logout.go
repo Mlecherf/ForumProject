@@ -15,5 +15,6 @@ func Logout(response http.ResponseWriter, request *http.Request) {
 		Path:     "/",
 		MaxAge:   -1,
 	})
-	Tpl.ExecuteTemplate(response, "home.html", nil)
+
+	http.Redirect(response, request, "/", http.StatusSeeOther)
 }

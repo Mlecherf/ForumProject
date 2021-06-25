@@ -10,12 +10,18 @@ import (
 )
 
 func Userpost(response http.ResponseWriter, request *http.Request) {
+
+	NameModif := request.FormValue("Name_mod")
+	ContentModif := request.FormValue("Content_mod")
+	Modifpost(response, request, NameModif, ContentModif)
+
 	URL := request.URL
 	name, ok := URL.Query()["id"]
 	if !ok || len(name[0]) < 1 {
 		log.Println("Url Param 'id' is missing")
 		return
 	}
+
 	ALLTABLE := SelectAllFromTable(db, "posts")
 	ArrTagsBrut := []Post{}
 	for ALLTABLE.Next() {

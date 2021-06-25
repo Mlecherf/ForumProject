@@ -37,10 +37,12 @@ func Register(response http.ResponseWriter, request *http.Request) {
 
 		} else {
 			InsertIntoUsers(db, username, email, password, like, post)
-			alltable1 := SelectAllFromTable(db, "users")
-			DisplayUsersRow(alltable1)
+			fmt.Println(username, email)
+
 		}
+		http.Redirect(response, request, "/login", http.StatusSeeOther)
+	} else {
+		Tpl.ExecuteTemplate(response, "register.html", nil)
 	}
 
-	Tpl.ExecuteTemplate(response, "register.html", nil)
 }

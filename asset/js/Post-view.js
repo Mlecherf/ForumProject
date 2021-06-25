@@ -95,25 +95,6 @@ function ADD_enabled_mod (){
 } 
 document.getElementById("myFormMod").addEventListener('submit',function (e){
     modif.style.display = "none"
-    e.preventDefault()
-    fetch('/modifpost', {
-        method: 'post',
-        headers : {
-            'Accept': 'application/json',
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-            Name: NameMod.value,
-            Content: ContentMod.value,
-            Id_post: document.getElementById("Post_id_modif").value
-        })
-    })
-    .then(function(response){
-        return response.text
-    })
-    .catch(function(error){
-        console.error(error)
-    })
     document.getElementById("label_name_mod").innerHTML = "Name : character 0/25"
     NameMod.value = ""
     NameMod.style.borderColor = "#FFCB77"
