@@ -2,107 +2,95 @@ package sql
 
 import (
 	"database/sql"
-	"log"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 )
 
-func LikePost(response http.ResponseWriter, request *http.Request, id string) {
-	if id != "" {
-		session, _ := store.Get(request, "Logged...")
-		Mail := session.Values["Email "]
+type Likepost struct {
+	Id int
+}
 
-		ALLTABLEUser := SelectAllFromTable(db, "users")
-		ArrUser := []User{}
-		for ALLTABLEUser.Next() {
-			var x User
-			err := ALLTABLEUser.Scan(&x.Id, &x.Name, &x.Email, &x.Password, &x.Like, &x.Post)
+func LikePost(response http.ResponseWriter, request *http.Request) {
+	var X Likepost
+	json.NewDecoder(request.Body).Decode(&X)
 
-			if err != nil {
-				log.Fatal(err)
-			}
-			if x.Email == Mail {
-				ArrUser = append(ArrUser, x)
-			}
+	session, _ := store.Get(request, "Logged...")
+
+	row := db.QueryRow("SELECT * FROM posts WHERE id = ?;", X.Id)
+	var p Post
+	err := row.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList, &p.LikeList)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	Verification := strings.Contains(p.LikeList, session.Values["Name "].(string))
+
+	if !Verification {
+
+		upStmt := "UPDATE `posts` SET `likelist` = ? WHERE ( `id` = ?);"
+		stmt, err := db.Prepare(upStmt)
+
+		if err != nil {
+			panic(err)
 		}
 
-		ALLTABLE := SelectAllFromTable(db, "posts")
-		ArrTagsBrut := []Post{}
-		for ALLTABLE.Next() {
-			var p Post
-			err := ALLTABLE.Scan(&p.Id, &p.Like, &p.Views, &p.Content, &p.Name, &p.Tags, &p.User_id, &p.ViewList, &p.LikeList)
-
-			if err != nil {
-				log.Fatal(err)
-			}
-			ArrTagsBrut = append(ArrTagsBrut, p)
+		defer stmt.Close()
+		var res sql.Result
+		res, err = stmt.Exec(p.LikeList+session.Values["Name "].(string), X.Id)
+		rowsAff, _ := res.RowsAffected()
+		if err != nil || rowsAff != 1 {
+			panic(err)
 		}
 
-		for i := 0; i < len(ArrTagsBrut); i++ {
-			if !(strings.Contains(string(ArrTagsBrut[i].LikeList), ArrUser[0].Name)) {
+		upStmt2 := "UPDATE `posts` SET `like` = ? WHERE ( `id` = ?);"
+		stmt2, err2 := db.Prepare(upStmt2)
 
-				upStmt := "UPDATE `posts` SET `like` = ? WHERE ( `id` = ?);"
-				stmt, err := db.Prepare(upStmt)
+		if err2 != nil {
+			panic(err2)
+		}
 
-				if err != nil {
-					panic(err)
-				}
+		defer stmt2.Close()
+		var res2 sql.Result
+		res2, err2 = stmt2.Exec(p.Like+1, X.Id)
+		rowsAff2, _ := res2.RowsAffected()
+		if err2 != nil || rowsAff2 != 1 {
+			panic(err2)
+		}
 
-				defer stmt.Close()
-				var res sql.Result
-				res, err = stmt.Exec(ArrTagsBrut[i].Like+1, id)
-				rowsAff, _ := res.RowsAffected()
-				if err != nil || rowsAff != 1 {
-					panic(err)
-				}
+	} else {
+		upStmt := "UPDATE `posts` SET `likelist` = ? WHERE ( `id` = ?);"
+		stmt, err := db.Prepare(upStmt)
 
-				upStmt2 := "UPDATE `posts` SET `likelist` = ? WHERE ( `id` = ?);"
-				stmt2, err2 := db.Prepare(upStmt2)
+		if err != nil {
+			panic(err)
+		}
 
-				if err2 != nil {
-					panic(err2)
-				}
-				defer stmt2.Close()
-				var res2 sql.Result
-				res2, err2 = stmt2.Exec(ArrTagsBrut[i].LikeList+ArrUser[0].Name, id)
-				rowsAff2, _ := res2.RowsAffected()
-				if err2 != nil || rowsAff2 != 1 {
-					panic(err2)
-				}
-			} else {
-				upStmt3 := "UPDATE `posts` SET `likelist` = ? WHERE ( `id` = ?);"
-				stmt3, err3 := db.Prepare(upStmt3)
+		Str := strings.ReplaceAll(p.LikeList, session.Values["Name "].(string), "")
 
-				if err3 != nil {
-					panic(err3)
-				}
-				defer stmt3.Close()
-				var res2 sql.Result
-				String := strings.ReplaceAll(ArrTagsBrut[i].LikeList, ArrUser[0].Name, "")
+		defer stmt.Close()
+		var res sql.Result
+		res, err = stmt.Exec(Str, X.Id)
+		rowsAff, _ := res.RowsAffected()
+		if err != nil || rowsAff != 1 {
+			panic(err)
+		}
 
-				res2, err3 = stmt3.Exec(String, id)
-				rowsAff2, _ := res2.RowsAffected()
-				if err3 != nil || rowsAff2 != 1 {
-					panic(err3)
-				}
+		upStmt2 := "UPDATE `posts` SET `like` = ? WHERE ( `id` = ?);"
+		stmt2, err2 := db.Prepare(upStmt2)
 
-				upStmt := "UPDATE `posts` SET `like` = ? WHERE ( `id` = ?);"
-				stmt, err := db.Prepare(upStmt)
+		if err2 != nil {
+			panic(err2)
+		}
 
-				if err != nil {
-					panic(err)
-				}
-
-				defer stmt.Close()
-				var res sql.Result
-
-				res, err = stmt.Exec(ArrTagsBrut[i].Like-1, id)
-				rowsAff, _ := res.RowsAffected()
-				if err != nil || rowsAff != 1 {
-					panic(err)
-				}
-			}
-
+		defer stmt2.Close()
+		var res2 sql.Result
+		res2, err2 = stmt2.Exec(p.Like-1, X.Id)
+		rowsAff2, _ := res2.RowsAffected()
+		if err2 != nil || rowsAff2 != 1 {
+			panic(err2)
 		}
 	}
+
 }

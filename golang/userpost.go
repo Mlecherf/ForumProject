@@ -10,7 +10,6 @@ import (
 )
 
 func Userpost(response http.ResponseWriter, request *http.Request) {
-	LikePost(response, request, request.FormValue("LikePost"))
 
 	NameModif := request.FormValue("Name_mod")
 	ContentModif := request.FormValue("Content_mod")

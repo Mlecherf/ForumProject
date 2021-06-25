@@ -34,15 +34,14 @@
                             <span class="iconify" data-inline="false" data-icon="akar-icons:eye"></span>
                             <p id="conteur_view">{{.Post_info.Views}}</p>
                         </div>
-                            <form action="/viewpost?id={{.Post_info.Id}}" method="POST">
-                                <input type="hidden" name="LikePost" value="{{.Post_info.Id}}">
-                            <button type="submit" id="Like-Button">
+                        
+                            <button type="submit" id="Like-Button" onclick="X({{.Post_info.Id}})">
                                 <div class="like">
                                         <span class="iconify" data-inline="false" data-icon="mdi:hamburger-check"></span>
                                         <p id="conteur_like">{{.Post_info.Like}}</p>
                                 </div>
                             </button>
-                        </form>
+                        
                         
                         <div class="params">
                             {{if eq  .Owner true}}
