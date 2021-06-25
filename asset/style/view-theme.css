@@ -139,7 +139,7 @@ body
 }
 
 /* responsives*/ 
-@media screen and (max-width: 1665px){
+    @media screen and (max-width: 1665px){
     .affichage
     {
         grid-template-columns: auto auto;
@@ -189,11 +189,19 @@ body
     {
         display: block;   
     }
+    .arrowLeft i
+    {
+        padding-top: 75px;
+    }
     .arrowRight
     {
         display: block;
         top: 0;
         margin-top: 100px;
+    }
+    .arrowRight i
+    {
+        padding-top: 75px;
     }
     .affichage
     {
