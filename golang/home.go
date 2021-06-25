@@ -205,7 +205,6 @@ func Home(response http.ResponseWriter, request *http.Request) {
 	}
 
 	ToSend := PopularPost{FinalArr: FinalArr, PopularTheme: order_theme[:]}
-	sessionpassword, _ := store.Get(request, "Logged...")
-	fmt.Println(sessionpassword.Values)
+
 	Tpl.ExecuteTemplate(response, "home.html", ToSend)
 }

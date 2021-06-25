@@ -99,9 +99,9 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 
 		http.Redirect(response, request, "/", http.StatusFound)
 		return
-	} else if passwordtrue == true && ChangePassword == true {
+	} else if ChangePassword == true {
 
-		upStmt := "UPDATE `users` SET `password` = ? WHERE ( `password` = ?);"
+		upStmt := "UPDATE `users` SET `password` = ? WHERE ( `name` = ?);"
 		stmt, err := db.Prepare(upStmt)
 
 		if err != nil {
@@ -113,9 +113,10 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 			stringpsswd2 += string(hsha2psswd[i])
 		}
 
+		NameGo := session.Values["Name "]
 		defer stmt.Close()
 		var res sql.Result
-		res, err = stmt.Exec(stringpsswd2, stringpsswd)
+		res, err = stmt.Exec(stringpsswd2, NameGo)
 		rowsAff, _ := res.RowsAffected()
 		if err != nil || rowsAff != 1 {
 			fmt.Println(err)
