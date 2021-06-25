@@ -31,5 +31,6 @@ func main() {
 	http.Handle("/static/image/", http.StripPrefix("/static/image/", image))
 	http.Handle("/static/js/", http.StripPrefix("/static/js/", js))
 
+	fmt.Println("Serveur UP")
 	http.ListenAndServeTLS(":8080", "server.crt", "server.key", nil)
 }
