@@ -37,8 +37,8 @@ func Home(response http.ResponseWriter, request *http.Request) {
 	FinalPost := []Post{}
 	verif := false
 	Likes := []int{}
-	if len(IntArr) > 5 {
-		for i := len(IntArr) - 1; i >= len(IntArr)-5; i-- {
+	if len(IntArr) > 4 {
+		for i := len(IntArr) - 1; i >= len(IntArr)-4; i-- {
 			Likes = append(Likes, IntArr[i])
 		}
 		for ALLTABLE2.Next() {
@@ -50,7 +50,7 @@ func Home(response http.ResponseWriter, request *http.Request) {
 			}
 			for i := 0; i < len(Likes); i++ {
 
-				if len(FinalPost) < 5 {
+				if len(FinalPost) < 4 {
 					if p.Like == Likes[i] {
 						for z := 0; z < len(FinalPost); z++ {
 							if FinalPost[z] == p {
@@ -66,7 +66,7 @@ func Home(response http.ResponseWriter, request *http.Request) {
 					}
 				}
 			}
-			if len(IntArr) < 5 {
+			if len(IntArr) < 4 {
 
 				FinalPost = append(FinalPost, p)
 
@@ -205,6 +205,5 @@ func Home(response http.ResponseWriter, request *http.Request) {
 	}
 
 	ToSend := PopularPost{FinalArr: FinalArr, PopularTheme: order_theme[:]}
-
 	Tpl.ExecuteTemplate(response, "home.html", ToSend)
 }

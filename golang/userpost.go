@@ -10,6 +10,7 @@ import (
 )
 
 func Userpost(response http.ResponseWriter, request *http.Request) {
+	LikePost(response, request, request.FormValue("LikePost"))
 
 	NameModif := request.FormValue("Name_mod")
 	ContentModif := request.FormValue("Content_mod")
@@ -31,7 +32,9 @@ func Userpost(response http.ResponseWriter, request *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		ArrTagsBrut = append(ArrTagsBrut, p)
+		if name[0] == strconv.Itoa(p.Id) {
+			ArrTagsBrut = append(ArrTagsBrut, p)
+		}
 	}
 
 	type Final struct {
@@ -80,7 +83,7 @@ func Userpost(response http.ResponseWriter, request *http.Request) {
 
 			defer stmt.Close()
 			var res sql.Result
-			res, err = stmt.Exec(p.Views+1, p.Id)
+			res, err = stmt.Exec(p.Views+1, name[0])
 			rowsAff, _ := res.RowsAffected()
 			if err != nil || rowsAff != 1 {
 				panic(err)
