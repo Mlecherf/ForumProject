@@ -21,7 +21,7 @@ func Register(response http.ResponseWriter, request *http.Request) {
 
 		if len(Arr) != 0 {
 			for i := 0; i < len(Arr); i++ {
-				if Arr[i] == username || Arr[i] == email || Arr[i] == password {
+				if Arr[i] == username || Arr[i] == email {
 					Wrong = true
 				}
 			}

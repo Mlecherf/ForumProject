@@ -165,7 +165,7 @@ func NewUsername(rows *sql.Rows) []string {
 		if err != nil {
 			log.Fatal(err)
 		}
-
+		arr = append(arr, p.Password)
 	}
 	return (arr)
 }

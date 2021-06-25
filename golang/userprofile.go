@@ -17,7 +17,6 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 	ChangeUsername := false
 	ChangePassword := false
 	session, _ := store.Get(request, "Logged...")
-
 	Verif := session.Values["Authentificated "]
 	// Check if user is authenticated
 	if Verif != true {
@@ -47,23 +46,17 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 	for i := 0; i < len(Arr); i++ {
 		if Arr[i] == stringpsswd {
 			passwordtrue = true
+
 		}
 	}
 
 	if passwordtrue == true && ChangeUsername == true {
-		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
-		var p User
-		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
-
-		if err != nil {
-			fmt.Println(err)
-		}
 
 		upStmt := "UPDATE `users` SET `name` = ? WHERE ( `password` = ?);"
 		stmt, err := db.Prepare(upStmt)
 
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
 		}
 
 		defer stmt.Close()
@@ -71,53 +64,48 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 		res, err = stmt.Exec(Modif, stringpsswd)
 		rowsAff, _ := res.RowsAffected()
 		if err != nil || rowsAff != 1 {
-			panic(err)
+			fmt.Println(err)
 		}
-		session.Values["Name "] = Modif
-		session.Save(request, response)
+		sessionname, _ := store.Get(request, "Logged...")
+		sessionname.Values["Authentificated "] = true
+		sessionname.Values["Name "] = Modif
+		sessionname.Save(request, response)
+
+		http.Redirect(response, request, "/", http.StatusFound)
+		return
 
 	} else if passwordtrue == true && ChangeEmail == true {
 
-		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
-		var p User
-		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
+		upStmt1 := "UPDATE `users` SET `email` = ? WHERE ( `password` = ?);"
+		stmt1, err1 := db.Prepare(upStmt1)
 
-		if err != nil {
-			fmt.Println(err)
+		if err1 != nil {
+			fmt.Println(err1)
 		}
 
-		upStmt := "UPDATE `users` SET `email` = ? WHERE ( `password` = ?);"
-		stmt, err := db.Prepare(upStmt)
+		defer stmt1.Close()
+		var res1 sql.Result
+		res1, err1 = stmt1.Exec(Modif, stringpsswd)
 
-		if err != nil {
-			panic(err)
+		rowsAff1, _ := res1.RowsAffected()
+		if err1 != nil || rowsAff1 != 1 {
+			fmt.Println(err1)
 		}
 
-		defer stmt.Close()
-		var res sql.Result
-		res, err = stmt.Exec(Modif, stringpsswd)
-		rowsAff, _ := res.RowsAffected()
-		if err != nil || rowsAff != 1 {
-			panic(err)
-		}
+		sessionemail, _ := store.Get(request, "Logged...")
+		sessionemail.Values["Authentificated "] = true
+		sessionemail.Values["Email "] = Modif
+		sessionemail.Save(request, response)
 
-		session.Values["Email "] = Modif
-		session.Save(request, response)
-
+		http.Redirect(response, request, "/", http.StatusFound)
+		return
 	} else if passwordtrue == true && ChangePassword == true {
-		row := db.QueryRow("SELECT * FROM users WHERE password = ?;", stringpsswd)
-		var p User
-		err := row.Scan(&p.Id, &p.Name, &p.Email, &p.Password, &p.Like, &p.Post)
-
-		if err != nil {
-			fmt.Println(err)
-		}
 
 		upStmt := "UPDATE `users` SET `password` = ? WHERE ( `password` = ?);"
 		stmt, err := db.Prepare(upStmt)
 
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
 		}
 		hsha2psswd := sha256.Sum256([]byte(Modif))
 		stringpsswd2 := ""
@@ -130,12 +118,17 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 		res, err = stmt.Exec(stringpsswd2, stringpsswd)
 		rowsAff, _ := res.RowsAffected()
 		if err != nil || rowsAff != 1 {
-			panic(err)
+			fmt.Println(err)
 		}
-		session.Values["Password "] = Modif
-		session.Save(request, response)
+		sessionpassword, _ := store.Get(request, "Logged...")
+		sessionpassword.Values["Authentificated "] = true
+		sessionpassword.Values["Password "] = Modif
+		sessionpassword.Save(request, response)
 
+		http.Redirect(response, request, "/", http.StatusFound)
+		return
 	}
+
 	TablePost := SelectAllFromTable(db, "posts")
 	IdPost := ReturnPostId(TablePost)
 
@@ -176,10 +169,10 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 		Like         int
 		Postes       int
 	}
-	Userss := session.Values["Name "]
-	Emailss := session.Values["Email "]
+	sessionfinal, _ := store.Get(request, "Logged...")
+	Userss := sessionfinal.Values["Name "]
+	Emailss := sessionfinal.Values["Email "]
 
 	SEND := Data{Username: Userss, Email_Adress: Emailss, Display: TabPost, Like: TOTALLIKE, Postes: TOTALPOST}
-	fmt.Println(SEND)
 	Tpl.ExecuteTemplate(response, "profile.html", SEND)
 }
