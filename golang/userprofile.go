@@ -49,7 +49,6 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 
 		}
 	}
-
 	if passwordtrue == true && ChangeUsername == true {
 
 		upStmt := "UPDATE `users` SET `name` = ? WHERE ( `password` = ?);"
@@ -99,8 +98,7 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 
 		http.Redirect(response, request, "/", http.StatusFound)
 		return
-	} else if passwordtrue == true && ChangePassword == true {
-
+	} else if ChangePassword == true {
 		upStmt := "UPDATE `users` SET `password` = ? WHERE ( `password` = ?);"
 		stmt, err := db.Prepare(upStmt)
 
