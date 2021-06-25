@@ -49,7 +49,6 @@ func Userprofile(response http.ResponseWriter, request *http.Request) {
 
 		}
 	}
-
 	if passwordtrue == true && ChangeUsername == true {
 
 		upStmt := "UPDATE `users` SET `name` = ? WHERE ( `password` = ?);"
